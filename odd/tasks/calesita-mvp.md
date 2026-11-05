@@ -20,7 +20,7 @@ The full wording of every requirement is in `L1`; each spec quotes its stage and
 
 - [x] T1 S1 inline: Next.js, Tailwind, shadcn/ui, base structure, visual identity. Commit 6878816. Evidence: lint, typecheck and build pass; home and 404 rendered at 390px and 1366px. Native assess: medium, under_budget (no review due). Test-first exception: scaffolding and static UI have no meaningful RED.
 - [x] T2 S2 inline: home, catalog, filters, detail page, Sorprendeme. Commits cb1334f, 3b0cfdf. Evidence: RED observed before implementation, 25 unit tests pass; 22 browser checks pass on the production build at 390px and 1366px. Native assess: medium, under_budget (no review due).
-- [ ] T3 S3 inline: prompt system and first game.
+- [x] T3 S3 inline: prompt system and first game. Commits: see L9. Evidence: RED observed before implementation, 51 unit tests pass; 32 browser checks pass on the production build at 390px, including 56 questions without repeats, reloads in every phase and the Sorprendeme navigation. Native assess: see L9.
 - [ ] T4 S4 inline: timer, players, teams, scoring, three games.
 - [ ] T5 S5 inline: El infiltrado.
 - [ ] T6 S6 inline: quality pass, README, Vercel readiness.
@@ -501,3 +501,5 @@ La plataforma tiene que ser:
 - L5 (2026-11-04, user, verbatim): "Ahora"
 - L6 Decisions for T2: all 15 games stay `coming-soon` until each one really works, so Sorprendeme shows an honest empty message until Stage 3 and its happy path is covered by unit tests only. The group size is persisted in `calesita:player-count` and shared by the catalog filter and Sorprendeme. `cacheComponents` and `partialPrefetching` were removed from `next.config.ts`: `dynamicParams = false` is incompatible with them, and an unknown slug returned status 200 while they were on. Next step: T3.
 - L7 Verification (commit 7be980a, independent clean clone from GitHub): S2 pass. Frozen install, lint, typecheck, 25 tests and build exit 0; the 15 detail pages return 200 with no `/jugar` link and an unknown slug returns 404. Advisory for T3: Sorprendeme navigates on `animationend`, so its real navigation must be exercised in a browser once the first game is available.
+- L8 (2026-11-04, user, verbatim): "Ya"
+- L9 Decisions and evidence for T3: commits 64a703e and 756e8d9; native assess medium, under_budget (no review due). The deck is stored apart from the game, so a new game keeps avoiding repeats until the content is exhausted, and it persists in localStorage across visits. Sorprendeme now goes straight to `/jugar/<slug>` for fewer steps to play. `GAME_SCREENS` in `src/games/registry.ts` plus the catalog status is the single plug-in point for a new game. Shared for T4: `GameFrame`, `GameSetup`, `GameResults`, `PromptCard`, `RoundIndicator`, `ProgressIndicator`, `ConfirmDialog`, `useGameSession`, `useCountdown`, `drawCard`. T4 needs pause and reload support for `useCountdown`. Next step: T4.
