@@ -15,7 +15,7 @@ type GameSetupProps = {
   game: GameDefinition;
   onStart: (players: number) => void;
   /** Game-specific options, shown between the player count and the start button. */
-  children?: ReactNode;
+  children?: (players: number) => ReactNode;
 };
 
 export function GameSetup({ game, onStart, children }: GameSetupProps) {
@@ -63,7 +63,7 @@ export function GameSetup({ game, onStart, children }: GameSetupProps) {
         </div>
       </div>
 
-      {children}
+      {children?.(players)}
 
       <Button variant="marquee" size="xl" className="mt-auto w-full" onClick={start}>
         Empezar
