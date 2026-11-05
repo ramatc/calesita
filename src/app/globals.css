@@ -52,6 +52,8 @@
   --animate-twinkle: twinkle 1.8s ease-in-out infinite;
   --animate-spin-once: spin-once 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-deal: deal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-slow-spin: slow-spin 90s linear infinite;
 
   @keyframes bob {
     0%,
@@ -77,6 +79,18 @@
     from {
       opacity: 0;
       transform: translateY(16px) scale(0.97);
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes slow-spin {
+    to {
+      transform: rotate(360deg);
     }
   }
 

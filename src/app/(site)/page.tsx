@@ -1,13 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { CarouselIllustration } from "@/components/brand/carousel-illustration";
 import { GameIllustration } from "@/components/brand/game-illustration";
-import { Logo } from "@/components/brand/logo";
+import { HeroStage } from "@/components/brand/hero-stage";
+import { SloganMarquee } from "@/components/brand/slogan-marquee";
 import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
 import { SectionHeading } from "@/components/design/section-heading";
 import { GameCard } from "@/components/catalog/game-card";
-import { PlayerCountPicker } from "@/components/catalog/player-count-picker";
 import { SurpriseButton } from "@/components/catalog/surprise-button";
 import { Button } from "@/components/ui/button";
 import { FEATURED_GAMES, GAMES } from "@/content/catalog";
@@ -29,31 +28,36 @@ function categoryHref(category: GameCategory) {
 
 export default function HomePage() {
   return (
-    <main className="flex-1">
-      <section className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 pt-6 pb-12 md:grid-cols-2 md:gap-12 md:pt-12">
-        <div className="flex flex-col items-center gap-6 text-center md:items-start md:text-left">
-          <div>
-            <h1>
-              <Logo className="text-7xl lg:text-8xl" />
-            </h1>
-            <p className="mt-4 text-2xl font-semibold md:text-3xl">
-              La juntada sigue girando.
-            </p>
-          </div>
-          <PlayerCountPicker />
-          <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:items-start md:justify-start">
+    <main className="flex-1 overflow-x-clip">
+      <section
+        aria-labelledby="hero-heading"
+        className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 pt-8 pb-10 lg:grid-cols-[7fr_5fr] lg:gap-6 lg:pt-10 lg:pb-14"
+      >
+        <div className="flex flex-col gap-6">
+          <h1
+            id="hero-heading"
+            className="font-display text-[clamp(2.5rem,11.6vw,5.5rem)] leading-[0.95] lg:text-[clamp(4rem,7.1vw,5.5rem)]"
+          >
+            <span className="block">Menos pantalla.</span>
+            <span className="block text-brand-yellow">Más quilombo.</span>
+          </h1>
+          <p className="max-w-[36ch] text-lg text-muted-foreground md:text-xl">
+            Party games para jugar en persona, con un solo celular. Sin registro y sin
+            descargar nada.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
             <Button asChild variant="marquee" size="xl">
-              <Link href="/juegos">Empezar a jugar</Link>
+              <Link href="/juegos">Explorar juegos</Link>
             </Button>
             <SurpriseButton />
           </div>
         </div>
-        <CarouselIllustration className="mx-auto max-w-sm md:max-w-none" />
+        <HeroStage />
       </section>
 
-      <div aria-hidden="true" className="bulb-line" />
+      <SloganMarquee />
 
-      <section aria-labelledby="featured-heading" className="py-12">
+      <section aria-labelledby="featured-heading" className="py-14">
         <SectionHeading
           id="featured-heading"
           title="Destacados"
@@ -77,8 +81,9 @@ export default function HomePage() {
       </section>
 
       <section
+        id="categorias"
         aria-labelledby="categories-heading"
-        className="mx-auto w-full max-w-6xl px-5 pb-16"
+        className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 pb-16"
       >
         <SectionHeading id="categories-heading" title="Categorías" />
         <ul className="mt-6 grid gap-4 md:grid-cols-3">

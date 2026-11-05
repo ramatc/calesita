@@ -18,12 +18,12 @@ The full wording of every requirement is in `L1`; each spec quotes its phase and
 ## Tasks
 
 - [x] T1 S1 inline: tokens, type, and base components. Evidence: lint, typecheck, build and 189 unit tests pass; 37 game, 31 first-game and 20 catalog browser checks pass, with 2 stale catalog checks that expect the removed no-games message; measured contrast pairs are all at least 4.5:1. Test-first exception: visual tokens have no meaningful RED.
-- [ ] T2 S2: navbar and hero.
+- [x] T2 S2 inline: navbar and hero. Evidence: lint, typecheck, build, 189 unit tests and detector pass; 25 scripted browser checks pass at 1280, 1024, 820, 390 and 360 px (no overflow, two-line headline, selector, persistence, menu, Categorías anchor, Sorprendeme, reduced motion, no console errors). The game flows were not rerun because no game code changed. Unverified: the navbar empty message, unreachable today because every count from 2 to 20 has a game. Test-first exception: visual composition has no meaningful RED.
 - [ ] T3 S3: cards, catalog, categories.
 - [ ] T4 S4: in-game screens.
 - [ ] T5 S5: motion, responsive, polish.
 
-Route evidence: T1 is inline because no Writer trigger reason exists; later tasks are decided when they start.
+Route evidence: T1 and T2 are inline because no Writer trigger reason exists; later tasks are decided when they start.
 
 ## Log
 
@@ -334,3 +334,5 @@ Quiero un rediseño ambicioso a nivel visual, pero responsable a nivel técnico.
 
 - L2 Reference access (2026-11-05): the two refero pages (Playdate, Discord) were read. The three Dribbble pages returned empty content, so they were not analyzed.
 - L3 Decisions for T1: Shrikhand is now logo-only through `font-logo`; `font-display` is Bricolage Grotesque 800, so existing headings and timers changed without per-screen edits; Figtree is the interface face. `PrimaryButton` and `SecondaryButton` are the refined `marquee` and `secondary` variants of `Button`, not new wrappers, so the 19 existing call sites keep working. New pieces live in `src/components/design/`. PlayerSelector moves to T2 with the navbar. Motion is not installed; CSS covers T1, and T5 decides whether it earns its weight. El infiltrado does not exist yet, so secret-screen work covers the Actuá o perdés handoff until that game is built. Next step: T2.
+- L4 User's request (2026-11-05, verbatim): "Sigamos"
+- L5 Decisions for T2: the logo is always in the navbar and the h1 is now the headline. PlayerSelector is a chip that opens the existing PlayerCountPicker in a popover, so the rules stay in one place and the hero no longer carries the stepper. The navbar primary action is Sorprendeme outside the home, because the hero already offers it there. "Categorías" is `/#categorias`, with no route change. The slogan moved to a turning yellow marquee that replaces the bulb divider. Hero copy reuses the site description. Floating cards are decorative. Stage ring uses dots, no radial rays. `.impeccable/surfaces/src-app-page-tsx.md` is orphaned and predates this brief. Next step: T3.
