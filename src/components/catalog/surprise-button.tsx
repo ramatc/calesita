@@ -53,7 +53,7 @@ export function SurpriseButton() {
         disabled={pickedSlug !== null}
         onClick={surprise}
         onAnimationEnd={() => {
-          if (pickedSlug) router.push(`/juegos/${pickedSlug}`);
+          if (pickedSlug) router.push(`/jugar/${pickedSlug}`);
         }}
       >
         <SortijaIcon spinning={pickedSlug !== null} />

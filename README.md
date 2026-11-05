@@ -16,5 +16,6 @@ Then open <http://localhost:3000>.
 ```bash
 pnpm lint
 pnpm typecheck
+pnpm test
 pnpm build
 ```

@@ -76,7 +76,14 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 30 },
     materials: [],
     difficulty: "easy",
-    status: "coming-soon",
+    status: "available",
+    rules: [
+      "Lean la pregunta en voz alta.",
+      "Toquen «Contar y señalar» y esperen la cuenta regresiva.",
+      "Al llegar a cero, todos señalan al mismo tiempo al amigo que mejor encaja.",
+      "Debatan todo lo que quieran. Acá no hay puntos.",
+      "Pasen a la siguiente pregunta.",
+    ],
   },
   {
     slug: "mentira-o-verdad",

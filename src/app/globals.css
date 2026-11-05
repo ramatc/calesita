@@ -45,6 +45,7 @@
   --animate-bob: bob 3.2s ease-in-out infinite;
   --animate-twinkle: twinkle 1.8s ease-in-out infinite;
   --animate-spin-once: spin-once 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-deal: deal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes bob {
     0%,
@@ -63,6 +64,13 @@
     }
     50% {
       opacity: 0.45;
+    }
+  }
+
+  @keyframes deal {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
     }
   }
 

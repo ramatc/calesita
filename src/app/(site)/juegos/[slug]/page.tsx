@@ -1,10 +1,11 @@
-import { ArrowLeft, Backpack, Clock, Gauge, Users, type LucideIcon } from "lucide-react";
+import { ArrowLeft, Backpack, Clock, Gauge, Play, Users, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { GameIllustration } from "@/components/brand/game-illustration";
 import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
+import { GameInstructions } from "@/components/game/game-instructions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GAMES, getGameBySlug } from "@/content/catalog";
@@ -95,11 +96,20 @@ export default async function GamePage({ params }: GamePageProps) {
           <GameFact icon={Gauge} label="Dificultad" value={DIFFICULTY_LABELS[game.difficulty]} />
         </dl>
 
-        {game.status === "coming-soon" && (
+        {game.status === "available" ? (
+          <Button asChild variant="marquee" size="xl" className="w-full">
+            <Link href={`/jugar/${game.slug}`}>
+              <Play />
+              Jugar
+            </Link>
+          </Button>
+        ) : (
           <p className="rounded-2xl bg-secondary p-4 font-medium">
             Este juego todavía no se puede jugar. Lo estamos terminando.
           </p>
         )}
+
+        {game.rules && <GameInstructions rules={game.rules} />}
       </div>
     </main>
   );

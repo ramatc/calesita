@@ -40,6 +40,8 @@ export type GameDefinition = {
   materials: GameMaterial[];
   difficulty: GameDifficulty;
   status: GameStatus;
+  /** Short steps shown before playing. Required in practice once a game is available. */
+  rules?: readonly string[];
 };
 
 /** Base shape for any prompt or card; each game extends it with its own fields. */
