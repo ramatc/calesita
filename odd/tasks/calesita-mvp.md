@@ -1,7 +1,7 @@
 # Feature: calesita-mvp
 
 Objective: build Calesita, a party-games web MVP with five playable games, in the six stages the user defined.
-Branch: `feat/calesita-mvp`. Delivery: `exception-ok` (no remote configured, so no PRs; push, PR and merge stay user decisions). Test runner: none in Stage 1; Vitest arrives with the first game logic in Stage 3.
+Branch: `feat/calesita-mvp`, remote `origin` (github.com/ramatc/calesita). Delivery: `exception-ok` (work stays on one branch; PR and merge stay user decisions). Test runner: none in Stage 1; Vitest arrives with the first game logic in Stage 3.
 Engram mirror `odd/calesita-mvp/tasks`: PENDING (Engram tools were not available this session).
 
 ## Specs
@@ -497,3 +497,4 @@ La plataforma tiene que ser:
 
 - L2 (2026-11-04, user, verbatim): "Te dejo el link del repositorio para que pushees https://github.com/ramatc/calesita"
 - L3 Decisions: `feat/calesita-mvp` is pushed to `origin`; the remote was empty. The `cn` package installed by shadcn is the official `shadcn-ui/cn` utility and replaces `clsx` plus `tailwind-merge`. `DESIGN.md` is deferred until the world is fully built (Stage 6). Next step: T2.
+- L4 Verification (commit 91a9bee, independent clean clone from GitHub): S1 pass. Frozen install, lint, typecheck and build exit 0; `/` returns 200 with `lang="es-AR"` and the slogan; `/nada` returns 404. Advisories: `pnpm audit --prod` exits 1 with one moderate (minimatch) and one low (deepmerge), both only through `shadcn`; `cn@0.5.2` requires Node 22 or newer; `lucide-react` stays unused until Stage 2.
