@@ -4,6 +4,25 @@ export type GameDifficulty = "easy" | "medium" | "hard";
 
 export type GameStatus = "available" | "coming-soon";
 
+export type GameMaterial = "paper" | "household-objects";
+
+export type GameSlug =
+  | "actua-o-perdes"
+  | "palabras-prohibidas"
+  | "preguntados-calesita"
+  | "dibujalo-como-puedas"
+  | "categorias-explosivas"
+  | "el-infiltrado"
+  | "quien-es-mas-probable-que"
+  | "mentira-o-verdad"
+  | "defende-lo-indefendible"
+  | "confesiones-anonimas"
+  | "desafio-relampago"
+  | "busqueda-desesperada"
+  | "estatuas-imposibles"
+  | "un-minuto-para-ganar"
+  | "olimpiadas-calesita";
+
 export type NumericRange = {
   min: number;
   max: number;
@@ -11,13 +30,14 @@ export type NumericRange = {
 
 /** Catalog entry. Playable behavior lives in the game's own module. */
 export type GameDefinition = {
-  slug: string;
+  slug: GameSlug;
   name: string;
   description: string;
   category: GameCategory;
   players: NumericRange;
   durationMinutes: NumericRange;
-  materials: string[];
+  /** Empty means the shared device is all the group needs. */
+  materials: GameMaterial[];
   difficulty: GameDifficulty;
   status: GameStatus;
 };
