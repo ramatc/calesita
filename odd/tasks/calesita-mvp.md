@@ -18,7 +18,7 @@ The full wording of every requirement is in `L1`; each spec quotes its stage and
 
 ## Tasks
 
-- [ ] T1 S1 inline: Next.js, Tailwind, shadcn/ui, base structure, visual identity. Evidence: pending.
+- [x] T1 S1 inline: Next.js, Tailwind, shadcn/ui, base structure, visual identity. Commit 6878816. Evidence: lint, typecheck and build pass; home and 404 rendered at 390px and 1366px. Native assess: medium, under_budget (no review due). Test-first exception: scaffolding and static UI have no meaningful RED.
 - [ ] T2 S2 inline: home, catalog, filters, detail page, Sorprendeme.
 - [ ] T3 S3 inline: prompt system and first game.
 - [ ] T4 S4 inline: timer, players, teams, scoring, three games.
@@ -494,3 +494,6 @@ La plataforma tiene que ser:
 
 **Empezá presentando la arquitectura propuesta y desarrollando la Etapa 1 del proyecto.**
 ````
+
+- L2 (2026-11-04, user, verbatim): "Te dejo el link del repositorio para que pushees https://github.com/ramatc/calesita"
+- L3 Decisions: `feat/calesita-mvp` is pushed to `origin`; the remote was empty. The `cn` package installed by shadcn is the official `shadcn-ui/cn` utility and replaces `clsx` plus `tailwind-merge`. `DESIGN.md` is deferred until the world is fully built (Stage 6). Next step: T2.
