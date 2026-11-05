@@ -8,6 +8,9 @@ import type { GameSlug } from "@/types/game";
  * its catalog entry as available. Each screen loads only when it is played.
  */
 export const GAME_SCREENS: Partial<Record<GameSlug, ComponentType>> = {
+  "actua-o-perdes": dynamic(() => import("@/games/actua-o-perdes/screen")),
+  "categorias-explosivas": dynamic(() => import("@/games/categorias-explosivas/screen")),
+  "desafio-relampago": dynamic(() => import("@/games/desafio-relampago/screen")),
   "quien-es-mas-probable-que": dynamic(
     () => import("@/games/quien-es-mas-probable-que/screen"),
   ),

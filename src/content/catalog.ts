@@ -1,3 +1,6 @@
+import { RULES as ACTUA_O_PERDES_RULES } from "@/content/actua-o-perdes";
+import { RULES as CATEGORIAS_EXPLOSIVAS_RULES } from "@/content/categorias-explosivas";
+import { RULES as DESAFIO_RELAMPAGO_RULES } from "@/content/desafio-relampago";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -10,7 +13,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 20, max: 40 },
     materials: [],
     difficulty: "easy",
-    status: "coming-soon",
+    status: "available",
+    rules: ACTUA_O_PERDES_RULES,
   },
   {
     slug: "palabras-prohibidas",
@@ -54,7 +58,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 20 },
     materials: [],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: CATEGORIAS_EXPLOSIVAS_RULES,
   },
   {
     slug: "el-infiltrado",
@@ -127,7 +132,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 30 },
     materials: ["household-objects"],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: DESAFIO_RELAMPAGO_RULES,
   },
   {
     slug: "busqueda-desesperada",
