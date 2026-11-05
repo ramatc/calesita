@@ -1,7 +1,7 @@
 # Feature: calesita-mvp
 
 Objective: build Calesita, a party-games web MVP with five playable games, in the six stages the user defined.
-Branch: `feat/calesita-mvp`, remote `origin` (github.com/ramatc/calesita). Delivery: `exception-ok` (work stays on one branch; PR and merge stay user decisions). Test runner: none in Stage 1; Vitest arrives with the first game logic in Stage 3.
+Branch: `feat/calesita-mvp`, remote `origin` (github.com/ramatc/calesita). Delivery: `exception-ok` (work stays on one branch; PR and merge stay user decisions). Test runner: Vitest (`pnpm test`).
 Engram mirror `odd/calesita-mvp/tasks`: PENDING (Engram tools were not available this session).
 
 ## Specs
@@ -19,7 +19,7 @@ The full wording of every requirement is in `L1`; each spec quotes its stage and
 ## Tasks
 
 - [x] T1 S1 inline: Next.js, Tailwind, shadcn/ui, base structure, visual identity. Commit 6878816. Evidence: lint, typecheck and build pass; home and 404 rendered at 390px and 1366px. Native assess: medium, under_budget (no review due). Test-first exception: scaffolding and static UI have no meaningful RED.
-- [ ] T2 S2 inline: home, catalog, filters, detail page, Sorprendeme.
+- [x] T2 S2 inline: home, catalog, filters, detail page, Sorprendeme. Commits cb1334f, 3b0cfdf. Evidence: RED observed before implementation, 25 unit tests pass; 22 browser checks pass on the production build at 390px and 1366px. Native assess: medium, under_budget (no review due).
 - [ ] T3 S3 inline: prompt system and first game.
 - [ ] T4 S4 inline: timer, players, teams, scoring, three games.
 - [ ] T5 S5 inline: El infiltrado.
@@ -498,3 +498,5 @@ La plataforma tiene que ser:
 - L2 (2026-11-04, user, verbatim): "Te dejo el link del repositorio para que pushees https://github.com/ramatc/calesita"
 - L3 Decisions: `feat/calesita-mvp` is pushed to `origin`; the remote was empty. The `cn` package installed by shadcn is the official `shadcn-ui/cn` utility and replaces `clsx` plus `tailwind-merge`. `DESIGN.md` is deferred until the world is fully built (Stage 6). Next step: T2.
 - L4 Verification (commit 91a9bee, independent clean clone from GitHub): S1 pass. Frozen install, lint, typecheck and build exit 0; `/` returns 200 with `lang="es-AR"` and the slogan; `/nada` returns 404. Advisories: `pnpm audit --prod` exits 1 with one moderate (minimatch) and one low (deepmerge), both only through `shadcn`; `cn@0.5.2` requires Node 22 or newer; `lucide-react` stays unused until Stage 2.
+- L5 (2026-11-04, user, verbatim): "Ahora"
+- L6 Decisions for T2: all 15 games stay `coming-soon` until each one really works, so Sorprendeme shows an honest empty message until Stage 3 and its happy path is covered by unit tests only. The group size is persisted in `calesita:player-count` and shared by the catalog filter and Sorprendeme. `cacheComponents` and `partialPrefetching` were removed from `next.config.ts`: `dynamicParams = false` is incompatible with them, and an unknown slug returned status 200 while they were on. Next step: T3.
