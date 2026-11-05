@@ -44,7 +44,7 @@
 
   --animate-bob: bob 3.2s ease-in-out infinite;
   --animate-twinkle: twinkle 1.8s ease-in-out infinite;
-  --animate-sway: sway 6s ease-in-out infinite;
+  --animate-spin-once: spin-once 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes bob {
     0%,
@@ -66,13 +66,9 @@
     }
   }
 
-  @keyframes sway {
-    0%,
-    100% {
-      transform: rotate(-1.2deg);
-    }
-    50% {
-      transform: rotate(1.2deg);
+  @keyframes spin-once {
+    to {
+      transform: rotate(720deg);
     }
   }
 }
@@ -106,6 +102,26 @@
   --brand-pink: oklch(0.73 0.2 355);
   --brand-teal: oklch(0.8 0.13 185);
   --brand-ink: oklch(0.2 0.08 296);
+}
+
+/* A ride ticket: the punched notches sit on the tear line under the stub. */
+@utility ticket {
+  --ticket-stub: 10rem;
+  --ticket-notch: 0.75rem;
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  mask:
+    radial-gradient(circle var(--ticket-notch) at 0 var(--ticket-stub), #0000 98%, #000) left /
+      51% 100% no-repeat,
+    radial-gradient(circle var(--ticket-notch) at 100% var(--ticket-stub), #0000 98%, #000) right /
+      51% 100% no-repeat;
+}
+
+/* A string of carousel bulbs used as a section divider. */
+@utility bulb-line {
+  height: 0.75rem;
+  background: radial-gradient(circle at center, var(--brand-yellow) 35%, transparent 40%) center /
+    1.75rem 100% repeat-x;
 }
 
 @layer base {
