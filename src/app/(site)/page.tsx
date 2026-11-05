@@ -5,6 +5,7 @@ import { CarouselIllustration } from "@/components/brand/carousel-illustration";
 import { GameIllustration } from "@/components/brand/game-illustration";
 import { Logo } from "@/components/brand/logo";
 import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
+import { SectionHeading } from "@/components/design/section-heading";
 import { GameCard } from "@/components/catalog/game-card";
 import { PlayerCountPicker } from "@/components/catalog/player-count-picker";
 import { SurpriseButton } from "@/components/catalog/surprise-button";
@@ -53,17 +54,19 @@ export default function HomePage() {
       <div aria-hidden="true" className="bulb-line" />
 
       <section aria-labelledby="featured-heading" className="py-12">
-        <div className="mx-auto flex w-full max-w-6xl items-end justify-between gap-4 px-5">
-          <h2 id="featured-heading" className="font-display text-4xl text-brand-yellow">
-            Destacados
-          </h2>
-          <Button asChild variant="ghost" size="chip">
-            <Link href="/juegos">
-              Ver los {GAMES.length}
-              <ArrowRight />
-            </Link>
-          </Button>
-        </div>
+        <SectionHeading
+          id="featured-heading"
+          title="Destacados"
+          className="mx-auto w-full max-w-6xl px-5"
+          action={
+            <Button asChild variant="ghost" size="chip">
+              <Link href="/juegos">
+                Ver los {GAMES.length}
+                <ArrowRight />
+              </Link>
+            </Button>
+          }
+        />
         <ul className="mt-6 flex snap-x snap-mandatory scroll-px-5 gap-5 overflow-x-auto px-[max(1.25rem,calc((100vw-72rem)/2+1.25rem))] py-2">
           {FEATURED_GAMES.map((game) => (
             <li key={game.slug} className="w-72 shrink-0 snap-start">
@@ -77,9 +80,7 @@ export default function HomePage() {
         aria-labelledby="categories-heading"
         className="mx-auto w-full max-w-6xl px-5 pb-16"
       >
-        <h2 id="categories-heading" className="font-display text-4xl text-brand-yellow">
-          Categorías
-        </h2>
+        <SectionHeading id="categories-heading" title="Categorías" />
         <ul className="mt-6 grid gap-4 md:grid-cols-3">
           {CATEGORIES.map((category) => (
             <li key={category}>

@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { GameIllustration } from "@/components/brand/game-illustration";
 import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
 import { GameInstructions } from "@/components/game/game-instructions";
+import { StatusIndicator } from "@/components/design/status-indicator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GAMES, getGameBySlug } from "@/content/catalog";
@@ -15,7 +16,6 @@ import {
   formatDuration,
   formatMaterials,
   formatPlayers,
-  STATUS_LABELS,
 } from "@/content/labels";
 import { cn } from "@/lib/utils";
 
@@ -80,9 +80,7 @@ export default async function GamePage({ params }: GamePageProps) {
       <div className="flex flex-col gap-5">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{CATEGORY_LABELS[game.category]}</Badge>
-          <Badge variant={game.status === "available" ? "default" : "secondary"}>
-            {STATUS_LABELS[game.status]}
-          </Badge>
+          <StatusIndicator status={game.status} />
         </div>
         <h1 className="font-display text-4xl leading-tight text-brand-yellow md:text-5xl">
           {game.name}

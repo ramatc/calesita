@@ -12,11 +12,11 @@ const buttonVariants = cva(
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground shadow-[inset_0_-3px_0_0_var(--surface-deep)] hover:bg-accent active:translate-y-0.5 active:shadow-[inset_0_-1px_0_0_var(--surface-deep)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         marquee:
-          "bg-brand-yellow text-brand-ink shadow-[0_8px_24px_-8px_var(--brand-yellow)] hover:bg-brand-yellow/90",
+          "bg-brand-yellow text-brand-ink shadow-[inset_0_-3px_0_0_var(--brand-yellow-deep),0_10px_20px_-12px_var(--brand-yellow)] hover:brightness-105 active:translate-y-0.5 active:shadow-[inset_0_-1px_0_0_var(--brand-yellow-deep)]",
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",

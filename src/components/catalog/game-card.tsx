@@ -3,12 +3,11 @@ import Link from "next/link";
 
 import { GameIllustration } from "@/components/brand/game-illustration";
 import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
-import { Badge } from "@/components/ui/badge";
+import { StatusIndicator } from "@/components/design/status-indicator";
 import {
   CATEGORY_LABELS,
   formatDuration,
   formatPlayers,
-  STATUS_LABELS,
 } from "@/content/labels";
 import { cn } from "@/lib/utils";
 import type { GameDefinition } from "@/types/game";
@@ -45,9 +44,7 @@ export function GameCard({ game, className }: GameCardProps) {
             <span className="text-sm font-medium text-muted-foreground">
               {CATEGORY_LABELS[game.category]}
             </span>
-            <Badge variant={game.status === "available" ? "default" : "secondary"}>
-              {STATUS_LABELS[game.status]}
-            </Badge>
+            <StatusIndicator status={game.status} />
           </div>
           <h3 className="text-xl leading-tight font-bold">{game.name}</h3>
           <p className="flex-1 text-muted-foreground">{game.description}</p>

@@ -8,8 +8,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
-  --font-display: var(--font-marquee);
-  --font-heading: var(--font-body);
+  --font-display: var(--font-headline);
+  --font-logo: var(--font-marquee);
+  --font-heading: var(--font-headline);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -29,10 +30,15 @@
   --color-card: var(--card);
 
   --color-brand-yellow: var(--brand-yellow);
+  --color-brand-lavender: var(--brand-lavender);
   --color-brand-orange: var(--brand-orange);
   --color-brand-pink: var(--brand-pink);
   --color-brand-teal: var(--brand-teal);
   --color-brand-ink: var(--brand-ink);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-raised: var(--shadow-raised);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -85,31 +91,38 @@
 :root {
   color-scheme: dark;
 
-  --background: oklch(0.22 0.1 296);
-  --foreground: oklch(0.97 0.015 300);
-  --card: oklch(0.29 0.12 296);
-  --card-foreground: oklch(0.97 0.015 300);
-  --popover: oklch(0.29 0.12 296);
-  --popover-foreground: oklch(0.97 0.015 300);
-  --primary: oklch(0.54 0.21 296);
-  --primary-foreground: oklch(0.99 0.005 300);
-  --secondary: oklch(0.34 0.12 296);
-  --secondary-foreground: oklch(0.97 0.015 300);
-  --muted: oklch(0.31 0.1 296);
-  --muted-foreground: oklch(0.84 0.05 300);
-  --accent: oklch(0.38 0.13 296);
-  --accent-foreground: oklch(0.97 0.015 300);
-  --destructive: oklch(0.72 0.18 12);
-  --border: oklch(0.44 0.11 296);
-  --input: oklch(0.44 0.11 296);
-  --ring: oklch(0.87 0.17 92);
+  --background: #130a24;
+  --foreground: #fff9ed;
+  --card: #211437;
+  --card-foreground: #fff9ed;
+  --popover: #30204b;
+  --popover-foreground: #fff9ed;
+  --primary: #7c4dff;
+  --primary-foreground: #ffffff;
+  --secondary: #30204b;
+  --secondary-foreground: #fff9ed;
+  --muted: #30204b;
+  --muted-foreground: #cfc4e6;
+  --accent: #3d2b5e;
+  --accent-foreground: #fff9ed;
+  --destructive: #ff7a9c;
+  --border: #443263;
+  --input: #443263;
+  --ring: #ffd12f;
   --radius: 1rem;
 
-  --brand-yellow: oklch(0.87 0.17 92);
-  --brand-orange: oklch(0.75 0.17 55);
-  --brand-pink: oklch(0.73 0.2 355);
-  --brand-teal: oklch(0.8 0.13 185);
-  --brand-ink: oklch(0.2 0.08 296);
+  --brand-yellow: #ffd12f;
+  --brand-yellow-deep: #d39f00;
+  --brand-orange: #ff9a3d;
+  --brand-pink: #ff62ab;
+  --brand-teal: #31d4c5;
+  --brand-lavender: #ab8cff;
+  --brand-ink: #1a0e30;
+  --surface-deep: #4b3a6b;
+
+  /* Violet-tinted shadows, so depth reads as light in the same room. */
+  --shadow-card: 0 1px 0 0 rgb(255 249 237 / 8%) inset, 0 16px 32px -20px rgb(7 2 18 / 90%);
+  --shadow-raised: 0 1px 0 0 rgb(255 249 237 / 12%) inset, 0 24px 48px -20px rgb(7 2 18 / 95%);
 }
 
 /* A ride ticket: the punched notches sit on the tear line under the stub. */
@@ -145,6 +158,14 @@
   body {
     @apply bg-background text-foreground;
     caret-color: var(--brand-yellow);
+    /* One controlled light source, like a lit carousel in a dark park. */
+    background-image: radial-gradient(44rem 22rem at 72% 20rem, #2c1a4f 0%, transparent 70%);
+    background-repeat: no-repeat;
+  }
+
+  .font-display {
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
   ::selection {

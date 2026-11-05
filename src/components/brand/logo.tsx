@@ -8,7 +8,7 @@ export function Logo({ className }: LogoProps) {
   return (
     <span
       className={cn(
-        "inline-block font-display leading-none text-brand-yellow",
+        "inline-block font-logo leading-none text-brand-yellow",
         className,
       )}
     >

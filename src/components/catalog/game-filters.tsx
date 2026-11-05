@@ -4,6 +4,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { useId, useState, type ReactNode } from "react";
 
 import { PlayerCountPicker } from "@/components/catalog/player-count-picker";
+import { FilterChip } from "@/components/design/filter-chip";
 import { Button } from "@/components/ui/button";
 import {
   CATEGORY_LABELS,
@@ -53,24 +54,13 @@ function ChipOptions<T extends string>({
 }: ChipOptionsProps<T>) {
   return (
     <>
-      <Button
-        variant={value === null ? "marquee" : "secondary"}
-        size="chip"
-        aria-pressed={value === null}
-        onClick={() => onChange(null)}
-      >
+      <FilterChip selected={value === null} onClick={() => onChange(null)}>
         {allLabel}
-      </Button>
+      </FilterChip>
       {options.map((option) => (
-        <Button
-          key={option}
-          variant={value === option ? "marquee" : "secondary"}
-          size="chip"
-          aria-pressed={value === option}
-          onClick={() => onChange(option)}
-        >
+        <FilterChip key={option} selected={value === option} onClick={() => onChange(option)}>
           {labels[option]}
-        </Button>
+        </FilterChip>
       ))}
     </>
   );

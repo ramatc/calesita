@@ -1,10 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Shrikhand } from "next/font/google";
+import { Bricolage_Grotesque, Figtree, Shrikhand } from "next/font/google";
 import "./globals.css";
 
-const body = Bricolage_Grotesque({
+const body = Figtree({
   variable: "--font-body",
   subsets: ["latin"],
+});
+
+const headline = Bricolage_Grotesque({
+  variable: "--font-headline",
+  subsets: ["latin"],
+  axes: ["opsz"],
 });
 
 const marquee = Shrikhand({
@@ -23,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#24104f",
+  themeColor: "#130a24",
   colorScheme: "dark",
 };
 
@@ -31,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es-AR"
-      className={`dark ${body.variable} ${marquee.variable} h-full antialiased`}
+      className={`dark ${body.variable} ${headline.variable} ${marquee.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
