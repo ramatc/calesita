@@ -11,6 +11,10 @@ pnpm dev
 
 Then open <http://localhost:3000>.
 
+## Characters
+
+The seven characters live in `public/characters`. See `public/characters/README.md` to replace the art or add expressions and poses.
+
 ## Checks
 
 ```bash
