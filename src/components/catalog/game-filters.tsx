@@ -76,7 +76,10 @@ export function GameFilters({ filters, onChange }: GameFiltersProps) {
   const morePanelId = useId();
 
   return (
-    <section aria-label="Filtros" className="flex flex-col gap-5">
+    <section
+      aria-label="Filtros"
+      className="flex flex-col gap-5 rounded-3xl bg-card p-5 shadow-card md:p-6"
+    >
       <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
         <FilterGroup label="Categoría">
           <ChipOptions
@@ -87,7 +90,7 @@ export function GameFilters({ filters, onChange }: GameFiltersProps) {
             onChange={(category) => onChange({ ...filters, category })}
           />
         </FilterGroup>
-  
+
         <div className="flex flex-col gap-2">
           <span className="text-sm font-semibold text-muted-foreground">Jugadores</span>
           <PlayerCountPicker />

@@ -1,15 +1,15 @@
-import { Clock, Users } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import { GameIllustration } from "@/components/brand/game-illustration";
-import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
-import { StatusIndicator } from "@/components/design/status-indicator";
 import {
-  CATEGORY_LABELS,
-  formatDuration,
-  formatPlayers,
-} from "@/content/labels";
-import { cn } from "@/lib/utils";
+  CardAction,
+  CardShell,
+  CardTitleLink,
+  GameFacts,
+  GameStub,
+} from "@/components/catalog/game-card-parts";
+import { StatusIndicator } from "@/components/design/status-indicator";
+import { CATEGORY_LABELS } from "@/content/labels";
 import type { GameDefinition } from "@/types/game";
 
 type GameCardProps = {
@@ -19,51 +19,60 @@ type GameCardProps = {
 
 export function GameCard({ game, className }: GameCardProps) {
   return (
-    <Link
-      href={`/juegos/${game.slug}`}
-      className={cn(
-        "group block rounded-3xl transition-transform duration-200 ease-out hover:-translate-y-1 hover:-rotate-1 active:scale-[0.98]",
-        className,
-      )}
-    >
+    <CardShell game={game} className={className}>
       <article className="ticket flex h-full flex-col bg-card">
-        <div
-          className={cn(
-            "flex h-(--ticket-stub) items-center justify-center p-4",
-            CATEGORY_SURFACE[game.category],
-          )}
-        >
+        <GameStub game={game} className="h-(--ticket-stub)">
           <GameIllustration
             slug={game.slug}
-            className="transition-transform duration-300 ease-out group-hover:scale-110"
+            className="transition-transform duration-300 ease-(--ease-out-expo) group-hover:scale-110 group-hover:-rotate-3"
           />
-        </div>
+        </GameStub>
 
         <div className="flex flex-1 flex-col gap-3 border-t-2 border-dashed border-background p-5">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-medium text-muted-foreground">
               {CATEGORY_LABELS[game.category]}
             </span>
             <StatusIndicator status={game.status} />
           </div>
-          <h3 className="text-xl leading-tight font-bold">{game.name}</h3>
+          <h3 className="font-display text-2xl leading-tight">
+            <CardTitleLink game={game} />
+          </h3>
           <p className="flex-1 text-muted-foreground">{game.description}</p>
-          <dl className="flex flex-wrap gap-x-4 gap-y-1 text-sm font-medium" data-tabular>
-            <div className="flex items-center gap-1.5">
-              <dt>
-                <Users aria-label="Jugadores" className="size-4" />
-              </dt>
-              <dd>{formatPlayers(game.players)}</dd>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <dt>
-                <Clock aria-label="Duración" className="size-4" />
-              </dt>
-              <dd>{formatDuration(game.durationMinutes)}</dd>
-            </div>
-          </dl>
+          <GameFacts game={game} className="text-sm" />
+          <CardAction game={game} className="mt-1 self-start" />
         </div>
       </article>
-    </Link>
+    </CardShell>
+  );
+}
+
+/** A slim ticket for games the group cannot play yet, so playable ones keep the spotlight. */
+export function GameRowCard({ game, className }: GameCardProps) {
+  return (
+    <CardShell game={game} className={className}>
+      <article className="ticket-side flex h-full bg-card [--ticket-stub:6.5rem]">
+        <GameStub game={game} className="w-(--ticket-stub) shrink-0 p-3">
+          <GameIllustration slug={game.slug} className="h-auto w-full" />
+        </GameStub>
+
+        <div className="flex min-w-0 flex-1 flex-col gap-2 border-l-2 border-dashed border-background p-4">
+          <h3 className="font-display text-xl leading-tight">
+            <CardTitleLink game={game} />
+          </h3>
+          <span className="text-sm font-medium text-muted-foreground">
+            {CATEGORY_LABELS[game.category]}
+          </span>
+          <GameFacts game={game} className="text-sm" />
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1">
+            <StatusIndicator status={game.status} />
+            <ArrowRight
+              aria-hidden="true"
+              className="size-5 text-muted-foreground transition-colors group-hover:text-foreground"
+            />
+          </div>
+        </div>
+      </article>
+    </CardShell>
   );
 }

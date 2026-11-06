@@ -152,6 +152,42 @@
       51% 100% no-repeat;
 }
 
+/* The same ticket torn sideways: the stub sits on the left. */
+@utility ticket-side {
+  --ticket-notch: 0.75rem;
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  mask:
+    radial-gradient(circle var(--ticket-notch) at var(--ticket-stub) 0, #0000 98%, #000) top /
+      100% 51% no-repeat,
+    radial-gradient(circle var(--ticket-notch) at var(--ticket-stub) 100%, #0000 98%, #000) bottom /
+      100% 51% no-repeat;
+}
+
+/* Category textures, printed in ink over the category color. */
+@utility motif-bulbs {
+  background-image: radial-gradient(circle, rgb(26 14 48 / 13%) 26%, transparent 28%);
+  background-size: 1.5rem 1.5rem;
+}
+
+@utility motif-rings {
+  background-image:
+    radial-gradient(circle closest-side, transparent 56%, rgb(26 14 48 / 10%) 58% 78%, transparent 80%),
+    radial-gradient(circle closest-side, transparent 56%, rgb(26 14 48 / 10%) 58% 78%, transparent 80%);
+  background-size: 2.5rem 2.5rem;
+  background-position:
+    0 0,
+    1.25rem 1.25rem;
+}
+
+@utility motif-stripes {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    rgb(26 14 48 / 11%) 0 0.75rem,
+    transparent 0.75rem 1.75rem
+  );
+}
+
 /* A string of carousel bulbs used as a section divider. */
 @utility bulb-line {
   height: 0.75rem;

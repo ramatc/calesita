@@ -51,6 +51,13 @@ function usesMaterial(game: GameDefinition, material: MaterialFilter) {
     : game.materials.includes(material as GameMaterial);
 }
 
+export function groupByAvailability(games: readonly GameDefinition[]) {
+  return {
+    available: games.filter((game) => game.status === "available"),
+    comingSoon: games.filter((game) => game.status !== "available"),
+  };
+}
+
 export function filterGames(
   games: readonly GameDefinition[],
   { category, duration, material, players }: CatalogFilters,

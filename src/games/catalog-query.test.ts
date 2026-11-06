@@ -4,6 +4,7 @@ import {
   buildCatalogQuery,
   EMPTY_FILTERS,
   filterGames,
+  groupByAvailability,
   getDurationBucket,
   parseCatalogParams,
   pickSurpriseGame,
@@ -74,6 +75,15 @@ describe("filterGames", () => {
     expect(
       filterGames(games, { ...EMPTY_FILTERS, category: "physical", material: "none" }),
     ).toEqual([quick]);
+  });
+});
+
+describe("groupByAvailability", () => {
+  it("splits games by status and keeps their order", () => {
+    expect(groupByAvailability(games)).toEqual({
+      available: [quick, paper],
+      comingSoon: [long],
+    });
   });
 });
 
