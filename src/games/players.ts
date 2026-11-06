@@ -12,9 +12,14 @@ export type Team = {
 
 const DEFAULT_TEAM_NAMES = ["Equipo Violeta", "Equipo Turquesa"];
 
+/** Seats are stable across games, so anything keyed by them survives a restart. */
+export function getSeatId(index: number) {
+  return `player-${index + 1}`;
+}
+
 export function createPlayers(count: number, names: readonly string[] = []): Player[] {
   return Array.from({ length: count }, (_, index) => ({
-    id: `player-${index + 1}`,
+    id: getSeatId(index),
     name: names[index]?.trim() || `Jugador ${index + 1}`,
   }));
 }
