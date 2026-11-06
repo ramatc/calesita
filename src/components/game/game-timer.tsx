@@ -28,9 +28,9 @@ export function GameTimer({ timer, onPause, onResume, onExpire }: GameTimerProps
         <time
           role="timer"
           className={cn(
-            "font-display text-6xl leading-none text-brand-yellow md:text-7xl",
+            "origin-left font-display text-6xl leading-none text-brand-yellow md:text-7xl",
             isLow && "text-brand-pink",
-            isLow && isRunning && "animate-twinkle",
+            isLow && isRunning && "animate-throb",
           )}
         >
           {formatClock(remainingMs)}

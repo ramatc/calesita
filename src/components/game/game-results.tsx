@@ -13,9 +13,9 @@ type GameResultsProps = {
 /** A fanned hand with the sortija on top: the group caught the ring. */
 function ResultsFan() {
   return (
-    <div aria-hidden="true" className="relative h-32 w-52 animate-deal">
-      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 -translate-x-12 -rotate-12 rounded-2xl bg-brand-pink shadow-raised" />
-      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 translate-x-12 rotate-12 rounded-2xl bg-brand-teal shadow-raised" />
+    <div aria-hidden="true" className="relative h-32 w-52">
+      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 -translate-x-12 -rotate-12 animate-fan-open rounded-2xl bg-brand-pink shadow-raised" />
+      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 translate-x-12 rotate-12 animate-fan-open rounded-2xl bg-brand-teal shadow-raised" />
       <span className="absolute inset-y-0 left-1/2 -ml-11 flex w-22 items-center justify-center rounded-2xl bg-brand-yellow text-brand-ink shadow-raised">
         <SortijaIcon className="size-12" />
       </span>

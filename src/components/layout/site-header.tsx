@@ -98,7 +98,11 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 px-3 pt-3 sm:px-5">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center rounded-full bg-card/90 pr-2 pl-4 shadow-raised sm:pr-2.5 sm:pl-5 backdrop-blur-sm">
-        <Link href="/" aria-label="Calesita, ir al inicio" className="rounded-lg">
+        <Link
+          href="/"
+          aria-label="Calesita, ir al inicio"
+          className="flex min-h-11 items-center rounded-lg"
+        >
           <Logo className="text-[1.625rem] sm:text-3xl" />
         </Link>
         <DesktopNav pathname={pathname} />

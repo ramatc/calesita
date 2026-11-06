@@ -8,7 +8,8 @@ type FloatingCard = {
   slug: GameSlug;
   category: GameCategory;
   placement: string;
-  delay: string;
+  bobDelay: string;
+  dealDelay: string;
 };
 
 const FLOATING_CARDS: readonly FloatingCard[] = [
@@ -16,19 +17,22 @@ const FLOATING_CARDS: readonly FloatingCard[] = [
     slug: "categorias-explosivas",
     category: "classic",
     placement: "bottom-[8%] -left-[3%] -rotate-12",
-    delay: "-0.4s",
+    bobDelay: "-0.4s",
+    dealDelay: "0.15s",
   },
   {
     slug: "quien-es-mas-probable-que",
     category: "social",
     placement: "top-[10%] -right-[2%] rotate-[9deg]",
-    delay: "-1.5s",
+    bobDelay: "-1.5s",
+    dealDelay: "0.3s",
   },
   {
     slug: "desafio-relampago",
     category: "physical",
     placement: "right-[1%] -bottom-[3%] rotate-6",
-    delay: "-2.6s",
+    bobDelay: "-2.6s",
+    dealDelay: "0.45s",
   },
 ];
 
@@ -62,18 +66,22 @@ export function HeroStage({ className }: HeroStageProps) {
         <CarouselIllustration />
       </div>
 
-      {FLOATING_CARDS.map(({ slug, category, placement, delay }) => (
+      {FLOATING_CARDS.map(({ slug, category, placement, bobDelay, dealDelay }) => (
         <div
           key={slug}
           aria-hidden="true"
-          style={{ animationDelay: delay }}
-          className={cn(
-            "absolute flex aspect-[5/7] w-[25%] animate-bob items-center rounded-2xl p-[2.5%] shadow-raised motion-reduce:animate-none",
-            CATEGORY_SURFACE[category],
-            placement,
-          )}
+          style={{ animationDelay: dealDelay }}
+          className={cn("absolute aspect-[5/7] w-[25%] animate-deal-slow", placement)}
         >
-          <GameIllustration slug={slug} className="h-auto w-full" />
+          <div
+            style={{ animationDelay: bobDelay }}
+            className={cn(
+              "flex size-full animate-bob items-center rounded-2xl p-[10%] shadow-raised motion-reduce:animate-none",
+              CATEGORY_SURFACE[category],
+            )}
+          >
+            <GameIllustration slug={slug} className="h-auto w-full" />
+          </div>
         </div>
       ))}
     </div>

@@ -52,11 +52,11 @@ export function SetupOptions({ values, onChange }: SetupOptionsProps) {
         format={String}
         onChange={(rounds) => onChange({ ...values, rounds })}
       />
-      <details className="rounded-2xl bg-secondary p-4">
-        <summary className="cursor-pointer font-semibold">
+      <details className="rounded-2xl bg-secondary px-4 py-1.5">
+        <summary className="cursor-pointer py-2.5 font-semibold">
           Ponerles nombre a los equipos (opcional)
         </summary>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-2 mb-2.5 grid gap-3 sm:grid-cols-2">
           {TEAM_LABELS.map((label, index) => (
             <div key={label} className="flex flex-col gap-1">
               <Label htmlFor={`team-name-${index}`}>{label}</Label>

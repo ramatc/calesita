@@ -13,7 +13,7 @@ type SectionHeadingProps = {
 
 export function SectionHeading({ id, title, description, action, className }: SectionHeadingProps) {
   return (
-    <div className={cn("flex items-end justify-between gap-4", className)}>
+    <div className={cn("flex flex-wrap items-end justify-between gap-x-4 gap-y-2", className)}>
       <div className="flex max-w-2xl flex-col gap-2">
         <h2 id={id} className="font-display text-4xl leading-none md:text-5xl">
           {title}

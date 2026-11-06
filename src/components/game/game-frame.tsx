@@ -23,7 +23,11 @@ export function GameFrame({ children, status, onEnd, endDescription = "" }: Game
       <div className="flex min-h-11 items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
           {status ?? (
-            <Link href="/" aria-label="Calesita, ir al inicio" className="rounded-lg">
+            <Link
+              href="/"
+              aria-label="Calesita, ir al inicio"
+              className="inline-flex min-h-11 items-center rounded-lg"
+            >
               <Logo className="text-2xl" />
             </Link>
           )}

@@ -23,9 +23,9 @@ export function PlayerNamesFields({ count }: PlayerNamesFieldsProps) {
   }
 
   return (
-    <details className="rounded-2xl bg-secondary p-4">
-      <summary className="cursor-pointer font-semibold">Ponerles nombre (opcional)</summary>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+    <details className="rounded-2xl bg-secondary px-4 py-1.5">
+      <summary className="cursor-pointer py-2.5 font-semibold">Ponerles nombre (opcional)</summary>
+      <div className="mt-2 mb-2.5 grid gap-3 sm:grid-cols-2">
         {Array.from({ length: count }, (_, index) => (
           <div key={index} className="flex flex-col gap-1">
             <Label htmlFor={`player-name-${index}`}>Jugador {index + 1}</Label>

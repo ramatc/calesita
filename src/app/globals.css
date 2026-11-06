@@ -50,8 +50,11 @@
 
   --animate-bob: bob 3.2s ease-in-out infinite;
   --animate-twinkle: twinkle 1.8s ease-in-out infinite;
+  --animate-throb: throb 1s ease-in-out infinite;
   --animate-spin-once: spin-once 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-deal: deal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-deal-slow: deal 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  --animate-fan-open: fan-open 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
   --animate-marquee: marquee 48s linear infinite;
   --animate-slow-spin: slow-spin 90s linear infinite;
 
@@ -75,10 +78,24 @@
     }
   }
 
+  @keyframes throb {
+    50% {
+      transform: scale(1.06);
+    }
+  }
+
   @keyframes deal {
     from {
       opacity: 0;
       transform: translateY(16px) scale(0.97);
+    }
+  }
+
+  /* Cards start stacked and open into the resting angle set by their own classes. */
+  @keyframes fan-open {
+    from {
+      translate: 0;
+      rotate: 0deg;
     }
   }
 
@@ -193,11 +210,15 @@
   mask-image: radial-gradient(ellipse at center, transparent 45%, #000 90%);
 }
 
-/* A string of carousel bulbs used as a section divider. */
-@utility bulb-line {
-  height: 0.75rem;
-  background: radial-gradient(circle at center, var(--brand-yellow) 35%, transparent 40%) center /
-    1.75rem 100% repeat-x;
+/* Content settles in as it scrolls into view. Without support it is simply visible. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: deal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
 }
 
 @layer base {
@@ -249,6 +270,7 @@
     *,
     *::before,
     *::after {
+      animation-delay: 0s !important;
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;

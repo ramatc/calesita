@@ -56,7 +56,7 @@ export default async function GamePage({ params }: GamePageProps) {
   if (!game) notFound();
 
   return (
-    <main className="mx-auto grid w-full max-w-5xl flex-1 gap-8 px-5 pt-4 pb-16 md:grid-cols-2 md:gap-12">
+    <main className="mx-auto grid w-full max-w-5xl flex-1 grid-cols-1 gap-8 px-5 pt-4 pb-16 md:grid-cols-2 md:gap-12">
       <div className="md:col-span-2">
         <Button asChild variant="ghost" size="chip">
           <Link href="/juegos">
@@ -67,7 +67,7 @@ export default async function GamePage({ params }: GamePageProps) {
       </div>
 
       <GameStub game={game} className="h-64 rounded-3xl p-6 shadow-raised md:sticky md:top-24 md:h-96">
-        <GameIllustration slug={game.slug} />
+        <GameIllustration slug={game.slug} className="max-w-full" />
       </GameStub>
 
       <div className="flex flex-col gap-5">
@@ -75,7 +75,7 @@ export default async function GamePage({ params }: GamePageProps) {
           <span className="font-medium text-muted-foreground">{CATEGORY_LABELS[game.category]}</span>
           <StatusIndicator status={game.status} />
         </div>
-        <h1 className="font-display text-5xl leading-none text-brand-yellow md:text-6xl">
+        <h1 className="font-display text-4xl leading-none text-brand-yellow sm:text-5xl md:text-6xl">
           {game.name}
         </h1>
         <p className="text-xl">{game.description}</p>

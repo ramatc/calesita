@@ -108,7 +108,7 @@ export function CardAction({ game, size = "chip", className }: CardActionProps) 
   return (
     <Button asChild variant="marquee" size={size} className={cn("relative z-10", className)}>
       <Link href={`/jugar/${game.slug}`} aria-label={`Jugar a ${game.name}`}>
-        <Play className="fill-current" />
+        <Play className="fill-current transition-transform duration-200 group-hover/button:scale-110" />
         Jugar
       </Link>
     </Button>

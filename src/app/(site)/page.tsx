@@ -63,10 +63,10 @@ export default function HomePage() {
           }
         />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <FeaturedGameCard game={leadGame} className="md:col-span-2" />
-          <ul className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-5 overflow-x-auto px-5 py-2 md:contents">
+          <FeaturedGameCard game={leadGame} className="reveal md:col-span-2" />
+          <ul className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-5 overflow-x-auto px-5 py-2 [scrollbar-width:none] md:contents">
             {otherGames.map((game) => (
-              <li key={game.slug} className="w-72 shrink-0 snap-start md:w-auto">
+              <li key={game.slug} className="w-72 shrink-0 snap-start md:reveal md:w-auto">
                 <GameCard game={game} className="h-full" />
               </li>
             ))}
@@ -82,7 +82,7 @@ export default function HomePage() {
         <SectionHeading id="categories-heading" title="Categorías" />
         <ul className="mt-8 grid gap-5 lg:grid-cols-3">
           {CATEGORIES.map((category) => (
-            <li key={category}>
+            <li key={category} className="reveal">
               <CategoryCard category={category} />
             </li>
           ))}

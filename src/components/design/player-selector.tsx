@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { usePersistentStore } from "@/hooks/use-persistent-store";
 import { playerCountStore } from "@/lib/player-count";
+import { cn } from "@/lib/utils";
 
 /** The navbar's compact entry to the group size; the picker keeps the rules. */
 export function PlayerSelector() {
@@ -25,7 +26,10 @@ export function PlayerSelector() {
           }
         >
           <Users />
-          <span data-tabular className="font-semibold">
+          <span
+            data-tabular
+            className={cn("font-semibold", players === null && "max-[359px]:hidden")}
+          >
             {players ?? "¿Cuántos?"}
           </span>
         </Button>
