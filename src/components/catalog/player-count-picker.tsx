@@ -21,7 +21,7 @@ export function PlayerCountPicker() {
   }
 
   return (
-    <div role="group" aria-label="Cantidad de jugadores" className="flex items-center gap-2">
+    <div role="group" aria-label="Cantidad de jugadores" className="flex flex-wrap items-center gap-2">
       <Button
         variant="secondary"
         size="touch"
