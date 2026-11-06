@@ -1,6 +1,7 @@
 import { RULES as ACTUA_O_PERDES_RULES } from "@/content/actua-o-perdes";
 import { RULES as CATEGORIAS_EXPLOSIVAS_RULES } from "@/content/categorias-explosivas";
 import { RULES as DESAFIO_RELAMPAGO_RULES } from "@/content/desafio-relampago";
+import { RULES as EL_INFILTRADO_RULES } from "@/content/el-infiltrado";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -70,7 +71,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 20 },
     materials: [],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: EL_INFILTRADO_RULES,
   },
   {
     slug: "quien-es-mas-probable-que",
