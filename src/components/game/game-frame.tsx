@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { Logo } from "@/components/brand/logo";
 import { ConfirmDialog } from "@/components/game/confirm-dialog";
 import { Button } from "@/components/ui/button";
 
@@ -20,7 +21,13 @@ export function GameFrame({ children, status, onEnd, endDescription = "" }: Game
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-4 p-4">
       <div className="flex min-h-11 items-center justify-between gap-3">
-        <div className="min-w-0 flex-1">{status}</div>
+        <div className="min-w-0 flex-1">
+          {status ?? (
+            <Link href="/" aria-label="Calesita, ir al inicio" className="rounded-lg">
+              <Logo className="text-2xl" />
+            </Link>
+          )}
+        </div>
         {onEnd ? (
           <ConfirmDialog
             trigger={

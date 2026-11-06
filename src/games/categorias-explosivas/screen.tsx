@@ -3,6 +3,7 @@
 import { Check, Play, Shuffle, X } from "lucide-react";
 import { useState } from "react";
 
+import { OptionGroup } from "@/components/design/option-group";
 import { GameFrame } from "@/components/game/game-frame";
 import { GameResults } from "@/components/game/game-results";
 import { GameSetup } from "@/components/game/game-setup";
@@ -37,45 +38,6 @@ const LOSS_MESSAGES: Record<LossReason, string> = {
   mistake: "Repitió o se equivocó.",
   timeout: "Se acabó el tiempo.",
 };
-
-type OptionPickerProps<T extends number> = {
-  id: string;
-  label: string;
-  options: readonly T[];
-  value: T;
-  format: (option: T) => string;
-  onChange: (option: T) => void;
-};
-
-function OptionPicker<T extends number>({
-  id,
-  label,
-  options,
-  value,
-  format,
-  onChange,
-}: OptionPickerProps<T>) {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <span id={id} className="font-semibold text-muted-foreground">
-        {label}
-      </span>
-      <div role="group" aria-labelledby={id} className="flex flex-wrap justify-center gap-2">
-        {options.map((option) => (
-          <Button
-            key={option}
-            variant={option === value ? "marquee" : "secondary"}
-            size="chip"
-            aria-pressed={option === value}
-            onClick={() => onChange(option)}
-          >
-            {format(option)}
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function TurnLine({ game }: { game: Game }) {
   const player = game.players[game.currentIndex];
@@ -250,7 +212,7 @@ export default function CategoriasExplosivasScreen() {
       <GameSetup game={definition} onStart={start}>
         {(players) => (
           <>
-            <OptionPicker
+            <OptionGroup
               id="setup-seconds"
               label="Segundos por turno"
               options={SECONDS_OPTIONS}
@@ -258,7 +220,7 @@ export default function CategoriasExplosivasScreen() {
               format={(option) => `${option} s`}
               onChange={setSeconds}
             />
-            <OptionPicker
+            <OptionGroup
               id="setup-lives"
               label="Vidas por jugador"
               options={LIVES_OPTIONS}

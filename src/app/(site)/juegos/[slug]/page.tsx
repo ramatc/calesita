@@ -4,10 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { GameIllustration } from "@/components/brand/game-illustration";
-import { CATEGORY_SURFACE } from "@/components/catalog/category-style";
+import { GameStub } from "@/components/catalog/game-card-parts";
 import { GameInstructions } from "@/components/game/game-instructions";
 import { StatusIndicator } from "@/components/design/status-indicator";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GAMES, getGameBySlug } from "@/content/catalog";
 import {
@@ -17,7 +16,6 @@ import {
   formatMaterials,
   formatPlayers,
 } from "@/content/labels";
-import { cn } from "@/lib/utils";
 
 type GamePageProps = PageProps<"/juegos/[slug]">;
 
@@ -41,7 +39,7 @@ type GameFactProps = {
 
 function GameFact({ icon: Icon, label, value }: GameFactProps) {
   return (
-    <div className="rounded-2xl bg-card p-4">
+    <div className="bg-card p-4">
       <dt className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
         <Icon aria-hidden="true" className="size-4" />
         {label}
@@ -68,26 +66,21 @@ export default async function GamePage({ params }: GamePageProps) {
         </Button>
       </div>
 
-      <div
-        className={cn(
-          "flex h-64 items-center justify-center rounded-3xl p-6 md:h-96",
-          CATEGORY_SURFACE[game.category],
-        )}
-      >
+      <GameStub game={game} className="h-64 rounded-3xl p-6 shadow-raised md:sticky md:top-24 md:h-96">
         <GameIllustration slug={game.slug} />
-      </div>
+      </GameStub>
 
       <div className="flex flex-col gap-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{CATEGORY_LABELS[game.category]}</Badge>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="font-medium text-muted-foreground">{CATEGORY_LABELS[game.category]}</span>
           <StatusIndicator status={game.status} />
         </div>
-        <h1 className="font-display text-4xl leading-tight text-brand-yellow md:text-5xl">
+        <h1 className="font-display text-5xl leading-none text-brand-yellow md:text-6xl">
           {game.name}
         </h1>
         <p className="text-xl">{game.description}</p>
 
-        <dl className="grid gap-3 sm:grid-cols-2">
+        <dl className="grid gap-px overflow-hidden rounded-2xl bg-border shadow-card sm:grid-cols-2">
           <GameFact icon={Users} label="Jugadores" value={formatPlayers(game.players)} />
           <GameFact icon={Clock} label="Duración" value={formatDuration(game.durationMinutes)} />
           <GameFact icon={Backpack} label="Materiales" value={formatMaterials(game.materials)} />

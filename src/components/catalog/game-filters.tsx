@@ -111,7 +111,7 @@ export function GameFilters({ filters, onChange }: GameFiltersProps) {
 
       <div
         id={morePanelId}
-        className={cn("flex-col gap-5 md:flex md:flex-row md:justify-between md:gap-6", moreOpen ? "flex" : "hidden")}
+        className={cn("flex-col gap-5 md:flex", moreOpen ? "flex" : "hidden")}
       >
         <FilterGroup label="Duración">
           <ChipOptions

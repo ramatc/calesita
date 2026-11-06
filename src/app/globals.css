@@ -188,6 +188,11 @@
   );
 }
 
+/* Keeps a texture at the edges of a surface, clear of the text in its center. */
+@utility edge-fade {
+  mask-image: radial-gradient(ellipse at center, transparent 45%, #000 90%);
+}
+
 /* A string of carousel bulbs used as a section divider. */
 @utility bulb-line {
   height: 0.75rem;

@@ -92,7 +92,7 @@ export function GameCatalog() {
           <p className="text-muted-foreground">
             Probá con menos filtros o con otra cantidad de jugadores.
           </p>
-          <Button size="xl" onClick={clearFilters}>
+          <Button variant="marquee" size="xl" onClick={clearFilters}>
             Limpiar filtros
           </Button>
         </div>

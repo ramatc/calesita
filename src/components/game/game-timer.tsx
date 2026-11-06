@@ -23,12 +23,12 @@ export function GameTimer({ timer, onPause, onResume, onExpire }: GameTimerProps
   const isLow = remainingMs <= LOW_TIME_MS;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3 rounded-3xl bg-card p-4 shadow-card">
       <div className="flex items-center justify-between gap-3">
         <time
           role="timer"
           className={cn(
-            "font-display text-6xl leading-none text-brand-yellow",
+            "font-display text-6xl leading-none text-brand-yellow md:text-7xl",
             isLow && "text-brand-pink",
             isLow && isRunning && "animate-twinkle",
           )}
@@ -45,7 +45,12 @@ export function GameTimer({ timer, onPause, onResume, onExpire }: GameTimerProps
           {isRunning ? "Pausar" : "Seguir"}
         </Button>
       </div>
-      <ProgressIndicator value={remainingMs} max={timer.durationMs} label="Tiempo restante" />
+      <ProgressIndicator
+        value={remainingMs}
+        max={timer.durationMs}
+        label="Tiempo restante"
+        urgent={isLow}
+      />
     </div>
   );
 }

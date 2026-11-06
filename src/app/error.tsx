@@ -13,7 +13,7 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
       <p className="text-lg text-muted-foreground">
         Algo salió mal. Probá de nuevo.
       </p>
-      <Button size="xl" onClick={reset}>
+      <Button variant="marquee" size="xl" onClick={reset}>
         Reintentar
       </Button>
     </main>

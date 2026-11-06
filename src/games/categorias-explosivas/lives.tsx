@@ -1,5 +1,6 @@
-import { ChevronDown, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
+import { Disclosure } from "@/components/design/disclosure";
 import { Scoreboard } from "@/components/game/scoreboard";
 import type { Game } from "@/games/categorias-explosivas/logic";
 import { cn } from "@/lib/utils";
@@ -39,14 +40,10 @@ export function LivesBoard({ game }: { game: Game }) {
   }));
 
   return (
-    <details className="group">
-      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-center gap-2 font-semibold [&::-webkit-details-marker]:hidden">
-        Vidas de todos
-        <ChevronDown aria-hidden className="size-5 transition-transform group-open:rotate-180" />
-      </summary>
-      <div className="mt-2 max-h-56 overflow-y-auto">
+    <Disclosure summary="Vidas de todos">
+      <div className="max-h-56 overflow-y-auto">
         <Scoreboard label="Vidas de cada jugador" entries={entries} />
       </div>
-    </details>
+    </Disclosure>
   );
 }

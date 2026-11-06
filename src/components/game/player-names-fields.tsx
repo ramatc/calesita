@@ -23,7 +23,7 @@ export function PlayerNamesFields({ count }: PlayerNamesFieldsProps) {
   }
 
   return (
-    <details className="rounded-2xl bg-card p-4">
+    <details className="rounded-2xl bg-secondary p-4">
       <summary className="cursor-pointer font-semibold">Ponerles nombre (opcional)</summary>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {Array.from({ length: count }, (_, index) => (

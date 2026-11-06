@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Play, SkipForward } from "lucide-react";
+import { Check, EyeOff, Play, SkipForward } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { GameTimer } from "@/components/game/game-timer";
 import { PromptCard } from "@/components/game/prompt-card";
@@ -30,6 +31,15 @@ export function Scores({ teams, highlightedId }: ScoresProps) {
   );
 }
 
+/** The middle of a turn change: one message, away from any prompt. */
+function TurnPanel({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-4xl bg-card p-6 text-center shadow-card">
+      {children}
+    </div>
+  );
+}
+
 type HandoffViewProps = {
   game: Game;
   onBeginTurn: () => void;
@@ -41,14 +51,17 @@ export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 pb-4">
-      <div className="flex flex-1 flex-col justify-center gap-3 text-center">
-        <h1 className="font-display text-5xl leading-tight text-brand-yellow">
+      <TurnPanel>
+        <span className="flex size-16 items-center justify-center rounded-full bg-brand-yellow text-brand-ink">
+          <EyeOff aria-hidden="true" className="size-8" />
+        </span>
+        <h1 className="font-display text-5xl leading-none text-brand-yellow">
           Le toca a {team.name}
         </h1>
         <p className="text-xl">
           Pasale el celular a quien va a actuar. Los demás, sin mirar la pantalla.
         </p>
-      </div>
+      </TurnPanel>
       <Scores teams={game.teams} highlightedId={team.id} />
       <Button variant="marquee" size="xl" className="w-full" onClick={onBeginTurn}>
         <Play />
@@ -119,14 +132,14 @@ export function SummaryView({ game, onNext }: SummaryViewProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 pb-4">
-      <div className="flex flex-1 flex-col justify-center gap-3 text-center">
-        <h1 className="font-display text-5xl leading-tight text-brand-yellow">
+      <TurnPanel>
+        <h1 className="font-display text-5xl leading-none text-brand-yellow">
           ¡Se acabó el tiempo!
         </h1>
         <p className="text-xl">
           {team.name} sumó {points} en este turno.
         </p>
-      </div>
+      </TurnPanel>
       <Scores teams={game.teams} highlightedId={team.id} />
       <Button variant="marquee" size="xl" className="w-full" onClick={onNext}>
         {isLastTurn(game) ? "Ver resultados" : `Sigue ${nextTeam.name}`}

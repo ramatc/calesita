@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Disclosure } from "@/components/design/disclosure";
 import { GameFrame } from "@/components/game/game-frame";
 import { GameResults } from "@/components/game/game-results";
 import { GameSetup } from "@/components/game/game-setup";
@@ -50,7 +51,7 @@ export default function DesafioRelampagoScreen() {
           dispatch({ type: "end" });
         }}
       >
-        <h1 className="text-center text-2xl font-bold">
+        <h1 className="text-center font-display text-3xl">
           Le toca a <span className="text-brand-yellow">{game.players[game.turn].name}</span>
         </h1>
         <PromptCard
@@ -60,14 +61,9 @@ export default function DesafioRelampagoScreen() {
         />
         <p className="text-center text-lg text-balance">{challenge?.instructions}</p>
         <ChallengeControls game={game} dispatch={dispatch} />
-        <details>
-          <summary className="flex min-h-11 cursor-pointer items-center justify-center font-semibold">
-            Ver cómo va cada uno
-          </summary>
-          <div className="mt-2">
-            <TallyBoard players={game.players} tallies={game.tallies} turn={game.turn} />
-          </div>
-        </details>
+        <Disclosure summary="Ver cómo va cada uno">
+          <TallyBoard players={game.players} tallies={game.tallies} turn={game.turn} />
+        </Disclosure>
       </GameFrame>
     );
   }

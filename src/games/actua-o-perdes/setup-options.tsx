@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { OptionGroup } from "@/components/design/option-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,45 +19,6 @@ export type SetupValues = {
   rounds: Rounds;
 };
 
-type OptionChipsProps<T extends number> = {
-  id: string;
-  label: string;
-  options: readonly T[];
-  value: T;
-  format: (option: T) => string;
-  onChange: (option: T) => void;
-};
-
-function OptionChips<T extends number>({
-  id,
-  label,
-  options,
-  value,
-  format,
-  onChange,
-}: OptionChipsProps<T>) {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <span id={id} className="font-semibold text-muted-foreground">
-        {label}
-      </span>
-      <div role="group" aria-labelledby={id} className="flex gap-2">
-        {options.map((option) => (
-          <Button
-            key={option}
-            variant={option === value ? "marquee" : "secondary"}
-            size="chip"
-            aria-pressed={option === value}
-            onClick={() => onChange(option)}
-          >
-            {format(option)}
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 type SetupOptionsProps = {
   values: SetupValues;
   onChange: (values: SetupValues) => void;
@@ -75,7 +36,7 @@ export function SetupOptions({ values, onChange }: SetupOptionsProps) {
 
   return (
     <>
-      <OptionChips
+      <OptionGroup
         id="setup-turn-seconds"
         label="¿Cuánto dura cada turno?"
         options={TURN_SECONDS_OPTIONS}
@@ -83,7 +44,7 @@ export function SetupOptions({ values, onChange }: SetupOptionsProps) {
         format={(seconds) => `${seconds} s`}
         onChange={(turnSeconds) => onChange({ ...values, turnSeconds })}
       />
-      <OptionChips
+      <OptionGroup
         id="setup-rounds"
         label="¿Cuántas rondas?"
         options={ROUNDS_OPTIONS}
@@ -91,7 +52,7 @@ export function SetupOptions({ values, onChange }: SetupOptionsProps) {
         format={String}
         onChange={(rounds) => onChange({ ...values, rounds })}
       />
-      <details className="rounded-2xl bg-card p-4">
+      <details className="rounded-2xl bg-secondary p-4">
         <summary className="cursor-pointer font-semibold">
           Ponerles nombre a los equipos (opcional)
         </summary>

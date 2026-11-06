@@ -25,13 +25,13 @@ export function Scoreboard({ label, entries }: ScoreboardProps) {
           key={entry.id}
           aria-current={entry.highlighted ? "true" : undefined}
           className={cn(
-            "flex items-center justify-between gap-3 rounded-2xl bg-card px-4 py-3 text-lg font-semibold",
+            "flex items-center justify-between gap-3 rounded-2xl bg-card px-4 py-3 text-lg font-semibold shadow-card",
             entry.highlighted && "bg-brand-yellow text-brand-ink",
             entry.dimmed && "opacity-50",
           )}
         >
           <span className="min-w-0 truncate">{entry.name}</span>
-          <span className="shrink-0" data-tabular>
+          <span className="shrink-0 font-display text-xl" data-tabular>
             {entry.value}
           </span>
         </li>
