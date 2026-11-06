@@ -8,6 +8,7 @@ import { GameStub } from "@/components/catalog/game-card-parts";
 import { GameInstructions } from "@/components/game/game-instructions";
 import { Button } from "@/components/ui/button";
 import { usePersistentStore } from "@/hooks/use-persistent-store";
+import { lockGameCast } from "@/lib/character-cast";
 import { playerCountStore } from "@/lib/player-count";
 import type { GameDefinition } from "@/types/game";
 
@@ -27,6 +28,7 @@ export function GameSetup({ game, onStart, children }: GameSetupProps) {
 
   function start() {
     playerCountStore.set(players);
+    lockGameCast(game.slug, players);
     onStart(players);
   }
 

@@ -3,6 +3,8 @@
 import { Check, Play, Shuffle, X } from "lucide-react";
 import { useState } from "react";
 
+import { CharacterAvatar } from "@/components/characters/character-avatar";
+import { CharacterSelector } from "@/components/characters/character-selector";
 import { OptionGroup } from "@/components/design/option-group";
 import { GameFrame } from "@/components/game/game-frame";
 import { GameResults } from "@/components/game/game-results";
@@ -24,6 +26,7 @@ import {
   reduceSession,
   SECONDS_OPTIONS,
   sessionStore,
+  SLUG,
   type Action,
   type Game,
   type LivesOption,
@@ -31,7 +34,9 @@ import {
   type SecondsOption,
 } from "@/games/categorias-explosivas/logic";
 import { createPlayers } from "@/games/players";
+import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
+import { getGameNames } from "@/lib/character-cast";
 import { playerNamesStore } from "@/lib/player-names";
 
 const LOSS_MESSAGES: Record<LossReason, string> = {
@@ -41,9 +46,11 @@ const LOSS_MESSAGES: Record<LossReason, string> = {
 
 function TurnLine({ game }: { game: Game }) {
   const player = game.players[game.currentIndex];
+  const character = useGameCast(SLUG).forSeat(player.id);
 
   return (
     <p aria-live="polite" className="flex items-center justify-center gap-3 text-2xl font-bold">
+      {character && <CharacterAvatar character={character} size="sm" />}
       <span className="min-w-0 truncate">Turno de {player.name}</span>
       <LivesHearts lives={player.lives} maxLives={game.maxLives} />
     </p>
@@ -107,10 +114,14 @@ function ReadyControls({ dispatch }: Pick<PhaseProps, "dispatch">) {
 }
 
 function LifeLostControls({ game, dispatch }: PhaseProps) {
-  const { lives } = game.players[game.currentIndex];
+  const { id, lives } = game.players[game.currentIndex];
+  const character = useGameCast(SLUG).forSeat(id);
 
   return (
     <>
+      {character && (
+        <CharacterAvatar character={character} expression="sad" className="self-center" />
+      )}
       <p className="text-center text-xl font-semibold">
         {game.lastLoss && LOSS_MESSAGES[game.lastLoss]}{" "}
         {lives === 0
@@ -138,10 +149,12 @@ function getLossHeadline({ players, currentIndex }: Game) {
 
 function FinalResults({ game, dispatch }: PhaseProps) {
   const winner = getWinner(game);
+  const { forSeats } = useGameCast(SLUG);
 
   return (
     <GameResults
       title={winner ? `¡Ganó ${winner.name}!` : "¡Se terminó!"}
+      winners={winner ? forSeats([winner.id]) : []}
       onPlayAgain={() => dispatch({ type: "end" })}
     >
       {winner && (
@@ -162,13 +175,13 @@ export default function CategoriasExplosivasScreen() {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [seconds, setSeconds] = useState<SecondsOption>(DEFAULT_SECONDS);
   const [lives, setLives] = useState<LivesOption>(DEFAULT_LIVES);
-  const definition = getGameBySlug("categorias-explosivas");
+  const definition = getGameBySlug(SLUG);
   const { game } = session;
 
   function start(count: number) {
     dispatch({
       type: "start",
-      players: createPlayers(count, playerNamesStore.get()),
+      players: createPlayers(count, getGameNames(SLUG, playerNamesStore.get(), count)),
       seconds,
       lives,
     });
@@ -228,6 +241,7 @@ export default function CategoriasExplosivasScreen() {
               format={String}
               onChange={setLives}
             />
+            <CharacterSelector count={players} />
             <PlayerNamesFields count={players} />
           </>
         )}

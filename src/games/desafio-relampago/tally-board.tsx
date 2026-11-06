@@ -1,8 +1,9 @@
 import { Check, SkipForward, X, type LucideIcon } from "lucide-react";
 
 import { Scoreboard } from "@/components/game/scoreboard";
-import type { Outcome, Tally } from "@/games/desafio-relampago/logic";
+import { SLUG, type Outcome, type Tally } from "@/games/desafio-relampago/logic";
 import type { Player } from "@/games/players";
+import { useGameCast } from "@/hooks/use-game-cast";
 
 const COLUMNS: { outcome: Outcome; label: string; Icon: LucideIcon }[] = [
   { outcome: "completed", label: "Completados", Icon: Check },
@@ -32,12 +33,15 @@ type TallyBoardProps = {
 };
 
 export function TallyBoard({ players, tallies, turn }: TallyBoardProps) {
+  const { forSeats } = useGameCast(SLUG);
+
   return (
     <Scoreboard
       label="Resultados por jugador"
       entries={players.map((player, index) => ({
         id: player.id,
         name: player.name,
+        characters: forSeats([player.id]),
         value: <TallyValue tally={tallies[index]} />,
         highlighted: index === turn,
       }))}

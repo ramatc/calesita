@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { CharacterSelector } from "@/components/characters/character-selector";
 import { GameFrame } from "@/components/game/game-frame";
 import { GameResults } from "@/components/game/game-results";
 import { GameSetup } from "@/components/game/game-setup";
@@ -13,6 +14,7 @@ import {
   DEFAULT_TURN_SECONDS,
   reduceSession,
   sessionStore,
+  SLUG,
   type Game,
 } from "@/games/actua-o-perdes/logic";
 import {
@@ -23,7 +25,10 @@ import {
 } from "@/games/actua-o-perdes/play-views";
 import { SetupOptions, type SetupValues } from "@/games/actua-o-perdes/setup-options";
 import { getLeaders } from "@/games/players";
+import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
+
+const TEAMS_HINT = "Los números impares van a un equipo y los pares al otro.";
 
 const INITIAL_SETUP: SetupValues = {
   teamNames: [],
@@ -40,12 +45,18 @@ export default function ActuaOPerdesScreen() {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [setup, setSetup] = useState(INITIAL_SETUP);
   const [endedGame, setEndedGame] = useState<Game | null>(null);
-  const definition = getGameBySlug("actua-o-perdes");
+  const definition = getGameBySlug(SLUG);
+  const { forSeats } = useGameCast(SLUG);
   const { game } = session;
 
   function start(players: number, values: SetupValues) {
     setEndedGame(null);
     dispatch({ type: "start", players, ...values });
+  }
+
+  function getWinners({ teams }: Game) {
+    const leaders = getLeaders(teams);
+    return leaders.length === 1 ? forSeats(leaders[0].playerIds) : [];
   }
 
   function playAgain({ players, teams, turnSeconds, totalRounds }: Game) {
@@ -61,7 +72,11 @@ export default function ActuaOPerdesScreen() {
   if (game?.phase === "finished") {
     return (
       <GameFrame>
-        <GameResults title={getResultTitle(game)} onPlayAgain={() => playAgain(game)}>
+        <GameResults
+          title={getResultTitle(game)}
+          winners={getWinners(game)}
+          onPlayAgain={() => playAgain(game)}
+        >
           <div className="flex flex-col gap-3">
             <Scores teams={game.teams} />
             <Button
@@ -125,7 +140,12 @@ export default function ActuaOPerdesScreen() {
   return (
     <GameFrame>
       <GameSetup game={definition} onStart={(players) => start(players, setup)}>
-        {() => <SetupOptions values={setup} onChange={setSetup} />}
+        {(players) => (
+          <>
+            <SetupOptions values={setup} onChange={setSetup} />
+            <CharacterSelector count={players} hint={TEAMS_HINT} />
+          </>
+        )}
       </GameSetup>
     </GameFrame>
   );

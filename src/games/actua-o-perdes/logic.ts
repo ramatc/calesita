@@ -2,6 +2,8 @@ import { PROMPT_IDS } from "@/content/actua-o-perdes";
 import { createDeck, drawCard, isDeck, type Deck } from "@/games/deck";
 import { addTeamPoint, createPlayers, createTeams, isTeam, type Team } from "@/games/players";
 import { createPersistentStore } from "@/lib/storage";
+
+export const SLUG = "actua-o-perdes";
 import {
   createTimer,
   getRemainingMs,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeroStage } from "@/components/brand/hero-stage";
 import { SloganMarquee } from "@/components/brand/slogan-marquee";
 import { CategoryCard } from "@/components/catalog/category-card";
+import { CharacterLineup } from "@/components/characters/character-lineup";
 import { FeaturedGameCard } from "@/components/catalog/featured-game-card";
 import { SectionHeading } from "@/components/design/section-heading";
 import { GameCard } from "@/components/catalog/game-card";
@@ -87,6 +88,17 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section aria-labelledby="cast-heading" className="mx-auto w-full max-w-6xl px-5 pb-20">
+        <SectionHeading
+          id="cast-heading"
+          title="La barra"
+          description="Elegí quién sos antes de jugar. Si no, entrás igual."
+        />
+        <div className="reveal mt-8">
+          <CharacterLineup />
+        </div>
       </section>
     </main>
   );

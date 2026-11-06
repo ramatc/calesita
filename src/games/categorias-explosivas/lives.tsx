@@ -2,7 +2,8 @@ import { Heart } from "lucide-react";
 
 import { Disclosure } from "@/components/design/disclosure";
 import { Scoreboard } from "@/components/game/scoreboard";
-import type { Game } from "@/games/categorias-explosivas/logic";
+import { SLUG, type Game } from "@/games/categorias-explosivas/logic";
+import { useGameCast } from "@/hooks/use-game-cast";
 import { cn } from "@/lib/utils";
 
 export function formatLives(lives: number) {
@@ -31,9 +32,11 @@ export function LivesHearts({ lives, maxLives }: LivesHeartsProps) {
 
 /** Collapsed under the main action, so a long list never pushes it off the screen. */
 export function LivesBoard({ game }: { game: Game }) {
+  const { forSeats } = useGameCast(SLUG);
   const entries = game.players.map((player, index) => ({
     id: player.id,
     name: player.name,
+    characters: forSeats([player.id]),
     value: <LivesHearts lives={player.lives} maxLives={game.maxLives} />,
     highlighted: index === game.currentIndex,
     dimmed: player.lives === 0,

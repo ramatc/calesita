@@ -2,6 +2,8 @@ import { CATEGORY_IDS } from "@/content/categorias-explosivas";
 import { createDeck, drawCard, isDeck, type Deck } from "@/games/deck";
 import { getNextActiveIndex, isPlayer, type Player } from "@/games/players";
 import { createPersistentStore } from "@/lib/storage";
+
+export const SLUG = "categorias-explosivas";
 import { createTimer, isTimer, pauseTimer, startTimer, type Timer } from "@/lib/timer";
 
 export const SECONDS_OPTIONS = [5, 10, 15] as const;

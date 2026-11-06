@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { CharacterAvatar } from "@/components/characters/character-avatar";
+import { CharacterSelector } from "@/components/characters/character-selector";
 import { Disclosure } from "@/components/design/disclosure";
 import { GameFrame } from "@/components/game/game-frame";
 import { GameResults } from "@/components/game/game-results";
@@ -17,19 +19,23 @@ import {
   getTotals,
   reduceSession,
   sessionStore,
+  SLUG,
   type DifficultyOption,
   type Game,
 } from "@/games/desafio-relampago/logic";
 import { TallyBoard } from "@/games/desafio-relampago/tally-board";
 import { createPlayers, type Player } from "@/games/players";
+import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
+import { getGameNames } from "@/lib/character-cast";
 import { playerNamesStore } from "@/lib/player-names";
 
 export default function DesafioRelampagoScreen() {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [difficulty, setDifficulty] = useState<DifficultyOption>("mixed");
   const [lastGame, setLastGame] = useState<Game | null>(null);
-  const definition = getGameBySlug("desafio-relampago");
+  const definition = getGameBySlug(SLUG);
+  const { forSeat } = useGameCast(SLUG);
   const { game } = session;
 
   function start(players: readonly Player[], chosen: DifficultyOption) {
@@ -41,6 +47,8 @@ export default function DesafioRelampagoScreen() {
 
   if (game) {
     const challenge = getChallenge(game.challengeId);
+    const player = game.players[game.turn];
+    const character = forSeat(player.id);
 
     return (
       <GameFrame
@@ -51,9 +59,12 @@ export default function DesafioRelampagoScreen() {
           dispatch({ type: "end" });
         }}
       >
-        <h1 className="text-center font-display text-3xl">
-          Le toca a <span className="text-brand-yellow">{game.players[game.turn].name}</span>
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          {character && <CharacterAvatar character={character} size="sm" />}
+          <h1 className="min-w-0 text-center font-display text-3xl">
+            Le toca a <span className="text-brand-yellow">{player.name}</span>
+          </h1>
+        </div>
         <PromptCard
           promptId={game.challengeId}
           text={challenge?.title ?? ""}
@@ -92,11 +103,17 @@ export default function DesafioRelampagoScreen() {
     <GameFrame>
       <GameSetup
         game={definition}
-        onStart={(players) => start(createPlayers(players, playerNamesStore.get()), difficulty)}
+        onStart={(players) =>
+          start(
+            createPlayers(players, getGameNames(SLUG, playerNamesStore.get(), players)),
+            difficulty,
+          )
+        }
       >
         {(players) => (
           <>
             <DifficultyPicker value={difficulty} onChange={setDifficulty} />
+            <CharacterSelector count={players} />
             <PlayerNamesFields count={players} />
           </>
         )}

@@ -2,6 +2,8 @@ import { CHALLENGE_IDS, getChallenge, getChallengeIds } from "@/content/desafio-
 import { createDeck, drawCard, isDeck, type Deck } from "@/games/deck";
 import { getNextActiveIndex, isPlayer, type Player } from "@/games/players";
 import { createPersistentStore } from "@/lib/storage";
+
+export const SLUG = "desafio-relampago";
 import {
   createTimer,
   getRemainingMs,

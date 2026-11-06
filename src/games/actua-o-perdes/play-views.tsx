@@ -3,13 +3,15 @@
 import { Check, EyeOff, Play, SkipForward } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { CharacterAvatarStack } from "@/components/characters/character-avatar";
 import { GameTimer } from "@/components/game/game-timer";
 import { PromptCard } from "@/components/game/prompt-card";
 import { Scoreboard } from "@/components/game/scoreboard";
 import { Button } from "@/components/ui/button";
 import { getPrompt } from "@/content/actua-o-perdes";
-import { getTurnTeam, isLastTurn, type Game } from "@/games/actua-o-perdes/logic";
+import { getTurnTeam, isLastTurn, SLUG, type Game } from "@/games/actua-o-perdes/logic";
 import type { Team } from "@/games/players";
+import { useGameCast } from "@/hooks/use-game-cast";
 import type { GameCategory } from "@/types/game";
 
 type ScoresProps = {
@@ -18,12 +20,15 @@ type ScoresProps = {
 };
 
 export function Scores({ teams, highlightedId }: ScoresProps) {
+  const { forSeats } = useGameCast(SLUG);
+
   return (
     <Scoreboard
       label="Puntajes"
       entries={teams.map((team) => ({
         id: team.id,
         name: team.name,
+        characters: forSeats(team.playerIds),
         value: team.score,
         highlighted: team.id === highlightedId,
       }))}
@@ -48,6 +53,7 @@ type HandoffViewProps = {
 /** Renders no prompt: the secret only reaches the DOM once the turn begins. */
 export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
   const team = getTurnTeam(game);
+  const { forSeats } = useGameCast(SLUG);
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 pb-4">
@@ -58,6 +64,7 @@ export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
         <h1 className="font-display text-5xl leading-none text-brand-yellow">
           Le toca a {team.name}
         </h1>
+        <CharacterAvatarStack characters={forSeats(team.playerIds)} size="sm" />
         <p className="text-xl">
           Pasale el celular a quien va a actuar. Los demás, sin mirar la pantalla.
         </p>
