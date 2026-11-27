@@ -48,6 +48,7 @@ export const CAST = [
     },
     arms: { color: "#7B4DFF", width: 25, cuff: "#FFD12F", cuffOffset: 118 },
     legs: { color: "#4D4378", shade: "#2F2752", width: 42, flare: 7, shoe: "#FFD12F" },
+    pose: { left: "hip", right: "wave" },
     accessory: null,
   },
   {
@@ -72,6 +73,7 @@ export const CAST = [
     },
     arms: { color: "#FF8A3D", width: 19, cuff: "#FFF1D6", cuffOffset: 110 },
     legs: { color: "#FFF1D6", shade: "#D9BE94", width: 32, flare: 2, shoe: "#C85412" },
+    pose: { left: "hip", right: "hip" },
     accessory: null,
   },
   {
@@ -97,6 +99,7 @@ export const CAST = [
     },
     arms: { color: "#F4C7A1", width: 25, handSize: 13 },
     legs: { color: "#2F6FA8", shade: "#1C4770", width: 34, flare: 3, hem: 340, shoe: "#FFFFFF" },
+    pose: { left: "hip" },
     accessory: "dumbbell",
   },
   {
@@ -122,6 +125,7 @@ export const CAST = [
     },
     arms: { color: "#FF62AB", width: 17, cuff: "#7A1F3D", cuffOffset: 104 },
     legs: { color: "#7A1F3D", shade: "#4C1026", width: 30, flare: 2, shoe: "#FF62AB" },
+    pose: { left: "wave" },
     accessory: "beer",
   },
   {
@@ -150,7 +154,8 @@ export const CAST = [
     },
     arms: { color: "#FFF0A8", width: 17 },
     legs: { color: "#31D4C5", shade: "#1A9488", width: 30, flare: 2, shoe: "#FFF0A8" },
-    accessory: null,
+    pose: { left: "hip" },
+    accessory: "cigarette",
   },
   {
     id: "chino",
@@ -174,6 +179,7 @@ export const CAST = [
     },
     arms: { color: "#FFFFFF", width: 19, cuff: "#E5243B", cuffOffset: 62 },
     legs: { color: "#3C3560", shade: "#262043", width: 34, flare: 3, hem: 330, sock: "#FFFFFF", shoe: "#E5243B" },
+    pose: { left: "down" },
     accessory: "ball",
   },
   {
@@ -198,6 +204,7 @@ export const CAST = [
     },
     arms: { color: "#FFFFFF", width: 19, cuff: "#2B5FD9", cuffOffset: 62 },
     legs: { color: "#2B5FD9", shade: "#183A90", width: 32, flare: 2, shoe: "#FFFFFF" },
+    pose: { left: "wave" },
     accessory: "burger",
   },
 ];

@@ -88,16 +88,32 @@ function torsoPath({ shoulderY, hipY, shoulder, hip }, { hem = 0 }) {
   return `M${CENTER - shoulder + 12} ${shoulderY}Q${CENTER - shoulder} ${shoulderY + 2} ${CENTER - shoulder} ${shoulderY + 18}L${CENTER - hip} ${bottom}Q${CENTER} ${bottom + 6} ${CENTER + hip} ${bottom}L${CENTER + shoulder} ${shoulderY + 18}Q${CENTER + shoulder} ${shoulderY + 2} ${CENTER + shoulder - 12} ${shoulderY}Z`;
 }
 
+/* Arm poses: where the elbow bends and the hand lands, from the shoulder. */
+const ARM_POSES = {
+  down: ({ startX, startY, direction, length }) => ({
+    hand: { x: startX + direction * 16, y: startY + length },
+    elbow: { x: startX + direction * 20, y: startY + length * 0.5 },
+  }),
+  hold: ({ startX, startY, direction }) => ({
+    hand: { x: startX + direction * 32, y: startY - 12 },
+    elbow: { x: startX + direction * 46, y: startY + 58 },
+  }),
+  wave: ({ startX, startY, direction }) => ({
+    hand: { x: startX + direction * 40, y: startY - 92 },
+    elbow: { x: startX + direction * 62, y: startY - 14 },
+  }),
+  hip: ({ startY, direction, layout }) => ({
+    hand: { x: CENTER + direction * (layout.hip + 4), y: layout.hipY - 14 },
+    elbow: { x: CENTER + direction * (layout.shoulder + 44), y: startY + 54 },
+  }),
+};
+
 function drawArm(layout, side, arm) {
   const direction = side === "left" ? -1 : 1;
   const startX = CENTER + direction * (layout.shoulder - 6);
   const startY = layout.shoulderY + 14;
-  const hand = arm.raised
-    ? { x: startX + direction * 32, y: startY - 12 }
-    : { x: startX + direction * 16, y: startY + arm.length };
-  const elbow = arm.raised
-    ? { x: startX + direction * 46, y: startY + 58 }
-    : { x: startX + direction * 20, y: startY + arm.length * 0.5 };
+  const pose = ARM_POSES[arm.pose ?? "down"]({ startX, startY, direction, layout, length: arm.length });
+  const { hand, elbow } = pose;
   const path = `M${startX} ${startY}Q${elbow.x} ${elbow.y} ${hand.x} ${hand.y}`;
   const width = arm.width;
 
@@ -298,6 +314,16 @@ const ACCESSORIES = {
       stroke(`M${cx} ${cy - 11}V${cy - radius + 1}M${cx + 10.5} ${cy - 3.4}L${cx + radius - 3} ${cy - 10}M${cx + 6.5} ${cy + 9}L${cx + 17} ${cy + 24}M${cx - 6.5} ${cy + 9}L${cx - 17} ${cy + 24}M${cx - 10.5} ${cy - 3.4}L${cx - radius + 3} ${cy - 10}`, INK, 3),
     ].join("");
   },
+  cigarette({ x, y }) {
+    const tip = x + 34;
+    const top = y - 6;
+    return [
+      shape(`M${x - 4} ${top}h${tip - x + 4}v8h-${tip - x + 4}z`, "#FFFDF7"),
+      shape(`M${x - 4} ${top}h11v8h-11z`, "#E89B4A"),
+      flat(`M${tip - 5} ${top + 1.5}h5v5h-5z`, "#FF5A36"),
+      stroke(`M${tip + 2} ${top - 4}q-8 -10 2 -18q10 -8 0 -18q-6 -7 2 -14`, "#C9C3DB", 4),
+    ].join("");
+  },
   burger({ x, y }) {
     const left = x - 38;
     const top = y - 58;
@@ -341,12 +367,9 @@ export function drawCharacter(character) {
   const hair = HAIR[character.hair.style](x, top, character.hair);
   const armColor = character.arms;
 
-  const armLeft = drawArm(layout, "left", { raised: false, ...armColor, length: armColor.length ?? 104 });
-  const armRight = drawArm(layout, "right", {
-    raised: Boolean(character.accessory),
-    ...armColor,
-    length: armColor.length ?? 104,
-  });
+  const pose = { left: "down", right: character.accessory ? "hold" : "down", ...character.pose };
+  const armLeft = drawArm(layout, "left", { ...armColor, pose: pose.left, length: armColor.length ?? 104 });
+  const armRight = drawArm(layout, "right", { ...armColor, pose: pose.right, length: armColor.length ?? 104 });
   const accessory = character.accessory ? ACCESSORIES[character.accessory](armRight.hand) : "";
 
   return [

@@ -31,7 +31,7 @@ const SEEDS: readonly CharacterSeed[] = [
     id: "piku",
     name: "Piku",
     colors: { primary: "#31D4C5", secondary: "#FFF0A8" },
-    accessories: [],
+    accessories: ["Cigarrillo"],
   },
   {
     id: "chino",
