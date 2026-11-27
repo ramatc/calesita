@@ -1,8 +1,12 @@
 "use client";
 
 import { Trophy } from "lucide-react";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
+import { ArcadePanel } from "@/components/arcade/arcade-surface";
+import { CheckerBand } from "@/components/arcade/checker-band";
+import { PixelLabel } from "@/components/arcade/pixel-type";
 import { CharacterAvatar } from "@/components/characters/character-avatar";
 import { FilterChip } from "@/components/design/filter-chip";
 import { OptionGroup } from "@/components/design/option-group";
@@ -14,7 +18,7 @@ import {
   MatchRow,
   RankingRow,
 } from "@/components/hall-of-fame/hall-of-fame-parts";
-import { CHARACTERS, getCharacterById } from "@/content/characters";
+import { CHARACTERS, getCharacterArt, getCharacterById } from "@/content/characters";
 import { usePersistentStore } from "@/hooks/use-persistent-store";
 import { getAchievements } from "@/lib/hall-of-fame/achievements";
 import {
@@ -35,8 +39,8 @@ const HISTORY_PAGE = 10;
 
 function SummaryTile({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col rounded-2xl bg-card/80 px-4 py-3 shadow-card">
-      <span className="font-display text-3xl leading-none text-brand-yellow">{value}</span>
+    <div className="arcade-edge flex flex-col rounded-arcade-card bg-card px-4 py-3">
+      <span className="font-display text-5xl leading-none text-arcade-yellow" data-tabular>{value}</span>
       <span className="text-sm text-muted-foreground">{label}</span>
     </div>
   );
@@ -65,7 +69,7 @@ function GameFilter({ games, value, onChange, label }: {
 
 function CharacterCard({ characterId, history }: { characterId: CharacterId; history: ReturnType<typeof normalizeHistory> }) {
   const character = getCharacterById(characterId);
-  const stats = useMemo(() => getCharacterStats(history, characterId), [history, characterId]);
+  const stats = getCharacterStats(history, characterId);
   if (!character) return null;
   const achievements = getAchievements(stats);
   const recent = [...stats.matches].reverse().slice(0, 3);
@@ -73,14 +77,22 @@ function CharacterCard({ characterId, history }: { characterId: CharacterId; his
   return (
     <article
       aria-labelledby="character-card-title"
-      className="flex flex-col gap-5 rounded-[2rem] border border-brand-yellow/30 bg-card p-5 shadow-raised sm:p-6"
-      style={{ backgroundImage: `radial-gradient(circle at 0% 0%, ${character.colors.primary}55, transparent 60%)` }}
+      className="arcade-edge flex flex-col gap-5 overflow-hidden rounded-arcade-panel bg-card p-5 sm:p-6"
     >
-      <div className="flex items-center gap-4">
-        <CharacterAvatar character={character} size="lg" expression={stats.wins > 0 ? "celebrating" : "neutral"} />
-        <div className="flex flex-col">
-          <h3 id="character-card-title" className="font-display text-4xl leading-none">{character.name}</h3>
-          <p className="mt-1 text-muted-foreground">
+      <div className="-mx-5 -mt-5 flex items-end gap-4 border-b-2 border-arcade-edge px-5 pt-5 sm:-mx-6 sm:-mt-6 sm:px-6" style={{ backgroundColor: `${character.colors.primary}40` }}>
+        <Image
+          src={getCharacterArt(character, "full")}
+          alt=""
+          aria-hidden="true"
+          width={260}
+          height={420}
+          unoptimized
+          className="h-40 w-auto shrink-0 sm:h-52"
+        />
+        <div className="flex flex-col pb-5">
+          <PixelLabel accent>Player profile</PixelLabel>
+          <h3 id="character-card-title" className="font-display text-6xl leading-[0.85]">{character.name}</h3>
+          <p className="mt-2 text-muted-foreground">
             {achievements.filter((entry) => entry.unlocked).length} de {achievements.length} logros
           </p>
         </div>
@@ -95,19 +107,19 @@ function CharacterCard({ characterId, history }: { characterId: CharacterId; his
           ["Derrotas", stats.losses],
           ["Efectividad", formatRate(stats)],
         ].map(([label, value]) => (
-          <div key={label} className="flex flex-col-reverse rounded-2xl bg-secondary/60 px-2 py-3">
+          <div key={label} className="flex flex-col-reverse rounded-arcade-card border-2 border-border bg-secondary px-2 py-3">
             <dt className="text-xs text-muted-foreground">{label}</dt>
-            <dd className={typeof value === "number" ? "font-display text-2xl" : "text-sm font-semibold"}>{value}</dd>
+            <dd className={typeof value === "number" ? "font-display text-4xl leading-none" : "text-sm font-semibold"} data-tabular>{value}</dd>
           </div>
         ))}
       </dl>
 
       {stats.topGames.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h4 className="font-semibold">Juegos más jugados</h4>
+          <h4 className="pixel-label">Juegos más jugados</h4>
           <ul className="flex flex-wrap gap-2">
             {stats.topGames.slice(0, 3).map(({ game, played }) => (
-              <li key={game} className="rounded-full bg-secondary px-3 py-1 text-sm">
+              <li key={game} className="rounded-arcade-control border-2 border-border bg-secondary px-3 py-1 text-sm font-semibold">
                 {getGameName(game)} · {played}
               </li>
             ))}
@@ -116,7 +128,7 @@ function CharacterCard({ characterId, history }: { characterId: CharacterId; his
       )}
 
       <div className="flex flex-col gap-2">
-        <h4 className="font-semibold">Logros</h4>
+        <h4 className="pixel-label">Vitrina de logros</h4>
         <ul className="grid gap-2 sm:grid-cols-2">
           {achievements.map((achievement) => (
             <AchievementTile key={achievement.id} achievement={achievement} />
@@ -126,7 +138,7 @@ function CharacterCard({ characterId, history }: { characterId: CharacterId; his
 
       {recent.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h4 className="font-semibold">Últimas partidas</h4>
+          <h4 className="pixel-label">Últimas partidas</h4>
           <ul className="flex flex-col gap-2">
             {recent.map(({ match }) => (
               <MatchRow key={match.id} match={match} characterId={characterId} />
@@ -162,12 +174,12 @@ export function HallOfFame() {
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-4 pt-6 pb-16 sm:px-5">
-      <header className="relative overflow-hidden rounded-[2rem] bg-card px-5 py-8 shadow-raised motif-bulbs sm:px-8">
-        <div className="flex items-center gap-3 text-brand-yellow">
-          <Trophy aria-hidden className="size-8" />
-          <span className="font-semibold tracking-wide uppercase">La Barra</span>
+      <ArcadePanel as="header" tone="dark" className="relative overflow-hidden px-5 pt-8 sm:px-8">
+        <div className="flex items-center gap-3 text-arcade-yellow">
+          <Trophy aria-hidden className="size-7" />
+          <PixelLabel>High scores · La barra</PixelLabel>
         </div>
-        <h1 className="mt-2 font-display text-[clamp(2.75rem,12vw,4.5rem)] leading-[0.95] text-brand-yellow">
+        <h1 className="mt-2 font-display text-[clamp(3.5rem,15vw,6rem)] leading-[0.82] text-arcade-yellow">
           Salón de la Fama
         </h1>
         <p className="mt-3 max-w-xl text-lg text-muted-foreground">
@@ -178,11 +190,26 @@ export function HallOfFame() {
           <SummaryTile value={competitive} label="Competitivas" />
           <SummaryTile value={history.length - competitive} label="Sociales" />
         </div>
-      </header>
+        <div aria-hidden="true" className="relative mt-6 -mb-1 flex items-end justify-center">
+          {CHARACTERS.map((character) => (
+            <Image
+              key={character.id}
+              src={getCharacterArt(character, "full")}
+              alt=""
+              width={260}
+              height={420}
+              unoptimized
+              className="relative z-10 -mx-[1.5%] h-auto w-[16%] max-w-28"
+            />
+          ))}
+          <CheckerBand className="absolute inset-x-[-2rem] bottom-0 h-8 opacity-70" size={1} />
+        </div>
+      </ArcadePanel>
 
       <section aria-labelledby="ranking-title" className="flex flex-col gap-5">
         <SectionHeading
           id="ranking-title"
+          eyebrow="Top players"
           title="Ranking"
           description={`El porcentaje es victorias sobre partidas competitivas con resultado. Hacen falta ${MIN_RANKED_MATCHES} para clasificar.`}
         />
@@ -196,7 +223,7 @@ export function HallOfFame() {
         />
         <GameFilter games={games} value={rankingGame} onChange={setRankingGame} label="Juego" />
         {history.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-border p-4 text-muted-foreground">
+          <p className="rounded-arcade-card border-2 border-dashed border-border p-4 text-muted-foreground">
             Todavía no hay partidas registradas. Terminen un juego y la barra empieza a sumar.
           </p>
         )}
@@ -219,7 +246,7 @@ export function HallOfFame() {
       </section>
 
       <section aria-labelledby="history-title" className="flex flex-col gap-5">
-        <SectionHeading id="history-title" title="Historial" description="Las partidas más recientes primero." />
+        <SectionHeading id="history-title" eyebrow="Credits" title="Historial" description="Las partidas más recientes primero." />
         {history.length > 0 && (
           <>
             <div className="flex flex-col gap-2">
@@ -245,7 +272,7 @@ export function HallOfFame() {
           </>
         )}
         {filteredHistory.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border p-4 text-muted-foreground">
+          <p className="rounded-arcade-card border-2 border-dashed border-border p-4 text-muted-foreground">
             {history.length === 0 ? "El historial está vacío por ahora." : "No hay partidas con estos filtros."}
           </p>
         ) : (

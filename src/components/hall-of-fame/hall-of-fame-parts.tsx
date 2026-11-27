@@ -43,8 +43,8 @@ export function PositionBadge({ position }: { position: number | null }) {
     <span
       aria-label={position === null ? "Sin posición" : `Puesto ${position}`}
       className={cn(
-        "flex size-10 shrink-0 items-center justify-center rounded-full font-display text-xl",
-        medal ? "text-brand-ink shadow-card" : "bg-secondary text-muted-foreground",
+        "flex size-11 shrink-0 items-center justify-center rounded-arcade-control border-2 font-display text-3xl leading-none",
+        medal ? "border-arcade-ink text-arcade-ink" : "border-border bg-secondary text-muted-foreground",
       )}
       style={medal ? { backgroundColor: medal } : undefined}
     >
@@ -72,20 +72,20 @@ export function RankingRow({ entry, criterion, selected, onSelect }: RankingRowP
         aria-pressed={selected}
         onClick={onSelect}
         className={cn(
-          "flex w-full items-center gap-3 rounded-3xl border-2 bg-card p-3 text-left shadow-card transition-[border-color,transform] duration-200 ease-(--ease-out-expo) active:scale-[0.98] sm:gap-4 sm:p-4",
-          selected ? "border-brand-yellow" : "border-transparent hover:border-brand-lavender",
+          "arcade-edge arcade-press flex w-full items-center gap-3 rounded-arcade-card border-l-8 bg-card p-3 text-left sm:gap-4 sm:p-4",
+          selected && "outline-3 outline-offset-2 outline-arcade-yellow",
         )}
-        style={{ backgroundImage: `linear-gradient(100deg, ${character.colors.primary}33, transparent 55%)` }}
+        style={{ borderLeftColor: character.colors.primary }}
       >
         <PositionBadge position={entry.position} />
         <CharacterAvatar character={character} size="sm" />
         <span className="flex min-w-0 flex-1 flex-col">
-          <span className="truncate font-display text-2xl leading-tight">{character.name}</span>
+          <span className="truncate font-display text-3xl leading-none">{character.name}</span>
           <span className="text-sm text-muted-foreground">
             {stats.wins}G · {stats.ties}E · {stats.losses}P · {stats.played} jugadas
           </span>
         </span>
-        <span className="shrink-0 text-right font-semibold text-brand-yellow">
+        <span className="shrink-0 text-right font-display text-2xl leading-none text-arcade-yellow" data-tabular>
           {criterionText(stats, criterion)}
         </span>
       </button>
@@ -100,15 +100,15 @@ export function AchievementTile({ achievement }: { achievement: Achievement }) {
   return (
     <li
       className={cn(
-        "flex gap-3 rounded-2xl border p-3",
-        achievement.unlocked ? "border-brand-yellow/60 bg-brand-yellow/10" : "border-border bg-secondary/40",
+        "flex gap-3 rounded-arcade-card border-2 p-3",
+        achievement.unlocked ? "border-arcade-yellow bg-secondary shadow-arcade-sm" : "border-dashed border-border",
       )}
     >
       <span
         aria-hidden
         className={cn(
-          "flex size-11 shrink-0 items-center justify-center rounded-full",
-          achievement.unlocked ? "bg-brand-yellow text-brand-ink" : "bg-card text-muted-foreground",
+          "flex size-11 shrink-0 items-center justify-center rounded-arcade-control border-2",
+          achievement.unlocked ? "border-arcade-ink bg-arcade-yellow text-arcade-ink" : "border-border text-muted-foreground",
         )}
       >
         <Icon className="size-5" />
@@ -127,9 +127,9 @@ export function AchievementTile({ achievement }: { achievement: Achievement }) {
               aria-valuemin={0}
               aria-valuemax={achievement.goal}
               aria-valuenow={achievement.progress}
-              className="h-1.5 flex-1 overflow-hidden rounded-full bg-card"
+              className="h-2 flex-1 overflow-hidden rounded-[2px] bg-card"
             >
-              <span className="block h-full rounded-full bg-brand-lavender" style={{ width: `${percent}%` }} />
+              <span className="block h-full bg-arcade-turquoise" style={{ width: `${percent}%` }} />
             </span>
             {achievement.progress}/{achievement.goal}
           </span>
@@ -180,7 +180,7 @@ export function MatchRow({ match, characterId }: { match: MatchResult; character
   });
 
   return (
-    <li className="flex flex-col gap-2 rounded-2xl bg-card p-4 shadow-card">
+    <li className="flex flex-col gap-2 rounded-arcade-card border-2 border-border bg-card p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3">
         <span className="font-semibold">{getGameName(match.game)}</span>
         <time dateTime={match.playedAt} className="text-sm text-muted-foreground">
