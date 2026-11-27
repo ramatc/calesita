@@ -18,6 +18,15 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Arcade tokens: a flat chip with an ink edge; fills always carry ink text.
+        arcade:
+          "h-6 rounded-arcade-control border-2 border-arcade-edge bg-arcade-raised px-2 font-ui font-bold text-arcade-text",
+        "arcade-yellow":
+          "h-6 rounded-arcade-control border-2 border-arcade-ink bg-arcade-yellow px-2 font-ui font-bold text-arcade-ink",
+        "arcade-pink":
+          "h-6 rounded-arcade-control border-2 border-arcade-ink bg-arcade-pink px-2 font-ui font-bold text-arcade-ink",
+        "arcade-turquoise":
+          "h-6 rounded-arcade-control border-2 border-arcade-ink bg-arcade-turquoise px-2 font-ui font-bold text-arcade-ink",
       },
     },
     defaultVariants: {

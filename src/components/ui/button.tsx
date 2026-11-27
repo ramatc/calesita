@@ -20,6 +20,15 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-brand-ink hover:bg-destructive/85 focus-visible:border-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        // Arcade system: hard edge, flat drop shadow, ink text on every fill for AA contrast.
+        arcade:
+          "arcade-edge arcade-press bg-arcade-yellow font-ui font-bold text-arcade-ink",
+        "arcade-orange":
+          "arcade-edge arcade-press bg-arcade-orange font-ui font-bold text-arcade-ink",
+        "arcade-outline":
+          "arcade-edge arcade-press bg-arcade-raised font-ui font-semibold text-arcade-text",
+        "arcade-ghost":
+          "font-ui font-semibold text-arcade-text underline-offset-4 hover:underline hover:decoration-2",
       },
       size: {
         default:
@@ -28,6 +37,10 @@ const buttonVariants = cva(
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
         xl: "h-14 gap-2 rounded-2xl px-6 text-lg font-semibold [&_svg:not([class*='size-'])]:size-5",
+        arcade:
+          "h-12 gap-2 rounded-arcade-control px-5 text-base [&_svg:not([class*='size-'])]:size-5",
+        "arcade-xl":
+          "h-14 gap-2.5 rounded-arcade-control px-7 text-lg [&_svg:not([class*='size-'])]:size-5",
         chip: "h-11 gap-2 rounded-full px-3.5 text-base [&_svg:not([class*='size-'])]:size-5",
         touch: "size-11 rounded-full [&_svg:not([class*='size-'])]:size-5",
         icon: "size-8",
