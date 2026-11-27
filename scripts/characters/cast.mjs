@@ -19,14 +19,10 @@ const shortBuild = { shoulders: 72, hips: 62 };
 const neck = (fill) => ({ y, center }) =>
   `<path d="M${center - 20} ${y + 1}q20 16 40 0" fill="none" stroke="${fill}" stroke-width="7" stroke-linecap="round"/>`;
 
-const chain = (color) => ({ y, center }) =>
-  `<path d="M${center - 24} ${y + 2}q24 26 48 0" fill="none" stroke="${color}" stroke-width="3.5" stroke-dasharray="4 2.5" stroke-linecap="round"/>`;
-
 const pearls = ({ y, center }) =>
   `<path d="M${center - 22} ${y + 2}q22 22 44 0" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="0.1 6" stroke-linecap="round"/>`;
 
 const BLACK_TEE = "#1C1A22";
-const SILVER = "#D9DCE3";
 
 function star(cx, cy, radius) {
   const points = Array.from({ length: 10 }, (_, index) => {
@@ -220,12 +216,15 @@ export const CAST = [
       mouth: "smile",
     },
     outfit: {
-      color: BLACK_TEE,
-      shade: "#0B0A10",
+      color: "#FFFFFF",
+      shade: "#9FB0D8",
       hem: 4,
-      collar: chain(SILVER),
+      draw: ({ top, center }) =>
+        `<path d="M${center - 46} ${top + 2}L${center} ${top + 82}L${center + 46} ${top + 2}" fill="none" stroke="#1F4FC8" stroke-width="20"/>`,
+      collar: ({ y, center }) =>
+        `<path d="M${center - 22} ${y + 1}q22 16 44 0" fill="none" stroke="#1F4FC8" stroke-width="7" stroke-linecap="round"/><path d="M${center - 22} ${y + 1}q22 16 44 0" fill="none" stroke="#FFFFFF" stroke-width="2"/>`,
     },
-    arms: { color: BLACK_TEE, width: 19, cuff: "#2E2B38", cuffOffset: 62 },
+    arms: { color: "#FFFFFF", width: 19, cuff: "#1F4FC8", cuffOffset: 62 },
     legs: { color: "#2F3A55", shade: "#1C2438", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
     accessory: "burger",
