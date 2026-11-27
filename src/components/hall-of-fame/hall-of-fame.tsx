@@ -4,6 +4,7 @@ import { Trophy } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
+import { HallCameo } from "@/components/alive/hall-cameo";
 import { ArcadePanel } from "@/components/arcade/arcade-surface";
 import { CheckerBand } from "@/components/arcade/checker-band";
 import { PixelLabel } from "@/components/arcade/pixel-type";
@@ -190,6 +191,7 @@ export function HallOfFame() {
           <SummaryTile value={competitive} label="Competitivas" />
           <SummaryTile value={history.length - competitive} label="Sociales" />
         </div>
+        <HallCameo />
         <div aria-hidden="true" className="relative mt-6 -mb-1 flex items-end justify-center">
           {CHARACTERS.map((character) => (
             <Image

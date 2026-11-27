@@ -1,5 +1,6 @@
 "use client";
 
+import { AliveSlot } from "@/components/alive/alive-slot";
 import { Minus, Plus } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -36,9 +37,18 @@ export function GameSetup({ game, onStart, children }: GameSetupProps) {
     <div className="flex flex-1 flex-col gap-6">
       <div className="grid items-start gap-6 md:grid-cols-2">
         <div className="flex flex-col gap-5">
-          <GameStub game={game} className="h-36 rounded-arcade-panel arcade-edge">
-            <GameIllustration slug={game.slug} />
-          </GameStub>
+          <div className="relative">
+            <GameStub game={game} className="h-36 rounded-arcade-panel arcade-edge">
+              <GameIllustration slug={game.slug} />
+            </GameStub>
+            <AliveSlot
+              slot="match-start"
+              context="matchStart"
+              side="left"
+              media="(min-width: 768px)"
+              className="absolute -top-4 right-3"
+            />
+          </div>
           <h1 className="font-display text-4xl leading-none text-brand-yellow md:text-5xl">
             {game.name}
           </h1>

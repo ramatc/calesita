@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { AliveSlot } from "@/components/alive/alive-slot";
 import { ArcadePanel } from "@/components/arcade/arcade-surface";
 import { CheckerBand } from "@/components/arcade/checker-band";
 import { PixelLabel } from "@/components/arcade/pixel-type";
@@ -44,6 +45,12 @@ export default function HomePage() {
             <HeroStage />
           </div>
           <CheckerBand fade className="absolute inset-x-0 bottom-0 h-16 opacity-80" />
+          <AliveSlot
+            slot="home-hero"
+            context="welcome"
+            media="(min-width: 1024px)"
+            className="absolute top-8 right-8 z-20"
+          />
         </ArcadePanel>
       </div>
 

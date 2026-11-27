@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { AliveSlot } from "@/components/alive/alive-slot";
 import { PixelLabel } from "@/components/arcade/pixel-type";
 import { GameCatalog, GameGrid } from "@/components/catalog/game-catalog";
 import { GAMES } from "@/content/catalog";
@@ -13,7 +14,13 @@ export const metadata: Metadata = {
 export default function CatalogPage() {
   return (
     <main className="surface-light mt-6 flex-1 border-t-2 border-arcade-ink">
-      <div className="mx-auto w-full max-w-6xl px-5 pt-10 pb-16">
+      <div className="relative mx-auto w-full max-w-6xl px-5 pt-10 pb-16">
+        <AliveSlot
+          slot="catalog"
+          context="firstGame"
+          media="(min-width: 768px)"
+          className="absolute top-10 right-5"
+        />
         <PixelLabel accent>Select game</PixelLabel>
         <h1 className="mt-1 font-display text-6xl leading-[0.85] md:text-7xl">Juegos</h1>
         <p className="mt-3 mb-8 text-lg text-muted-foreground">

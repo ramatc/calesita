@@ -1,6 +1,6 @@
 import { PixelLabel } from "@/components/arcade/pixel-type";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { SortijaIcon } from "@/components/brand/sortija-icon";
 import {
@@ -8,6 +8,8 @@ import {
   CharacterReactionGroup,
 } from "@/components/characters/character-reaction";
 import { Button } from "@/components/ui/button";
+import { fillMessage } from "@/content/alive-messages";
+import { pickMessage, pickResultReaction } from "@/lib/alive/appearance-policy";
 import { cn } from "@/lib/utils";
 import type { Character } from "@/types/character";
 
@@ -54,6 +56,13 @@ export function GameResults({
   losers = [],
 }: GameResultsProps) {
   const [soleWinner] = winners.length === 1 ? winners : [];
+  // Chosen once per results screen, from the outcome the engine already reported.
+  const [line] = useState(() => {
+    const reaction = pickResultReaction({ winners, tied, losers }, Math.random);
+    const character = [...winners, ...losers].find((entry) => entry.id === reaction?.characterId);
+    const message = reaction && pickMessage(reaction.context, null, Math.random);
+    return character && message ? fillMessage(message.text, { name: character.name }) : null;
+  });
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-6 pb-4 text-center">
@@ -77,6 +86,7 @@ export function GameResults({
       <div className="flex flex-col items-center gap-2">
         <PixelLabel className="text-muted-foreground">Game over</PixelLabel>
         <h1 className="font-display text-6xl leading-[0.85] text-arcade-yellow md:text-7xl">{title}</h1>
+        {line && <p className="text-lg font-semibold text-muted-foreground">{line}</p>}
       </div>
       {losers.length > 0 && (
         <CharacterReactionGroup

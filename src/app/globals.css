@@ -102,6 +102,9 @@
   --animate-cheer: cheer 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s 2 backwards;
   --animate-droop: droop 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
   --animate-sway: sway 1.2s ease-in-out 0.2s 2;
+  /* Calesita Alive: a character pops up from its slot, then waves twice and rests. */
+  --animate-peek: peek 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-wave: sway 1s ease-in-out 0.6s 2;
 
   @keyframes bob {
     0%,
@@ -187,6 +190,13 @@
     }
     75% {
       transform: rotate(6deg);
+    }
+  }
+
+  @keyframes peek {
+    from {
+      opacity: 0;
+      transform: translateY(35%);
     }
   }
 
