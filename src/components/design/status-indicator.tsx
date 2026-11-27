@@ -7,25 +7,21 @@ type StatusIndicatorProps = {
   className?: string;
 };
 
-/** Availability reads by shape as well as color: a solid dot means playable now. */
+/**
+ * Only a game the group cannot play yet gets a label: "Disponible" on every
+ * card said nothing once the whole catalog was playable.
+ */
 export function StatusIndicator({ status, className }: StatusIndicatorProps) {
-  const isAvailable = status === "available";
+  if (status === "available") return null;
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold",
-        isAvailable ? "bg-brand-teal/15 text-brand-teal" : "bg-secondary text-muted-foreground",
+        "inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-sm font-semibold text-muted-foreground",
         className,
       )}
     >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "size-2 rounded-full",
-          isAvailable ? "bg-brand-teal" : "border-2 border-brand-lavender",
-        )}
-      />
+      <span aria-hidden="true" className="size-2 rounded-full border-2 border-brand-lavender" />
       {STATUS_LABELS[status]}
     </span>
   );

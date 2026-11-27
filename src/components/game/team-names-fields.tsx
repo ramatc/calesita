@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -18,9 +20,13 @@ export function TeamNamesFields({ names, onChange }: TeamNamesFieldsProps) {
   }
 
   return (
-    <details className="rounded-2xl bg-secondary px-4 py-1.5">
-      <summary className="cursor-pointer py-2.5 font-semibold">
+    <details className="group rounded-2xl bg-secondary px-4 py-1.5">
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 py-1 font-semibold [&::-webkit-details-marker]:hidden">
         Ponerles nombre a los equipos (opcional)
+        <ChevronDown
+          aria-hidden
+          className="size-5 shrink-0 transition-transform group-open:rotate-180"
+        />
       </summary>
       <div className="mt-2 mb-2.5 grid gap-3 sm:grid-cols-2">
         {TEAM_LABELS.map((label, index) => (

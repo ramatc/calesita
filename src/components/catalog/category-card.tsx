@@ -36,11 +36,11 @@ export function CategoryCard({ category }: CategoryCardProps) {
       <span aria-hidden="true" className="absolute -top-2 right-0 left-0 h-44">
         <GameIllustration
           slug={back}
-          className="absolute top-2 right-24 h-32 w-auto -rotate-12 transition-transform duration-500 ease-(--ease-out-expo) group-hover:-translate-x-2 group-hover:-rotate-18"
+          className="absolute top-2 right-24 h-32 w-auto -rotate-12 transition-transform duration-300 ease-(--ease-out-expo) group-hover:-translate-x-2 group-hover:-rotate-18"
         />
         <GameIllustration
           slug={front}
-          className="absolute top-8 -right-3 h-40 w-auto rotate-6 transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-110 group-hover:rotate-12"
+          className="absolute top-8 -right-3 h-40 w-auto rotate-6 transition-transform duration-300 ease-(--ease-out-expo) group-hover:scale-110 group-hover:rotate-12"
         />
       </span>
 

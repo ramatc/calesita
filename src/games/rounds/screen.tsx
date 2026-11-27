@@ -240,7 +240,11 @@ export function RoundsScreen(props: RoundsScreenProps) {
     return (
       <GameFrame>
         <GameResults title="Partida terminada" onPlayAgain={() => start(count, roundsOption)}>
-          <Scores slug={slug} participants={lastGame.participants} />
+          {lastGame.participants.some((participant) => participant.score > 0) ? (
+            <Scores slug={slug} participants={lastGame.participants} />
+          ) : (
+            <p className="text-lg text-muted-foreground">Nadie llegó a sumar puntos.</p>
+          )}
         </GameResults>
       </GameFrame>
     );

@@ -90,7 +90,7 @@ export default async function GamePage({ params }: GamePageProps) {
         {game.status === "available" ? (
           <Button asChild variant="marquee" size="xl" className="w-full">
             <Link href={`/jugar/${game.slug}`}>
-              <Play />
+              <Play className="fill-current" />
               Jugar
             </Link>
           </Button>

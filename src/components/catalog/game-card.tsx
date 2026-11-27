@@ -47,7 +47,7 @@ export function GameCard({ game, className }: GameCardProps) {
   );
 }
 
-/** A slim ticket for games the group cannot play yet, so playable ones keep the spotlight. */
+/** A slim ticket: the phone catalog, and games the group cannot play yet. */
 export function GameRowCard({ game, className }: GameCardProps) {
   return (
     <CardShell game={game} className={className}>

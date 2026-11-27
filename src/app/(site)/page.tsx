@@ -5,18 +5,14 @@ import { HeroStage } from "@/components/brand/hero-stage";
 import { SloganMarquee } from "@/components/brand/slogan-marquee";
 import { CategoryCard } from "@/components/catalog/category-card";
 import { CharacterLineup } from "@/components/characters/character-lineup";
-import { FeaturedGameCard } from "@/components/catalog/featured-game-card";
+import { FeaturedGames } from "@/components/catalog/featured-games";
 import { SectionHeading } from "@/components/design/section-heading";
-import { GameCard } from "@/components/catalog/game-card";
 import { SurpriseButton } from "@/components/catalog/surprise-button";
 import { Button } from "@/components/ui/button";
-import { FEATURED_GAMES, GAMES } from "@/content/catalog";
-import { CATEGORIES, groupByAvailability } from "@/games/catalog-query";
+import { GAMES } from "@/content/catalog";
+import { CATEGORIES } from "@/games/catalog-query";
 
 export default function HomePage() {
-  const { available, comingSoon } = groupByAvailability(FEATURED_GAMES);
-  const [leadGame, ...otherGames] = [...available, ...comingSoon];
-
   return (
     <main className="flex-1 overflow-x-clip">
       <section
@@ -63,16 +59,7 @@ export default function HomePage() {
             </Button>
           }
         />
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <FeaturedGameCard game={leadGame} className="reveal md:col-span-2" />
-          <ul className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-5 overflow-x-auto px-5 py-2 [scrollbar-width:none] md:contents">
-            {otherGames.map((game) => (
-              <li key={game.slug} className="w-72 shrink-0 snap-start md:reveal md:w-auto">
-                <GameCard game={game} className="h-full" />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FeaturedGames />
       </section>
 
       <section

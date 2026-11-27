@@ -15,6 +15,7 @@ import {
 } from "@/games/catalog-query";
 import { usePersistentStore } from "@/hooks/use-persistent-store";
 import { playerCountStore } from "@/lib/player-count";
+import { cn } from "@/lib/utils";
 import type { GameDefinition } from "@/types/game";
 
 const NO_PARAMS: CatalogParams = { category: null, duration: null, material: null };
@@ -26,13 +27,17 @@ export function GameGrid({ games }: { games: readonly GameDefinition[] }) {
     <div className="flex flex-col gap-12">
       {available.length > 0 && (
         <section aria-labelledby="available-games-heading" className="flex flex-col gap-5">
-          <h2 id="available-games-heading" className="font-display text-3xl">
+          <h2
+            id="available-games-heading"
+            className={cn("font-display text-3xl", comingSoon.length === 0 && "sr-only")}
+          >
             Para jugar ahora
           </h2>
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {available.map((game) => (
               <li key={game.slug}>
-                <GameCard game={game} className="h-full" />
+                <GameRowCard game={game} className="h-full sm:hidden" />
+                <GameCard game={game} className="hidden h-full sm:block" />
               </li>
             ))}
           </ul>

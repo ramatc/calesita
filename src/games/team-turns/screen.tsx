@@ -152,7 +152,11 @@ export function TeamTurnsScreen({
     return (
       <GameFrame>
         <GameResults title="Partida terminada" onPlayAgain={() => playAgain(endedGame)}>
-          <Scores slug={SLUG} teams={endedGame.teams} />
+          {endedGame.teams.some((team) => team.score > 0) ? (
+            <Scores slug={SLUG} teams={endedGame.teams} />
+          ) : (
+            <p className="text-lg text-muted-foreground">Nadie llegó a sumar puntos.</p>
+          )}
         </GameResults>
       </GameFrame>
     );

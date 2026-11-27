@@ -51,7 +51,7 @@ export function FeaturedGameCard({ game, className }: FeaturedGameCardProps) {
       >
         <GameIllustration
           slug={game.slug}
-          className="h-full w-auto -rotate-6 drop-shadow-[0_12px_10px_rgb(26_14_48/35%)] transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-105 group-hover:-rotate-2 md:h-auto md:w-[150%] md:max-w-none md:shrink-0"
+          className="h-full w-auto -rotate-6 drop-shadow-[0_12px_10px_rgb(26_14_48/35%)] transition-transform duration-300 ease-(--ease-out-expo) group-hover:scale-105 group-hover:-rotate-2 md:h-auto md:w-[150%] md:max-w-none md:shrink-0"
         />
       </div>
     </CardShell>
