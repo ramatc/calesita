@@ -1,6 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { ArcadePanel } from "@/components/arcade/arcade-surface";
+import { CheckerBand } from "@/components/arcade/checker-band";
+import { PixelLabel } from "@/components/arcade/pixel-type";
 import { HeroStage } from "@/components/brand/hero-stage";
 import { SloganMarquee } from "@/components/brand/slogan-marquee";
 import { CategoryCard } from "@/components/catalog/category-card";
@@ -15,71 +18,77 @@ import { CATEGORIES } from "@/games/catalog-query";
 export default function HomePage() {
   return (
     <main className="flex-1 overflow-x-clip">
-      <section
-        aria-labelledby="hero-heading"
-        className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 pt-8 pb-10 lg:grid-cols-[7fr_5fr] lg:gap-6 lg:pt-10 lg:pb-14"
-      >
-        <div className="flex flex-col gap-6">
-          <h1
-            id="hero-heading"
-            className="font-display text-[clamp(2.5rem,11.6vw,5.5rem)] leading-[0.95] lg:text-[clamp(4rem,7.1vw,5.5rem)]"
-          >
-            <span className="block">Menos pantalla.</span>
-            <span className="block text-brand-yellow">Más quilombo.</span>
-          </h1>
-          <p className="max-w-[36ch] text-lg text-muted-foreground md:text-xl">
-            Party games para jugar en persona, con un solo celular. Sin registro y sin
-            descargar nada.
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-            <Button asChild variant="marquee" size="xl">
-              <Link href="/juegos">Explorar juegos</Link>
-            </Button>
-            <SurpriseButton />
+      <div className="mx-auto w-full max-w-6xl px-3 pt-6 pb-10 sm:px-5 lg:pt-8">
+        <ArcadePanel tone="dark" aria-labelledby="hero-heading" className="relative overflow-hidden">
+          <div className="relative z-10 grid items-end gap-6 px-5 pt-8 sm:px-8 lg:grid-cols-[7fr_5fr] lg:gap-4 lg:px-12 lg:pt-12">
+            <div className="flex flex-col gap-5 lg:pb-14">
+              <PixelLabel accent>Insert coin · 2 o más jugadores</PixelLabel>
+              <h1
+                id="hero-heading"
+                className="font-display text-[clamp(3.5rem,16vw,6.5rem)] leading-[0.82] lg:text-[clamp(5rem,8.4vw,7rem)]"
+              >
+                <span className="block">Menos pantalla.</span>
+                <span className="block text-arcade-yellow">Más quilombo.</span>
+              </h1>
+              <p className="max-w-[38ch] text-lg text-muted-foreground md:text-xl">
+                Party games para jugar en persona, con un solo celular. Sin registro y sin
+                descargar nada.
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                <Button asChild variant="marquee" size="xl">
+                  <Link href="/juegos">Explorar juegos</Link>
+                </Button>
+                <SurpriseButton />
+              </div>
+            </div>
+            <HeroStage />
           </div>
-        </div>
-        <HeroStage />
-      </section>
+          <CheckerBand fade className="absolute inset-x-0 bottom-0 h-16 opacity-80" />
+        </ArcadePanel>
+      </div>
 
       <SloganMarquee />
 
-      <section
-        aria-labelledby="featured-heading"
-        className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20"
-      >
-        <SectionHeading
-          id="featured-heading"
-          title="Destacados"
-          action={
-            <Button asChild variant="ghost" size="chip">
-              <Link href="/juegos">
-                Ver los {GAMES.length}
-                <ArrowRight />
-              </Link>
-            </Button>
-          }
-        />
-        <FeaturedGames />
+      <section aria-labelledby="featured-heading" className="surface-light">
+        <div className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20">
+          <SectionHeading
+            id="featured-heading"
+            eyebrow="Select game"
+            title="Destacados"
+            action={
+              <Button asChild variant="arcade-ghost" size="chip">
+                <Link href="/juegos">
+                  Ver los {GAMES.length}
+                  <ArrowRight />
+                </Link>
+              </Button>
+            }
+          />
+          <FeaturedGames />
+        </div>
       </section>
 
       <section
         id="categorias"
         aria-labelledby="categories-heading"
-        className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 pb-20"
+        className="surface-sky scroll-mt-24 border-y-2 border-arcade-ink"
       >
-        <SectionHeading id="categories-heading" title="Categorías" />
-        <ul className="mt-8 grid gap-5 lg:grid-cols-3">
-          {CATEGORIES.map((category) => (
-            <li key={category} className="reveal">
-              <CategoryCard category={category} />
-            </li>
-          ))}
-        </ul>
+        <div className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20">
+          <SectionHeading id="categories-heading" eyebrow="Choose mode" title="Categorías" />
+          <ul className="mt-8 grid gap-6 lg:grid-cols-3">
+            {CATEGORIES.map((category) => (
+              <li key={category} className="reveal">
+                <CategoryCard category={category} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
-      <section aria-labelledby="cast-heading" className="mx-auto w-full max-w-6xl px-5 pb-20">
+      <section aria-labelledby="cast-heading" className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20">
         <SectionHeading
           id="cast-heading"
+          eyebrow="Player select"
           title="La barra"
           description="Marcá quién está esta noche y sumá invitados. Si no, entran igual."
         />

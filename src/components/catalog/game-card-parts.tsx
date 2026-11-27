@@ -25,10 +25,10 @@ export function CardShell({ game, className, children }: WithChildren) {
   return (
     <div
       className={cn(
-        "group relative rounded-3xl drop-shadow-[0_14px_14px_rgb(7_2_18/55%)] transition-transform duration-300 ease-(--ease-out-expo) has-[[data-card-link]:active]:scale-[0.98] has-[[data-card-link]:focus-visible]:outline-3 has-[[data-card-link]:focus-visible]:outline-offset-2 has-[[data-card-link]:focus-visible]:outline-ring",
+        "group relative rounded-arcade-card transition-transform duration-200 ease-(--ease-out-expo) has-[[data-card-link]:focus-visible]:outline-3 has-[[data-card-link]:focus-visible]:outline-offset-4 has-[[data-card-link]:focus-visible]:outline-ring",
         game.status === "available"
-          ? "hover:-translate-y-1.5 hover:-rotate-1"
-          : "hover:-translate-y-0.5",
+          ? "hover:-translate-y-0.5 has-[[data-card-link]:active]:translate-x-1 has-[[data-card-link]:active]:translate-y-1"
+          : "opacity-90",
         className,
       )}
     >
@@ -43,7 +43,7 @@ export function CardTitleLink({ game }: GameProp) {
     <Link
       href={`/juegos/${game.slug}`}
       data-card-link
-      className="outline-none after:absolute after:inset-0 after:rounded-3xl after:content-['']"
+      className="outline-none after:absolute after:inset-0 after:rounded-arcade-card after:content-['']"
     >
       {game.name}
     </Link>
@@ -57,7 +57,7 @@ export function GameStub({ game, className, children }: WithChildren) {
         "flex items-center justify-center p-4",
         CATEGORY_SURFACE[game.category],
         CATEGORY_MOTIF[game.category],
-        game.status !== "available" && "brightness-[0.6] saturate-[0.55]",
+        game.status !== "available" && "grayscale-[0.85]",
         className,
       )}
     >

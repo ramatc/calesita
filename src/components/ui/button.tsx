@@ -12,11 +12,12 @@ const buttonVariants = cva(
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-[inset_0_-3px_0_0_var(--surface-deep)] hover:bg-accent active:translate-y-0.5 active:shadow-[inset_0_-1px_0_0_var(--surface-deep)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "arcade-edge arcade-press bg-arcade-raised font-semibold text-arcade-text aria-expanded:bg-arcade-raised",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
+        // The main call to action, now the arcade yellow key.
         marquee:
-          "bg-brand-yellow text-brand-ink shadow-[inset_0_-3px_0_0_var(--brand-yellow-deep),0_10px_20px_-12px_var(--brand-yellow)] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0.5 active:shadow-[inset_0_-1px_0_0_var(--brand-yellow-deep)]",
+          "arcade-edge arcade-press bg-arcade-yellow font-bold text-arcade-ink",
         destructive:
           "bg-destructive text-brand-ink hover:bg-destructive/85 focus-visible:border-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
@@ -36,12 +37,12 @@ const buttonVariants = cva(
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xl: "h-14 gap-2 rounded-2xl px-6 text-lg font-semibold [&_svg:not([class*='size-'])]:size-5",
+        xl: "h-14 gap-2 rounded-arcade-control px-6 text-lg font-semibold [&_svg:not([class*='size-'])]:size-5",
         arcade:
           "h-12 gap-2 rounded-arcade-control px-5 text-base [&_svg:not([class*='size-'])]:size-5",
         "arcade-xl":
           "h-14 gap-2.5 rounded-arcade-control px-7 text-lg [&_svg:not([class*='size-'])]:size-5",
-        chip: "h-11 gap-2 rounded-full px-3.5 text-base [&_svg:not([class*='size-'])]:size-5",
+        chip: "h-11 gap-2 rounded-arcade-control px-3.5 text-base [&_svg:not([class*='size-'])]:size-5",
         touch: "size-11 rounded-full [&_svg:not([class*='size-'])]:size-5",
         icon: "size-8",
         "icon-xs":

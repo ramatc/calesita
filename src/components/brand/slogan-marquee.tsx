@@ -16,10 +16,10 @@ function SloganRun() {
   );
 }
 
-/** The slogan on a turning sign. Two identical runs make the loop seamless. */
+/** The slogan on the arcade marquee strip. Two identical runs make the loop seamless. */
 export function SloganMarquee() {
   return (
-    <div className="relative -left-[2%] w-[104%] -rotate-1 overflow-hidden bg-brand-yellow py-3 font-logo text-2xl text-brand-ink md:text-3xl">
+    <div className="overflow-hidden border-y-2 border-arcade-ink bg-arcade-yellow py-2.5 font-logo text-2xl text-arcade-ink md:text-3xl">
       <p className="sr-only">{SLOGAN}.</p>
       <div aria-hidden="true" className="flex w-max animate-marquee motion-reduce:animate-none">
         <SloganRun />

@@ -7,10 +7,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-headline);
+  /* Sprint 4: Manrope runs the interface, Jersey 10 the display type. */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jersey), "VT323", monospace;
   --font-logo: var(--font-marquee);
-  --font-heading: var(--font-headline);
+  --font-heading: var(--font-jersey), "VT323", monospace;
 
   /* Arcade system (Sprint 4). Pixel type is for display and short labels only. */
   --font-pixel: var(--font-jersey), "VT323", monospace;
@@ -200,23 +201,23 @@
 :root {
   color-scheme: dark;
 
-  --background: #130a24;
+  --background: #201038;
   --foreground: #fff9ed;
-  --card: #211437;
+  --card: #2d1a4d;
   --card-foreground: #fff9ed;
-  --popover: #30204b;
+  --popover: #2d1a4d;
   --popover-foreground: #fff9ed;
   --primary: #7c4dff;
   --primary-foreground: #ffffff;
-  --secondary: #30204b;
+  --secondary: #3a2560;
   --secondary-foreground: #fff9ed;
-  --muted: #30204b;
+  --muted: #3a2560;
   --muted-foreground: #cfc4e6;
   --accent: #3d2b5e;
   --accent-foreground: #fff9ed;
   --destructive: #ff7a9c;
-  --border: #443263;
-  --input: #443263;
+  --border: #4a3570;
+  --input: #4a3570;
   --ring: #ffd12f;
   --radius: 1rem;
 
@@ -227,11 +228,11 @@
   --brand-teal: #31d4c5;
   --brand-lavender: #ab8cff;
   --brand-ink: #1a0e30;
-  --surface-deep: #4b3a6b;
+  --surface-deep: #0b0416;
 
-  /* Violet-tinted shadows, so depth reads as light in the same room. */
-  --shadow-card: 0 1px 0 0 rgb(255 249 237 / 8%) inset, 0 16px 32px -20px rgb(7 2 18 / 90%);
-  --shadow-raised: 0 1px 0 0 rgb(255 249 237 / 12%) inset, 0 24px 48px -20px rgb(7 2 18 / 95%);
+  /* Arcade depth: flat, unblurred offset shadows instead of soft light. */
+  --shadow-card: 3px 3px 0 0 var(--arcade-drop);
+  --shadow-raised: 4px 4px 0 0 var(--arcade-drop);
 
   /* Arcade palette. Text pairs are checked in odd/tasks/arcade-alive.md. */
   --arcade-cream: #f6f0e5;
@@ -314,6 +315,11 @@
  * components (buttons, inputs, cards) adapt without page-level overrides.
  */
 @utility surface-light {
+  --secondary: #fffdf8;
+  --secondary-foreground: var(--arcade-ink);
+  --accent: #ebe2d2;
+  --accent-foreground: var(--arcade-ink);
+  --muted: #ebe2d2;
   --arcade-surface: var(--arcade-cream);
   --arcade-raised: #fffdf8;
   --arcade-text: var(--arcade-ink);
@@ -335,6 +341,11 @@
 }
 
 @utility surface-sky {
+  --secondary: #fffdf8;
+  --secondary-foreground: var(--arcade-ink);
+  --accent: #c6dff5;
+  --accent-foreground: var(--arcade-ink);
+  --muted: #c6dff5;
   --arcade-surface: var(--arcade-sky);
   --arcade-raised: #f7fbff;
   --arcade-text: var(--arcade-ink);
@@ -470,9 +481,6 @@
   body {
     @apply bg-background text-foreground;
     caret-color: var(--brand-yellow);
-    /* One controlled light source, like a lit carousel in a dark park. */
-    background-image: radial-gradient(44rem 22rem at 72% 20rem, #2c1a4f 0%, transparent 70%);
-    background-repeat: no-repeat;
   }
 
   /* Jersey 10 ships a single weight; never let the browser fake bold on it. */
@@ -481,9 +489,11 @@
     font-synthesis: none;
   }
 
+  /* Jersey 10 has one weight: no synthetic bold, slightly tight like the Obscura display. */
   .font-display {
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: -0.01em;
   }
 
   ::selection {

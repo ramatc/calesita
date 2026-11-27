@@ -17,11 +17,10 @@ export function StatusIndicator({ status, className }: StatusIndicatorProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-sm font-semibold text-muted-foreground",
+        "inline-flex items-center gap-2 rounded-arcade-control border-2 border-dashed border-current px-2.5 py-0.5 font-pixel text-xl leading-none tracking-wide text-muted-foreground uppercase",
         className,
       )}
     >
-      <span aria-hidden="true" className="size-2 rounded-full border-2 border-brand-lavender" />
       {STATUS_LABELS[status]}
     </span>
   );

@@ -28,7 +28,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
     <Link
       href={`/juegos?${query}`}
       className={cn(
-        "group relative flex h-full min-h-88 flex-col md:min-h-64 lg:min-h-88 justify-end overflow-hidden rounded-3xl p-6 shadow-raised transition-transform duration-300 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:rotate-1 active:scale-[0.98]",
+        "group arcade-edge arcade-press relative flex h-full min-h-80 flex-col justify-end overflow-hidden rounded-arcade-card p-6 md:min-h-64 lg:min-h-80",
         CATEGORY_SURFACE[category],
         CATEGORY_MOTIF[category],
       )}
@@ -44,7 +44,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
         />
       </span>
 
-      <h3 className="relative font-display text-4xl leading-none">{CATEGORY_LABELS[category]}</h3>
+      <h3 className="relative font-display text-5xl leading-[0.9]">{CATEGORY_LABELS[category]}</h3>
       <p className="relative mt-2 text-lg font-medium">{CATEGORY_DESCRIPTIONS[category]}</p>
       <span className="relative mt-4 flex items-center gap-1.5 font-bold" data-tabular>
         Ver los {gameCount}

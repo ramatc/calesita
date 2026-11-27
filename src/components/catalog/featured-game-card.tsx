@@ -20,20 +20,20 @@ type FeaturedGameCardProps = {
 export function FeaturedGameCard({ game, className }: FeaturedGameCardProps) {
   return (
     <CardShell game={game} className={className}>
-      <article className="ticket flex h-full flex-col bg-card [--ticket-stub:13rem] md:ticket-side md:flex-row md:[--ticket-stub:40%]">
+      <article className="arcade-edge flex h-full flex-col overflow-hidden rounded-arcade-card bg-card [--ticket-stub:13rem] md:flex-row md:[--ticket-stub:40%]">
         <GameStub
           game={game}
           className="h-(--ticket-stub) shrink-0 md:h-auto md:w-(--ticket-stub)"
         />
 
-        <div className="flex flex-1 flex-col gap-4 border-t-2 border-dashed border-background p-6 md:border-t-0 md:border-l-2 md:p-8">
+        <div className="flex flex-1 flex-col gap-4 border-t-2 border-arcade-edge p-6 md:border-t-0 md:border-l-2 md:p-8">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="font-medium text-muted-foreground">
               {CATEGORY_LABELS[game.category]}
             </span>
             <StatusIndicator status={game.status} />
           </div>
-          <h3 className="font-display text-4xl leading-none md:text-5xl">
+          <h3 className="font-display text-5xl leading-[0.85] md:text-6xl">
             <CardTitleLink game={game} />
           </h3>
           <p className="flex-1 text-lg text-muted-foreground">{game.description}</p>
@@ -51,7 +51,7 @@ export function FeaturedGameCard({ game, className }: FeaturedGameCardProps) {
       >
         <GameIllustration
           slug={game.slug}
-          className="h-full w-auto -rotate-6 drop-shadow-[0_12px_10px_rgb(26_14_48/35%)] transition-transform duration-300 ease-(--ease-out-expo) group-hover:scale-105 group-hover:-rotate-2 md:h-auto md:w-[150%] md:max-w-none md:shrink-0"
+          className="h-full w-auto -rotate-6 drop-shadow-[4px_4px_0_rgb(33_21_44/30%)] transition-transform duration-300 ease-(--ease-out-expo) group-hover:scale-105 group-hover:-rotate-2 md:h-auto md:w-[150%] md:max-w-none md:shrink-0"
         />
       </div>
     </CardShell>

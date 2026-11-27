@@ -42,7 +42,7 @@ export function SurpriseButton({ className, compact = false }: SurpriseButtonPro
   return (
     <div className={cn(compact ? "relative" : "flex flex-col gap-2", className)}>
       <Button
-        variant={compact ? "marquee" : "secondary"}
+        variant={compact ? "marquee" : "arcade-orange"}
         size={compact ? "chip" : "xl"}
         disabled={pickedSlug !== null}
         className={compact ? "w-full font-semibold" : "w-full sm:w-auto"}
