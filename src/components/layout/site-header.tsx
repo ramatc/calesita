@@ -28,7 +28,7 @@ function isCurrent(pathname: string, section: string | null) {
 
 function DesktopNav({ pathname }: { pathname: string }) {
   return (
-    <nav aria-label="Principal" className="ml-5 hidden items-center gap-1 md:flex">
+    <nav aria-label="Principal" className="ml-5 hidden items-center gap-1 lg:flex">
       {NAV_LINKS.map(({ href, label, section }) => {
         const current = isCurrent(pathname, section);
 
@@ -54,11 +54,11 @@ function MobileMenu({ pathname, showAction }: { pathname: string; showAction: bo
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="touch" aria-label="Abrir menú" className="md:hidden">
+        <Button variant="ghost" size="touch" aria-label="Abrir menú" className="lg:hidden">
           <Menu />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex w-64 flex-col gap-1 md:hidden">
+      <PopoverContent className="flex w-64 flex-col gap-1 lg:hidden">
         <nav aria-label="Principal" className="flex flex-col gap-1">
           {NAV_LINKS.map(({ href, label, section }) => {
             const current = isCurrent(pathname, section);
@@ -103,7 +103,7 @@ export function SiteHeader() {
         <DesktopNav pathname={pathname} />
         <div className="ml-auto flex items-center gap-1.5 pl-2 sm:gap-2">
           <PlayerSelector />
-          {showAction && <SurpriseButton compact className="hidden md:block" />}
+          {showAction && <SurpriseButton compact className="hidden lg:block" />}
           <MobileMenu pathname={pathname} showAction={showAction} />
         </div>
       </div>
