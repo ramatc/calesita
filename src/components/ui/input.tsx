@@ -3,7 +3,7 @@ import { cn } from "cn"
 
 /** The arcade field: hard ink edge, raised fill, 48px tall for touch. */
 const ARCADE_INPUT =
-  "h-12 rounded-arcade-control border-2 border-arcade-edge bg-arcade-raised px-3 font-ui text-base text-arcade-text placeholder:text-arcade-muted shadow-arcade-sm focus-visible:border-arcade-edge focus-visible:ring-0 md:text-base dark:bg-arcade-raised"
+  "h-12 rounded-arcade-control border-2 border-arcade-edge bg-arcade-raised px-3 font-ui text-base text-arcade-text placeholder:text-arcade-muted shadow-arcade-sm focus-visible:border-arcade-edge focus-visible:ring-0 focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring md:text-base dark:bg-arcade-raised"
 
 function Input({
   className,
