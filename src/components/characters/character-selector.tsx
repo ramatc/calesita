@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
   CharacterAvatar,
@@ -12,6 +12,7 @@ import { usePersistentStore } from "@/hooks/use-persistent-store";
 import {
   characterRosterStore,
   getEffectiveRoster,
+  moveInRoster,
   toggleRoster,
 } from "@/lib/character-cast";
 import { cn } from "@/lib/utils";
@@ -110,6 +111,47 @@ export function CharacterSelector({ count, hint }: CharacterSelectorProps) {
             );
           })}
         </ul>
+        {chosen.length > 1 && (
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-medium">Orden de los turnos</p>
+            <ol className="flex flex-wrap justify-center gap-2">
+              {chosen.map((character, index) => (
+                <li
+                  key={character.id}
+                  className="flex items-center gap-0.5 rounded-full bg-card py-1 pr-1 pl-1 shadow-card"
+                >
+                  <Button
+                    variant="ghost"
+                    size="touch"
+                    aria-label={`Mover a ${character.name} antes`}
+                    disabled={index === 0}
+                    onClick={() =>
+                      characterRosterStore.set(moveInRoster(roster, character.id, -1, count))
+                    }
+                  >
+                    <ChevronLeft />
+                  </Button>
+                  <span data-tabular className="text-sm font-bold">
+                    {index + 1}
+                  </span>
+                  <CharacterAvatar character={character} size="xs" />
+                  <span className="text-sm font-semibold">{character.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="touch"
+                    aria-label={`Mover a ${character.name} después`}
+                    disabled={index === chosen.length - 1}
+                    onClick={() =>
+                      characterRosterStore.set(moveInRoster(roster, character.id, 1, count))
+                    }
+                  >
+                    <ChevronRight />
+                  </Button>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
         {roster.length > 0 && (
           <Button
             variant="ghost"

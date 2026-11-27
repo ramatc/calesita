@@ -54,6 +54,21 @@ export function toggleRoster(roster: readonly string[], id: string, seats: numbe
   return getEffectiveRoster(roster, seats).length < seats ? [...roster, id] : [...roster];
 }
 
+/** Moves a chosen character one seat earlier (-1) or later (1). Edges stay put. */
+export function moveInRoster(
+  roster: readonly string[],
+  id: string,
+  offset: -1 | 1,
+  seats: number,
+): string[] {
+  const order = getEffectiveRoster(roster, seats);
+  const from = order.indexOf(id);
+  const to = from + offset;
+  if (from < 0 || to < 0 || to >= order.length) return [...roster];
+  [order[from], order[to]] = [order[to], order[from]];
+  return [...order, ...roster.filter((item) => !order.includes(item))];
+}
+
 export function buildCast(roster: readonly string[], seats: number): Cast {
   return Object.fromEntries(
     getEffectiveRoster(roster, seats).map((id, index) => [getSeatId(index), id]),

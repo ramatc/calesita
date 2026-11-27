@@ -11,6 +11,7 @@ import {
   getEffectiveRoster,
   getGameNames,
   lockGameCast,
+  moveInRoster,
   toggleRoster,
 } from "@/lib/character-cast";
 
@@ -29,6 +30,38 @@ describe("toggleRoster", () => {
 
   it("still removes when the roster is over the limit", () => {
     expect(toggleRoster(["rama", "piku", "pili"], "rama", 2)).toEqual(["piku", "pili"]);
+  });
+});
+
+describe("moveInRoster", () => {
+  it("moves a character one seat earlier", () => {
+    expect(moveInRoster(["rama", "piku", "pili"], "pili", -1, 4)).toEqual([
+      "rama",
+      "pili",
+      "piku",
+    ]);
+  });
+
+  it("moves a character one seat later", () => {
+    expect(moveInRoster(["rama", "piku", "pili"], "rama", 1, 4)).toEqual([
+      "piku",
+      "rama",
+      "pili",
+    ]);
+  });
+
+  it("leaves the order alone at the edges or for someone not playing", () => {
+    expect(moveInRoster(["rama", "piku"], "rama", -1, 4)).toEqual(["rama", "piku"]);
+    expect(moveInRoster(["rama", "piku"], "piku", 1, 4)).toEqual(["rama", "piku"]);
+    expect(moveInRoster(["rama", "piku"], "pili", 1, 4)).toEqual(["rama", "piku"]);
+  });
+
+  it("moves among the seats in play, ignoring unknown ids", () => {
+    expect(moveInRoster(["rama", "ghost", "piku"], "piku", -1, 4)).toEqual([
+      "piku",
+      "rama",
+      "ghost",
+    ]);
   });
 });
 
