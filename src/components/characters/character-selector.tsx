@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 import {
   CharacterAvatar,
@@ -114,39 +114,46 @@ export function CharacterSelector({ count, hint }: CharacterSelectorProps) {
         {chosen.length > 1 && (
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">Orden de los turnos</p>
-            <ol className="flex flex-wrap justify-center gap-2">
+            <ol className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-card">
               {chosen.map((character, index) => (
                 <li
                   key={character.id}
-                  className="flex items-center gap-0.5 rounded-full bg-card py-1 pr-1 pl-1 shadow-card"
+                  className="flex items-center gap-3 border-b border-border/60 py-1.5 pr-1 pl-3 last:border-b-0"
                 >
-                  <Button
-                    variant="ghost"
-                    size="touch"
-                    aria-label={`Mover a ${character.name} antes`}
-                    disabled={index === 0}
-                    onClick={() =>
-                      characterRosterStore.set(moveInRoster(roster, character.id, -1, count))
-                    }
+                  <span
+                    data-tabular
+                    className="w-5 shrink-0 text-center font-display text-lg text-muted-foreground"
                   >
-                    <ChevronLeft />
-                  </Button>
-                  <span data-tabular className="text-sm font-bold">
                     {index + 1}
                   </span>
-                  <CharacterAvatar character={character} size="xs" />
-                  <span className="text-sm font-semibold">{character.name}</span>
-                  <Button
-                    variant="ghost"
-                    size="touch"
-                    aria-label={`Mover a ${character.name} después`}
-                    disabled={index === chosen.length - 1}
-                    onClick={() =>
-                      characterRosterStore.set(moveInRoster(roster, character.id, 1, count))
-                    }
-                  >
-                    <ChevronRight />
-                  </Button>
+                  <CharacterAvatar character={character} size="sm" />
+                  <span className="mr-auto truncate font-semibold">{character.name}</span>
+                  <span className="flex shrink-0">
+                    <Button
+                      variant="ghost"
+                      size="touch"
+                      aria-label={`Mover a ${character.name} antes`}
+                      disabled={index === 0}
+                      className="disabled:opacity-25"
+                      onClick={() =>
+                        characterRosterStore.set(moveInRoster(roster, character.id, -1, count))
+                      }
+                    >
+                      <ChevronUp />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="touch"
+                      aria-label={`Mover a ${character.name} después`}
+                      disabled={index === chosen.length - 1}
+                      className="disabled:opacity-25"
+                      onClick={() =>
+                        characterRosterStore.set(moveInRoster(roster, character.id, 1, count))
+                      }
+                    >
+                      <ChevronDown />
+                    </Button>
+                  </span>
                 </li>
               ))}
             </ol>
