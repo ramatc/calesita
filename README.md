@@ -2,17 +2,25 @@
 
 Party games for friends in the same room, moderated by one shared device. No sign-up, no download, no backend: open the site, pick a game and play.
 
-The interface is in Spanish (Argentina). The catalog lists 15 games; 5 are playable today.
+The interface is in Spanish (Argentina). All 15 games in the catalog are playable.
 
 | Game | Players | What happens |
 | --- | --- | --- |
-| ¿Quién es más probable que...? | 3 to 20 | A question, a countdown, and everyone points at once. |
 | Actuá o perdés | 4 to 16 | Charades in two teams against the clock. |
-| El infiltrado | 4 to 12 | Everyone gets the same word except one. Pass the phone, give clues, vote. |
-| Desafío relámpago | 2 to 12 | Quick physical and social challenges by difficulty. Any challenge can be skipped. |
+| Palabras prohibidas | 4 to 12 | Describe a word to your team without saying the four forbidden ones. |
+| Preguntados Calesita | 2 to 10 | Multiple-choice trivia, one question per turn; the app checks the answer. |
+| Dibujalo como puedas | 4 to 12 | Draw the prompt on paper while your team guesses, in two teams. |
 | Categorías explosivas | 2 to 10 | Name something in the category before time runs out. Last one with lives wins. |
-
-The rest of the catalog is shown as "Próximamente".
+| El infiltrado | 4 to 12 | Everyone gets the same word except one. Pass the phone, give clues, vote. |
+| ¿Quién es más probable que...? | 3 to 20 | A question, a countdown, and everyone points at once. |
+| Mentira o verdad | 3 to 12 | Tell a story, true or invented; the group votes and you score if you fooled them. |
+| Defendé lo indefendible | 3 to 10 | Defend an absurd opinion for 45 seconds; score if you convinced the group. |
+| Confesiones anónimas | 4 to 12 | Everyone writes an anonymous confession on paper; score by guessing who wrote it. |
+| Desafío relámpago | 2 to 12 | Quick physical and social challenges by difficulty. Any challenge can be skipped. |
+| Búsqueda desesperada | 3 to 12 | Find the item in the house first; one point per round. |
+| Estatuas imposibles | 3 to 12 | Hold the pose until the clock runs out without moving. |
+| Un minuto para ganar | 2 to 12 | Household-object skill tests with sixty seconds on the clock. |
+| Olimpiadas Calesita | 4 to 16 | Two teams compete across timed events; most events won takes it. |
 
 ## Requirements
 
@@ -58,6 +66,14 @@ Each playable game lives in `src/games/<slug>/`:
 - `logic.ts` is a pure reducer over a session, plus a validator for stored data. It has no React and is covered by `logic.test.ts`.
 - `screen.tsx` renders the game with the shared components in `src/components/game/`.
 - Its prompts and rules live in `src/content/<slug>.ts`, with unique ids and a `packId`, so new packs can be added without touching the built-in set.
+
+Most games build on one of three shared modules instead of writing their own reducer:
+
+- `src/games/team-turns/`: two teams take timed turns guessing cards (Actuá o perdés, Palabras prohibidas, Dibujalo como puedas).
+- `src/games/challenge-turns/`: each player takes a turn at a card, optionally timed, and marks it completed, failed or skipped (Desafío relámpago, Un minuto para ganar, Estatuas imposibles, Defendé lo indefendible, Mentira o verdad).
+- `src/games/rounds/`: every round deals a card, may run a clock, and the group says who scored (Preguntados Calesita, Búsqueda desesperada, Confesiones anónimas, Olimpiadas Calesita).
+
+Such a game's `logic.ts` only passes its content and storage key to the module's factory, and its `screen.tsx` configures the shared screen.
 
 ## Adding a game
 
