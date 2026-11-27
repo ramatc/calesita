@@ -4,7 +4,8 @@ import { describe, expect, it } from "vitest";
 
 import { getPrompt, PROMPTS } from "@/content/actua-o-perdes";
 import { createSession, reduceSession, type Game } from "@/games/actua-o-perdes/logic";
-import { ActingView, HandoffView, SummaryView } from "@/games/actua-o-perdes/play-views";
+import { renderActuaPrompt } from "@/games/actua-o-perdes/screen";
+import { ActingView, HandoffView, SummaryView } from "@/games/team-turns/play-views";
 
 const NOW = 1_000_000;
 const noop = () => {};
@@ -29,6 +30,7 @@ function renderActing(game: Game | null) {
     createElement(ActingView, {
       game,
       surface: "classic",
+      renderPrompt: renderActuaPrompt,
       onHit: noop,
       onPass: noop,
       onPause: noop,
@@ -55,7 +57,7 @@ describe("secret prompt", () => {
   it("is nowhere in the handoff markup, which names the team", () => {
     const game = handoff.game;
     if (!game) throw new Error("expected an active game");
-    const html = renderToStaticMarkup(createElement(HandoffView, { game, onBeginTurn: noop }));
+    const html = renderToStaticMarkup(createElement(HandoffView, { slug: "actua-o-perdes", game, message: "", onBeginTurn: noop }));
     expect(html).toContain("Le toca a Los Pumas");
     for (const prompt of PROMPTS) expect(html).not.toContain(prompt.text);
   });
@@ -68,7 +70,7 @@ describe("turn summary", () => {
     const game = summary.game;
     if (!game) throw new Error("expected an active game");
 
-    const html = renderToStaticMarkup(createElement(SummaryView, { game, onNext: noop }));
+    const html = renderToStaticMarkup(createElement(SummaryView, { slug: "actua-o-perdes", game, onNext: noop }));
     expect(html).toContain("Los Pumas sumó 1 punto en este turno.");
     expect(html).toContain("Sigue Las Leonas");
   });

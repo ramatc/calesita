@@ -8,19 +8,20 @@ import { GameTimer } from "@/components/game/game-timer";
 import { PromptCard } from "@/components/game/prompt-card";
 import { Scoreboard } from "@/components/game/scoreboard";
 import { Button } from "@/components/ui/button";
-import { getPrompt } from "@/content/actua-o-perdes";
-import { getTurnTeam, isLastTurn, SLUG, type Game } from "@/games/actua-o-perdes/logic";
+import { getTurnTeam, isLastTurn, type Game } from "@/games/team-turns/logic";
 import type { Team } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import type { GameCategory } from "@/types/game";
 
 type ScoresProps = {
+  /** Whose cast to show; each game keeps its own. */
+  slug: string;
   teams: readonly Team[];
   highlightedId?: string;
 };
 
-export function Scores({ teams, highlightedId }: ScoresProps) {
-  const { forSeats } = useGameCast(SLUG);
+export function Scores({ slug, teams, highlightedId }: ScoresProps) {
+  const { forSeats } = useGameCast(slug);
 
   return (
     <Scoreboard
@@ -46,14 +47,17 @@ function TurnPanel({ children }: { children: ReactNode }) {
 }
 
 type HandoffViewProps = {
+  slug: string;
   game: Game;
+  /** Who takes the phone and who looks away. */
+  message: string;
   onBeginTurn: () => void;
 };
 
 /** Renders no prompt: the secret only reaches the DOM once the turn begins. */
-export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
+export function HandoffView({ slug, game, message, onBeginTurn }: HandoffViewProps) {
   const team = getTurnTeam(game);
-  const { forSeats } = useGameCast(SLUG);
+  const { forSeats } = useGameCast(slug);
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 pb-4">
@@ -65,11 +69,9 @@ export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
           Le toca a {team.name}
         </h1>
         <CharacterAvatarStack characters={forSeats(team.playerIds)} size="sm" />
-        <p className="text-xl">
-          Pasale el celular a quien va a actuar. Los demás, sin mirar la pantalla.
-        </p>
+        <p className="text-xl">{message}</p>
       </TurnPanel>
-      <Scores teams={game.teams} highlightedId={team.id} />
+      <Scores slug={slug} teams={game.teams} highlightedId={team.id} />
       <Button variant="marquee" size="xl" className="w-full" onClick={onBeginTurn}>
         <Play />
         Empezar el turno
@@ -81,6 +83,8 @@ export function HandoffView({ game, onBeginTurn }: HandoffViewProps) {
 type ActingViewProps = {
   game: Game;
   surface: GameCategory;
+  /** The secret card; only rendered while the clock runs. */
+  renderPrompt: (promptId: string) => ReactNode;
   onHit: () => void;
   onPass: () => void;
   onPause: () => void;
@@ -91,6 +95,7 @@ type ActingViewProps = {
 export function ActingView({
   game,
   surface,
+  renderPrompt,
   onHit,
   onPass,
   onPause,
@@ -98,7 +103,6 @@ export function ActingView({
   onExpire,
 }: ActingViewProps) {
   const isPaused = game.timer.deadlineMs === null;
-  const prompt = game.promptId ? getPrompt(game.promptId) : undefined;
 
   return (
     <>
@@ -106,12 +110,7 @@ export function ActingView({
       {isPaused ? (
         <PromptCard promptId="paused" text="Pausa. La consigna está tapada." category={surface} />
       ) : (
-        <>
-          <p className="text-center text-lg font-semibold text-muted-foreground">
-            {prompt?.category}
-          </p>
-          <PromptCard promptId={game.promptId ?? ""} text={prompt?.text ?? ""} category={surface} />
-        </>
+        renderPrompt(game.promptId ?? "")
       )}
       <div className="grid grid-cols-2 gap-3">
         <Button variant="secondary" size="xl" disabled={isPaused} onClick={onPass}>
@@ -128,11 +127,12 @@ export function ActingView({
 }
 
 type SummaryViewProps = {
+  slug: string;
   game: Game;
   onNext: () => void;
 };
 
-export function SummaryView({ game, onNext }: SummaryViewProps) {
+export function SummaryView({ slug, game, onNext }: SummaryViewProps) {
   const team = getTurnTeam(game);
   const nextTeam = game.teams[game.turnIndex === 0 ? 1 : 0];
   const points = game.turnPoints === 1 ? "1 punto" : `${game.turnPoints} puntos`;
@@ -147,7 +147,7 @@ export function SummaryView({ game, onNext }: SummaryViewProps) {
           {team.name} sumó {points} en este turno.
         </p>
       </TurnPanel>
-      <Scores teams={game.teams} highlightedId={team.id} />
+      <Scores slug={slug} teams={game.teams} highlightedId={team.id} />
       <Button variant="marquee" size="xl" className="w-full" onClick={onNext}>
         {isLastTurn(game) ? "Ver resultados" : `Sigue ${nextTeam.name}`}
       </Button>

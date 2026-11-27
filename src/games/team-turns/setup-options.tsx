@@ -8,7 +8,7 @@ import {
   TURN_SECONDS_OPTIONS,
   type Rounds,
   type TurnSeconds,
-} from "@/games/actua-o-perdes/logic";
+} from "@/games/team-turns/logic";
 
 const MAX_NAME_LENGTH = 20;
 const TEAM_LABELS = ["Equipo 1", "Equipo 2"];

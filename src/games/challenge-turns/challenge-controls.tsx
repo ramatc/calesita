@@ -2,7 +2,7 @@ import { Check, Play, SkipForward, X } from "lucide-react";
 
 import { GameTimer } from "@/components/game/game-timer";
 import { Button } from "@/components/ui/button";
-import type { Action, Game } from "@/games/desafio-relampago/logic";
+import type { Action, Game } from "@/games/challenge-turns/logic";
 import { formatClock } from "@/lib/timer";
 
 type ControlsProps = {

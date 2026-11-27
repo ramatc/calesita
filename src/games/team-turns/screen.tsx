@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import { CharacterSelector } from "@/components/characters/character-selector";
 import { GameFrame } from "@/components/game/game-frame";
@@ -12,21 +12,31 @@ import { getGameBySlug } from "@/content/catalog";
 import {
   DEFAULT_ROUNDS,
   DEFAULT_TURN_SECONDS,
-  reduceSession,
-  sessionStore,
-  SLUG,
+  type Action,
   type Game,
-} from "@/games/actua-o-perdes/logic";
+  type Session,
+} from "@/games/team-turns/logic";
 import {
   ActingView,
   HandoffView,
   Scores,
   SummaryView,
-} from "@/games/actua-o-perdes/play-views";
-import { SetupOptions, type SetupValues } from "@/games/actua-o-perdes/setup-options";
+} from "@/games/team-turns/play-views";
+import { SetupOptions, type SetupValues } from "@/games/team-turns/setup-options";
 import { getLeaders } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
+import type { PersistentStore } from "@/lib/storage";
+import type { GameSlug } from "@/types/game";
+
+type TeamTurnsScreenProps = {
+  slug: GameSlug;
+  sessionStore: PersistentStore<Session>;
+  reduceSession: (session: Session, action: Action) => Session;
+  renderPrompt: (promptId: string) => ReactNode;
+  handoffMessage: string;
+  endDescription: string;
+};
 
 const TEAMS_HINT = "Los números impares van a un equipo y los pares al otro.";
 
@@ -41,7 +51,15 @@ function getResultTitle(game: Game) {
   return leaders.length > 1 ? "¡Empate!" : `¡Ganó ${leaders[0].name}!`;
 }
 
-export default function ActuaOPerdesScreen() {
+/** The shared screen of every two-team, timed-turn game. */
+export function TeamTurnsScreen({
+  slug: SLUG,
+  sessionStore,
+  reduceSession,
+  renderPrompt,
+  handoffMessage,
+  endDescription,
+}: TeamTurnsScreenProps) {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [setup, setSetup] = useState(INITIAL_SETUP);
   const [endedGame, setEndedGame] = useState<Game | null>(null);
@@ -78,7 +96,7 @@ export default function ActuaOPerdesScreen() {
           onPlayAgain={() => playAgain(game)}
         >
           <div className="flex flex-col gap-3">
-            <Scores teams={game.teams} />
+            <Scores slug={SLUG} teams={game.teams} />
             <Button
               variant="ghost"
               size="xl"
@@ -97,7 +115,7 @@ export default function ActuaOPerdesScreen() {
     return (
       <GameFrame
         status={<RoundIndicator label="Ronda" current={game.round} total={game.totalRounds} />}
-        endDescription="Se termina esta partida y se pierde el puntaje. Las consignas que ya salieron no se repiten en la próxima."
+        endDescription={endDescription}
         onEnd={() => {
           setEndedGame(game);
           dispatch({ type: "end" });
@@ -105,7 +123,9 @@ export default function ActuaOPerdesScreen() {
       >
         {game.phase === "handoff" && (
           <HandoffView
+            slug={SLUG}
             game={game}
+            message={handoffMessage}
             onBeginTurn={() => dispatch({ type: "begin-turn", now: Date.now() })}
           />
         )}
@@ -113,6 +133,7 @@ export default function ActuaOPerdesScreen() {
           <ActingView
             game={game}
             surface={definition.category}
+            renderPrompt={renderPrompt}
             onHit={() => dispatch({ type: "hit", now: Date.now() })}
             onPass={() => dispatch({ type: "pass", now: Date.now() })}
             onPause={() => dispatch({ type: "pause", now: Date.now() })}
@@ -121,7 +142,7 @@ export default function ActuaOPerdesScreen() {
           />
         )}
         {game.phase === "summary" && (
-          <SummaryView game={game} onNext={() => dispatch({ type: "next-turn" })} />
+          <SummaryView slug={SLUG} game={game} onNext={() => dispatch({ type: "next-turn" })} />
         )}
       </GameFrame>
     );
@@ -131,7 +152,7 @@ export default function ActuaOPerdesScreen() {
     return (
       <GameFrame>
         <GameResults title="Partida terminada" onPlayAgain={() => playAgain(endedGame)}>
-          <Scores teams={endedGame.teams} />
+          <Scores slug={SLUG} teams={endedGame.teams} />
         </GameResults>
       </GameFrame>
     );

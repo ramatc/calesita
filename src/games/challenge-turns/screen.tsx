@@ -12,25 +12,43 @@ import { PlayerNamesFields } from "@/components/game/player-names-fields";
 import { PromptCard } from "@/components/game/prompt-card";
 import { RoundIndicator } from "@/components/game/round-indicator";
 import { getGameBySlug } from "@/content/catalog";
-import { getChallenge } from "@/content/desafio-relampago";
-import { ChallengeControls } from "@/games/desafio-relampago/challenge-controls";
-import { DifficultyPicker } from "@/games/desafio-relampago/difficulty-picker";
+import { ChallengeControls } from "@/games/challenge-turns/challenge-controls";
+import { DifficultyPicker } from "@/games/challenge-turns/difficulty-picker";
 import {
   getTotals,
-  reduceSession,
-  sessionStore,
-  SLUG,
+  type Action,
   type DifficultyOption,
   type Game,
-} from "@/games/desafio-relampago/logic";
-import { TallyBoard } from "@/games/desafio-relampago/tally-board";
+  type Session,
+} from "@/games/challenge-turns/logic";
+import { TallyBoard } from "@/games/challenge-turns/tally-board";
 import { createPlayers, type Player } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
 import { getGameNames } from "@/lib/character-cast";
 import { playerNamesStore } from "@/lib/player-names";
+import type { PersistentStore } from "@/lib/storage";
+import type { GameSlug } from "@/types/game";
 
-export default function DesafioRelampagoScreen() {
+type ChallengeTurnsScreenProps = {
+  slug: GameSlug;
+  sessionStore: PersistentStore<Session>;
+  reduceSession: (session: Session, action: Action) => Session;
+  getChallenge: (id: string) => { title: string; instructions: string } | undefined;
+  /** Shown on the results screen. */
+  resultsTitle: string;
+  endDescription: string;
+};
+
+/** The shared screen of every turn-based challenge game. */
+export function ChallengeTurnsScreen({
+  slug: SLUG,
+  sessionStore,
+  reduceSession,
+  getChallenge,
+  resultsTitle,
+  endDescription,
+}: ChallengeTurnsScreenProps) {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [difficulty, setDifficulty] = useState<DifficultyOption>("mixed");
   const [lastGame, setLastGame] = useState<Game | null>(null);
@@ -53,7 +71,7 @@ export default function DesafioRelampagoScreen() {
     return (
       <GameFrame
         status={<RoundIndicator label="Desafío" current={game.played} />}
-        endDescription="Se termina esta partida y ven los totales. Los desafíos que ya salieron no se repiten en la próxima."
+        endDescription={endDescription}
         onEnd={() => {
           setLastGame(game);
           dispatch({ type: "end" });
@@ -73,7 +91,7 @@ export default function DesafioRelampagoScreen() {
         <p className="text-center text-lg text-balance">{challenge?.instructions}</p>
         <ChallengeControls game={game} dispatch={dispatch} />
         <Disclosure summary="Ver cómo va cada uno">
-          <TallyBoard players={game.players} tallies={game.tallies} turn={game.turn} />
+          <TallyBoard slug={SLUG} players={game.players} tallies={game.tallies} turn={game.turn} />
         </Disclosure>
       </GameFrame>
     );
@@ -85,14 +103,14 @@ export default function DesafioRelampagoScreen() {
     return (
       <GameFrame>
         <GameResults
-          title="¡Terminó el relámpago!"
+          title={resultsTitle}
           onPlayAgain={() => start(lastGame.players, lastGame.difficulty)}
         >
           <p>
             Completados: {totals.completed} · Fallidos: {totals.failed} · Saltados: {totals.skipped}
           </p>
           <div className="mt-4 w-80 max-w-[calc(100vw-2rem)] text-left">
-            <TallyBoard players={lastGame.players} tallies={lastGame.tallies} />
+            <TallyBoard slug={SLUG} players={lastGame.players} tallies={lastGame.tallies} />
           </div>
         </GameResults>
       </GameFrame>

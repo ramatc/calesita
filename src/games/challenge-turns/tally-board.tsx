@@ -1,7 +1,7 @@
 import { Check, SkipForward, X, type LucideIcon } from "lucide-react";
 
 import { Scoreboard } from "@/components/game/scoreboard";
-import { SLUG, type Outcome, type Tally } from "@/games/desafio-relampago/logic";
+import type { Outcome, Tally } from "@/games/challenge-turns/logic";
 import type { Player } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 
@@ -26,14 +26,15 @@ function TallyValue({ tally }: { tally: Tally }) {
 }
 
 type TallyBoardProps = {
+  slug: string;
   players: readonly Player[];
   tallies: readonly Tally[];
   /** Whose turn it is, while a game runs. */
   turn?: number;
 };
 
-export function TallyBoard({ players, tallies, turn }: TallyBoardProps) {
-  const { forSeats } = useGameCast(SLUG);
+export function TallyBoard({ slug, players, tallies, turn }: TallyBoardProps) {
+  const { forSeats } = useGameCast(slug);
 
   return (
     <Scoreboard

@@ -1,6 +1,6 @@
 import { OptionGroup } from "@/components/design/option-group";
 import { DIFFICULTY_LABELS } from "@/content/labels";
-import { DIFFICULTY_OPTIONS, type DifficultyOption } from "@/games/desafio-relampago/logic";
+import { DIFFICULTY_OPTIONS, type DifficultyOption } from "@/games/challenge-turns/logic";
 
 const OPTION_LABELS: Record<DifficultyOption, string> = {
   ...DIFFICULTY_LABELS,
