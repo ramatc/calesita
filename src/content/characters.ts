@@ -19,13 +19,13 @@ const SEEDS: readonly CharacterSeed[] = [
     id: "nehue",
     name: "Nehue",
     colors: { primary: "#6CC5F0", secondary: "#FFFFFF" },
-    accessories: ["Mancuerna"],
+    accessories: ["Mancuerna", "Zeus, su pastor alemán"],
   },
   {
     id: "pili",
     name: "Pili",
     colors: { primary: "#FF62AB", secondary: "#7A1F3D" },
-    accessories: ["Anteojos", "Cerveza", "Collar dorado"],
+    accessories: ["Anteojos", "Cerveza", "Collar dorado", "Cobayo"],
   },
   {
     id: "piku",

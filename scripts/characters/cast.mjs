@@ -120,6 +120,8 @@ export const CAST = [
     arms: { color: "#F4C7A1", width: 25, handSize: 13 },
     legs: { color: "#2A2733", shade: "#16141C", width: 34, flare: 3, hem: 340, shoe: "#FFFFFF" },
     pose: { left: "hip" },
+    companion: "shepherd",
+    companionSpot: "ground",
     accessory: "dumbbell",
   },
   {
@@ -160,6 +162,8 @@ export const CAST = [
       shoe: "#2A1F3D",
     },
     pose: { left: "wave" },
+    companion: "guineaPig",
+    companionSpot: "ground",
     accessory: "beer",
   },
   {

@@ -496,6 +496,61 @@ const COMPANIONS = {
       `</g></g>`,
     ].join("");
   },
+  shepherd({ x, y }) {
+    const tan = "#C98A4B";
+    const light = "#E9C089";
+    const dark = "#2B2230";
+    const wag = sway(16, x - 22, y - 14, 0.45);
+    const tilt = sway(4, x + 4, y - 50, 3.2);
+    const blink = `<animate attributeName="ry" values="3.2;3.2;0.5;3.2" keyTimes="0;0.9;0.95;1" dur="3.8s" repeatCount="indefinite"/>`;
+    const pant = `<animateTransform attributeName="transform" type="scale" additive="sum" values="1 1;1 1.25;1 1" dur="0.5s" repeatCount="indefinite"/>`;
+    return [
+      `<g>`,
+      `<g>${wag}${shape(`M${x - 20} ${y - 10}q-22 -4 -24 -24q8 10 26 14z`, dark)}</g>`,
+      shape(`M${x - 24} ${y}q-6 -34 14 -46q20 -8 30 10q6 14 2 36z`, tan),
+      flat(`M${x - 22} ${y - 18}q-2 -22 14 -30q14 -4 20 4q-14 2 -20 14q-6 10 -14 12z`, dark, 0.92),
+      shape(`M${x + 2} ${y - 30}q10 -6 18 4q2 14 -2 26h-14z`, light),
+      shape(roundedBox(x - 2, y - 22, 10, 22, 5), tan),
+      shape(roundedBox(x + 10, y - 22, 10, 22, 5), tan),
+      `<g>${tilt}`,
+      shape(`M${x - 12} ${y - 58}l-4 -26l16 16z`, dark),
+      shape(`M${x + 18} ${y - 60}l8 -24l6 22z`, dark),
+      flat(`M${x - 10} ${y - 64}l-2 -12l7 7z M${x + 22} ${y - 66}l4 -11l3 10z`, "#E8A8A0"),
+      shape(`M${x - 14} ${y - 52}q-2 -20 20 -20q22 0 20 20q-2 16 -20 18q-18 -2 -20 -18z`, tan),
+      flat(`M${x - 2} ${y - 70}q8 -4 16 0l-2 12q-6 -2 -12 0z`, dark, 0.85),
+      shape(`M${x - 4} ${y - 48}q10 -6 20 0q2 10 -10 14q-12 -4 -10 -14z`, light),
+      `<ellipse cx="${x - 3}" cy="${y - 56}" rx="2.8" ry="3.2" fill="${INK}">${blink}</ellipse>`,
+      `<ellipse cx="${x + 15}" cy="${y - 56}" rx="2.8" ry="3.2" fill="${INK}">${blink}</ellipse>`,
+      `<ellipse cx="${x + 6}" cy="${y - 46}" rx="4.4" ry="3.2" fill="${INK}"/>`,
+      `<g transform="translate(${x + 6} ${y - 40})"><g>${pant}<path d="M-4 0q4 10 8 0z" fill="#E0524A" ${thin}/></g></g>`,
+      stroke(`M${x} ${y - 41}q6 4 12 0`, INK, 2),
+      `<path d="M${x - 10} ${y - 36}q16 8 32 0" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>`,
+      `<path d="M${x - 10} ${y - 36}q16 8 32 0" fill="none" stroke="#E5243B" stroke-width="3.5" stroke-linecap="round"/>`,
+      `<circle cx="${x + 6}" cy="${y - 30}" r="5" fill="#FFD12F" ${thin}/>`,
+      `<text x="${x + 6}" y="${y - 27.6}" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="7" fill="${INK}">Z</text>`,
+      `</g></g>`,
+    ].join("");
+  },
+  guineaPig({ x, y }) {
+    const fur = "#E9B46A";
+    const blink = `<animate attributeName="ry" values="2.6;2.6;0.4;2.6" keyTimes="0;0.9;0.95;1" dur="3s" repeatCount="indefinite"/>`;
+    const sniff = `<animateTransform attributeName="transform" type="scale" additive="sum" values="1 1;1.25 0.85;1 1;1 1" keyTimes="0;0.15;0.3;1" dur="1.4s" repeatCount="indefinite"/>`;
+    const scoot = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="0.9s" repeatCount="indefinite"/>`;
+    return [
+      `<g>${scoot}`,
+      shape(roundedBox(x - 14, y - 6, 8, 6, 3), "#F4C7A1"),
+      shape(roundedBox(x + 6, y - 6, 8, 6, 3), "#F4C7A1"),
+      shape(`M${x - 24} ${y - 12}q0 -18 22 -18q22 0 26 14q2 14 -22 14q-26 2 -26 -10z`, fur),
+      flat(`M${x - 22} ${y - 16}q2 -12 14 -13q-2 10 -14 13z`, "#FBF8F3"),
+      flat(`M${x - 6} ${y - 29}q12 -1 16 6q-8 4 -16 -6z`, "#7A4A2A", 0.9),
+      shape(`M${x + 8} ${y - 28}q2 -6 7 -3q0 5 -5 6z`, "#E8A8A0"),
+      `<ellipse cx="${x + 13}" cy="${y - 19}" rx="2.2" ry="2.6" fill="${INK}">${blink}</ellipse>`,
+      `<g transform="translate(${x + 24} ${y - 15})"><g>${sniff}<ellipse cx="0" cy="0" rx="2.6" ry="2" fill="#E0524A"/></g></g>`,
+      stroke(`M${x + 24} ${y - 13}l8 -2M${x + 24} ${y - 12}l8 2`, INK, 1.2),
+      `<circle cx="${x + 16}" cy="${y - 13}" r="2.2" fill="#FF8FA3" opacity="0.7"/>`,
+      `</g>`,
+    ].join("");
+  },
   bud({ x, y }) {
     const bob = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>`;
     const wave = `<animateTransform attributeName="transform" type="rotate" values="-8 ${x - 26} ${y - 30};10 ${x - 26} ${y - 30};-8 ${x - 26} ${y - 30}" dur="1.2s" repeatCount="indefinite"/>`;
