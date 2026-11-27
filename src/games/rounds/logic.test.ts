@@ -38,6 +38,18 @@ describe("rounds game", () => {
     expect(game?.phase).toBe("ready");
   });
 
+  it("stops the clock when the last round is awarded mid-run, so the result survives a reload", () => {
+    const session = apply(
+      timed,
+      start(timed, 1),
+      { type: "start-timer", now: NOW },
+      { type: "award", winnerIds: ["a"] },
+    );
+    expect(session.game?.phase).toBe("finished");
+    expect(session.game?.timer?.deadlineMs).toBeNull();
+    expect(timed.isSession(session)).toBe(true);
+  });
+
   it("does not award before the clock starts on a timed card", () => {
     const session = start();
     expect(timed.reduceSession(session, { type: "award", winnerIds: ["a"] })).toBe(session);

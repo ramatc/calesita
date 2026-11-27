@@ -108,7 +108,9 @@ export function createRoundsGame(content: RoundsContent, storageKey: string) {
       winnerIds.includes(participant.id) ? { ...participant, score: participant.score + 1 } : participant,
     );
     if (game.round >= game.totalRounds) {
-      return { ...session, game: { ...game, participants, phase: "finished" } };
+      // A clock still running would make the finished game fail validation on reload.
+      const timer = game.timer && { ...game.timer, deadlineMs: null };
+      return { ...session, game: { ...game, participants, timer, phase: "finished" } };
     }
     const { deck, dealt } = deal(session.deck);
     return { deck, game: { ...game, ...dealt, participants, round: game.round + 1 } };
