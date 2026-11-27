@@ -149,7 +149,8 @@ export const CAST = [
     arms: { color: "#7D7A86", width: 18, cuff: "#6A6773", cuffOffset: 104 },
     legs: { color: "#2A2733", shade: "#16141C", width: 30, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
-    accessory: "beer",
+    accessory: null,
+    companion: "beer",
   },
   {
     id: "piku",
@@ -202,7 +203,8 @@ export const CAST = [
     arms: { color: "#E9D5B3", width: 19, cuff: "#B89C72", cuffOffset: 62 },
     legs: { color: "#3C3560", shade: "#262043", width: 34, flare: 3, hem: 330, sock: "#FFFFFF", shoe: "#E5243B" },
     pose: { left: "down" },
-    accessory: "ball",
+    accessory: null,
+    companion: "ball",
   },
   {
     id: "agusmaxi",
@@ -225,6 +227,7 @@ export const CAST = [
     arms: { color: BLACK_TEE, width: 19, cuff: "#2E2B38", cuffOffset: 62 },
     legs: { color: "#2F3A55", shade: "#1C2438", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
-    accessory: "burger",
+    accessory: null,
+    companion: "burger",
   },
 ];

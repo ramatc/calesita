@@ -372,7 +372,72 @@ const ACCESSORIES = {
 
 /* Companions sit on a shoulder and loop a small idle animation (SMIL, so it plays inside <img>). */
 
+const spline = `calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"`;
+const hover = (lift, dur) =>
+  `<animateTransform attributeName="transform" type="translate" values="0 0;0 -${lift};0 0" dur="${dur}s" repeatCount="indefinite" ${spline}/>`;
+const sway = (degrees, cx, cy, dur) =>
+  `<animateTransform attributeName="transform" type="rotate" values="-${degrees} ${cx} ${cy};${degrees} ${cx} ${cy};-${degrees} ${cx} ${cy}" dur="${dur}s" repeatCount="indefinite" ${spline}/>`;
+
+/** Round blinking eyes plus an open smile, shared by the cartoon companions. */
+function buddyFace(cx, cy, gap = 8) {
+  const blink = `<animate attributeName="ry" values="3.6;3.6;0.5;3.6" keyTimes="0;0.9;0.95;1" dur="3.2s" repeatCount="indefinite"/>`;
+  const eye = (ex) => `<ellipse cx="${ex}" cy="${cy}" rx="3" ry="3.6" fill="${INK}">${blink}</ellipse>`;
+  return [
+    eye(cx - gap),
+    eye(cx + gap),
+    `<circle cx="${cx - gap - 6}" cy="${cy + 6}" r="2.6" fill="#FF8FA3" opacity="0.8"/><circle cx="${cx + gap + 6}" cy="${cy + 6}" r="2.6" fill="#FF8FA3" opacity="0.8"/>`,
+    shape(`M${cx - 5} ${cy + 5}q5 7 10 0z`, "#E0524A"),
+  ].join("");
+}
+
 const COMPANIONS = {
+  burger({ x, y }) {
+    const squash = `<animateTransform attributeName="transform" type="scale" additive="sum" values="1 1;1.06 0.92;1 1" dur="1.6s" repeatCount="indefinite" ${spline}/>`;
+    const left = x - 26;
+    const top = y - 46;
+    return [
+      `<g>${hover(6, 1.6)}<g transform="translate(${x} ${y}) "><g>${squash}<g transform="translate(${-x} ${-y})">`,
+      shape(`M${left} ${top + 22}q0 -22 26 -22t26 22z`, "#F0A63C"),
+      `<ellipse cx="${left + 16}" cy="${top + 8}" rx="2.6" ry="1.6" fill="#FFF3C9"/><ellipse cx="${left + 34}" cy="${top + 7}" rx="2.6" ry="1.6" fill="#FFF3C9"/>`,
+      shape(`M${left - 3} ${top + 25}q5 -6 10 0t10 0t10 0t10 0t10 0t11 0v3h-61z`, "#55C271"),
+      shape(`M${left - 1} ${top + 28}h54l-7 6l-7 -4h-40z`, "#FFD12F"),
+      shape(roundedBox(left, top + 30, 52, 10, 5), "#6B3A23"),
+      shape(`M${left} ${top + 40}h52q0 10 -10 10h-32q-10 0 -10 -10z`, "#F0A63C"),
+      buddyFace(x, top + 14, 9),
+      `</g></g></g></g>`,
+    ].join("");
+  },
+  ball({ x, y }) {
+    const cx = x;
+    const cy = y - 24;
+    const radius = 22;
+    const spin = `<animateTransform attributeName="transform" type="rotate" values="0 ${cx} ${cy};360 ${cx} ${cy}" dur="4s" repeatCount="indefinite"/>`;
+    const bounce = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -12;0 0" keyTimes="0;0.5;1" dur="0.9s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.6 0.4 1;0.6 0 0.8 0.4"/>`;
+    return [
+      `<g>${bounce}`,
+      `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="#FFFFFF" ${line}/>`,
+      `<g>${spin}${[0, 120, 240].map((angle) => `<path d="M${cx} ${cy - radius + 1}l6 4l-2 6h-8l-2 -6z" fill="${INK}" transform="rotate(${angle} ${cx} ${cy})"/>`).join("")}</g>`,
+      buddyFace(cx, cy - 2, 7),
+      `</g>`,
+    ].join("");
+  },
+  beer({ x, y }) {
+    const left = x - 16;
+    const top = y - 54;
+    const bubble = (dx, delay) =>
+      `<circle cx="${left + dx}" r="2.2" fill="#FFF6D9" opacity="0"><animate attributeName="cy" values="${top + 48};${top + 18}" dur="1.8s" begin="${delay}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.9;0" dur="1.8s" begin="${delay}s" repeatCount="indefinite"/></circle>`;
+    return [
+      `<g>${hover(4, 2)}<g>${sway(6, x, y, 2.6)}`,
+      `<path d="M${left + 32} ${top + 18}h7q8 0 8 8v12q0 8 -8 8h-7" fill="none" stroke="${INK}" stroke-width="9"/>`,
+      `<path d="M${left + 32} ${top + 18}h7q8 0 8 8v12q0 8 -8 8h-7" fill="none" stroke="#FFF6D9" stroke-width="3"/>`,
+      shape(`M${left} ${top + 8}h34l-2 44q0 5 -5 5h-20q-5 0 -5 -5z`, "#FFB931"),
+      flat(`M${left + 22} ${top + 14}h10l-2 40q0 2 -2 2h-5z`, "#F08A1D", 0.7),
+      bubble(8, 0), bubble(15, 0.7), bubble(11, 1.3),
+      shape(`M${left - 4} ${top + 12}q-3 -12 9 -11q5 -9 15 -3q12 -5 14 7q5 7 -2 10q-5 3 -10 -1q-7 5 -12 0q-9 5 -14 -2z`, "#FFF9ED"),
+      buddyFace(left + 17, top + 30, 7),
+      `</g></g>`,
+    ].join("");
+  },
   bud({ x, y }) {
     const bob = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>`;
     const wave = `<animateTransform attributeName="transform" type="rotate" values="-8 ${x - 26} ${y - 30};10 ${x - 26} ${y - 30};-8 ${x - 26} ${y - 30}" dur="1.2s" repeatCount="indefinite"/>`;
@@ -443,7 +508,7 @@ export function drawCharacter(character) {
     accessory,
     drawHead(layout, character),
     hair.front,
-    character.companion ? COMPANIONS[character.companion]({ x: CENTER - layout.shoulder - 10, y: layout.shoulderY + 10 }) : "",
+    character.companion ? COMPANIONS[character.companion]({ x: CENTER - Math.max(layout.shoulder + 10, 58), y: layout.shoulderY + 10 }) : "",
   ].join("");
 }
 
