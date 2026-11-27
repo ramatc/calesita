@@ -370,6 +370,35 @@ const ACCESSORIES = {
   },
 };
 
+/* Companions sit on a shoulder and loop a small idle animation (SMIL, so it plays inside <img>). */
+
+const COMPANIONS = {
+  bud({ x, y }) {
+    const bob = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>`;
+    const wave = `<animateTransform attributeName="transform" type="rotate" values="-8 ${x - 26} ${y - 30};10 ${x - 26} ${y - 30};-8 ${x - 26} ${y - 30}" dur="1.2s" repeatCount="indefinite"/>`;
+    const blink = `<animate attributeName="ry" values="2.2;2.2;0.4;2.2" keyTimes="0;0.9;0.95;1" dur="3.6s" repeatCount="indefinite"/>`;
+    const puff = (dx, delay) =>
+      `<circle cx="${x + dx}" cy="${y - 62}" r="5" fill="#FFFFFF" ${thin} opacity="0"><animate attributeName="cy" values="${y - 56};${y - 84}" dur="2.4s" begin="${delay}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="2.4s" begin="${delay}s" repeatCount="indefinite"/></circle>`;
+    const leaf = (rotate) =>
+      `<path d="M${x} ${y - 8}q-10 12 0 28q10 -14 0 -28z" fill="#4E8F3A" ${thin} transform="rotate(${rotate} ${x} ${y - 8})"/>`;
+    const bumps = `M${x - 24} ${y - 8}q-8 -8 -2 -16q-6 -10 3 -16q-2 -10 8 -12q2 -10 11 -8q6 -8 12 0q9 -2 11 8q10 2 8 12q9 6 3 16q6 8 -2 16q-4 8 -14 7q-9 5 -18 0q-10 1 -14 -7z`;
+    return [
+      `<g>${bob}`,
+      leaf(70), leaf(-70), leaf(30), leaf(-30),
+      `<g>${wave}<path d="M${x - 22} ${y - 26}q-8 -6 -6 -16" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/><path d="M${x - 22} ${y - 26}q-8 -6 -6 -16" fill="none" stroke="#B9D67A" stroke-width="4" stroke-linecap="round"/>`,
+      `<path d="M${x - 28} ${y - 42}l-3 -9M${x - 28} ${y - 42}l3 -9" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><path d="M${x - 28} ${y - 42}l-3 -9M${x - 28} ${y - 42}l3 -9" stroke="#B9D67A" stroke-width="2" stroke-linecap="round"/></g>`,
+      shape(bumps, "#8DBE45"),
+      flat(`M${x - 12} ${y - 48}q4 -6 10 -3q-6 2 -6 8z`, "#B9D67A", 0.9),
+      `<ellipse cx="${x - 7}" cy="${y - 28}" rx="4" ry="2.2" fill="#FFFFFF" ${thin}>${blink}</ellipse>`,
+      `<ellipse cx="${x + 8}" cy="${y - 28}" rx="4" ry="2.2" fill="#FFFFFF" ${thin}>${blink}</ellipse>`,
+      stroke(`M${x - 12} ${y - 31}h9M${x + 3} ${y - 31}h9`, INK, 2.5),
+      shape(`M${x - 6} ${y - 20}q7 9 14 0z`, "#E0524A"),
+      puff(18, 0), puff(24, 1.2),
+      `</g>`,
+    ].join("");
+  },
+};
+
 /* Outfits paint on top of the torso; everything inside clips to its shape. */
 
 function drawOutfit(layout, outfit) {
@@ -414,6 +443,7 @@ export function drawCharacter(character) {
     accessory,
     drawHead(layout, character),
     hair.front,
+    character.companion ? COMPANIONS[character.companion]({ x: CENTER - layout.shoulder - 10, y: layout.shoulderY + 10 }) : "",
   ].join("");
 }
 
