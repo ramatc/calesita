@@ -15,8 +15,8 @@ export default function MentiraOVerdadScreen() {
       endDescription="Se termina esta partida y ven los totales. Lo que ya salió no se repite en la próxima."
       wording={{
         turn: "Historia",
-        completed: "Los engañó",
-        failed: "Lo descubrieron",
+        completed: "Engañó",
+        failed: "Descubierto",
         completedPlural: "Engaños",
         failedPlural: "Descubiertos",
       }}
