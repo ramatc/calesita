@@ -109,3 +109,9 @@ vercel --prod # production
 ```
 
 Every route is prerendered at build time, and unknown game slugs return 404.
+
+## La barra (participants)
+
+- **Single source of truth.** Characters present live in `characterRosterStore` (the same roster game setups use); guests live in `guestsStore` (`calesita:guests`, v1). `src/lib/participants.ts` joins them; read them anywhere with `useParticipants()`.
+- **Player count sync.** With 2 or more present, La barra writes the total to `playerCountStore`. Below 2 the count is untouched, so the picker keeps working manually. The picker stays editable either way. Games still seat characters up to their own count; guests count toward the total but do not take seats with avatars.
+- **Roulette.** `drawIndex` draws the winner first with `crypto.getRandomValues` and rejection sampling (uniform). `planSpin` then computes a rotation that stops inside that segment; tests assert the pointer always lands on the drawn one. With `prefers-reduced-motion`, the wheel jumps to the result without animating. No sound.

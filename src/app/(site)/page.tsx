@@ -4,7 +4,7 @@ import Link from "next/link";
 import { HeroStage } from "@/components/brand/hero-stage";
 import { SloganMarquee } from "@/components/brand/slogan-marquee";
 import { CategoryCard } from "@/components/catalog/category-card";
-import { CharacterLineup } from "@/components/characters/character-lineup";
+import { LaBarra } from "@/components/barra/la-barra";
 import { FeaturedGames } from "@/components/catalog/featured-games";
 import { SectionHeading } from "@/components/design/section-heading";
 import { SurpriseButton } from "@/components/catalog/surprise-button";
@@ -81,10 +81,10 @@ export default function HomePage() {
         <SectionHeading
           id="cast-heading"
           title="La barra"
-          description="Elegí quién sos antes de jugar. Si no, entrás igual."
+          description="Marcá quién está esta noche y sumá invitados. Si no, entran igual."
         />
         <div className="reveal mt-8">
-          <CharacterLineup />
+          <LaBarra />
         </div>
       </section>
     </main>
