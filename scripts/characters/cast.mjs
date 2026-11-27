@@ -131,6 +131,7 @@ export const CAST = [
     face: {
       eyes: { iris: DARK_EYES },
       brow: DEEP_BROWN_HAIR.base,
+      glasses: "#1E1033",
       nose: "small",
       mouth: "smile",
     },
@@ -159,7 +160,6 @@ export const CAST = [
     face: {
       eyes: { iris: CELESTE_EYES, relaxed: true },
       brow: "#C4932A",
-      glasses: "#1E1033",
       nose: "small",
       mouth: "smirk",
     },
