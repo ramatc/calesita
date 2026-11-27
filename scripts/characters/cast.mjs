@@ -8,7 +8,6 @@ const BLACK_HAIR = { base: "#221A33", light: "#4A3D66" };
 const BLOND_HAIR = { base: "#F2C43D", light: "#FFE68A" };
 const BROWN_HAIR = { base: "#6B4226", light: "#96653F" };
 const DARK_HAIR = { base: "#3A2340", light: "#62406B" };
-const LIGHT_BROWN_HAIR = { base: "#A8763A", light: "#D1A365" };
 
 const DARK_EYES = "#4A2E22";
 const CELESTE_EYES = "#58BDF0";
@@ -18,6 +17,15 @@ const shortBuild = { shoulders: 72, hips: 62 };
 
 const neck = (fill) => ({ y, center }) =>
   `<path d="M${center - 20} ${y + 1}q20 16 40 0" fill="none" stroke="${fill}" stroke-width="7" stroke-linecap="round"/>`;
+
+const chain = (color) => ({ y, center }) =>
+  `<path d="M${center - 24} ${y + 2}q24 26 48 0" fill="none" stroke="${color}" stroke-width="3.5" stroke-dasharray="4 2.5" stroke-linecap="round"/>`;
+
+const pearls = ({ y, center }) =>
+  `<path d="M${center - 22} ${y + 2}q22 22 44 0" fill="none" stroke="#FFF8EC" stroke-width="5" stroke-dasharray="0.1 6" stroke-linecap="round"/>`;
+
+const BLACK_TEE = "#1C1A22";
+const SILVER = "#D9DCE3";
 
 function star(cx, cy, radius) {
   const points = Array.from({ length: 10 }, (_, index) => {
@@ -73,23 +81,23 @@ export const CAST = [
     name: "Aguysan",
     stature: toStature(185),
     build: standardBuild,
-    hair: { style: "sweep", ...BLOND_HAIR },
+    hair: { style: "sweep", ...BROWN_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: "#C4932A",
+      brow: BROWN_HAIR.base,
       nose: "large",
       mouth: "smile",
     },
     outfit: {
-      color: "#FF8A3D",
-      shade: "#C85412",
+      color: "#FFFFFF",
+      shade: "#A9A6C4",
       hem: 6,
-      draw: ({ top, center, bottom }) =>
-        flat(`M${center - 14} ${top}h28v${bottom - top + 12}h-28z`, "#FFF1D6"),
-      collar: neck("#FFF1D6"),
+      draw: ({ top, center }) =>
+        `<path d="M${center - 34} ${top + 48}l16 26l14 -26M${center + 4} ${top + 48}h30" fill="none" stroke="${BLACK_TEE}" stroke-width="7" stroke-linejoin="round"/>`,
+      collar: neck("#D9D6E8"),
     },
-    arms: { color: "#FF8A3D", width: 19, cuff: "#FFF1D6", cuffOffset: 110 },
-    legs: { color: "#FFF1D6", shade: "#D9BE94", width: 32, flare: 2, shoe: "#C85412" },
+    arms: { color: "#FFFFFF", width: 19, cuff: "#D9D6E8", cuffOffset: 62 },
+    legs: { color: "#3B4A63", shade: "#24304A", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "hip", right: "hip" },
     accessory: null,
   },
@@ -98,24 +106,20 @@ export const CAST = [
     name: "Nehue",
     stature: toStature(176),
     build: { shoulders: 112, hips: 62 },
-    hair: { style: "fringe", ...BROWN_HAIR },
+    hair: { style: "fringe", ...DARK_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: BROWN_HAIR.base,
+      brow: DARK_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
     outfit: {
-      color: "#FFFFFF",
-      shade: "#7FA9C9",
-      draw: ({ top, bottom, center }) =>
-        [-40, -14, 12, 38]
-          .map((offset) => flat(`M${center + offset - 7} ${top - 2}h14v${bottom - top + 10}h-14z`, "#6CC5F0"))
-          .join(""),
-      collar: neck("#6CC5F0"),
+      color: BLACK_TEE,
+      shade: "#0B0A10",
+      collar: neck("#2E2B38"),
     },
     arms: { color: "#F4C7A1", width: 25, handSize: 13 },
-    legs: { color: "#2F6FA8", shade: "#1C4770", width: 34, flare: 3, hem: 340, shoe: "#FFFFFF" },
+    legs: { color: "#2A2733", shade: "#16141C", width: 34, flare: 3, hem: 340, shoe: "#FFFFFF" },
     pose: { left: "hip" },
     accessory: "dumbbell",
   },
@@ -124,24 +128,26 @@ export const CAST = [
     name: "Pili",
     stature: toStature(160),
     build: shortBuild,
-    hair: { style: "bob", ...DARK_HAIR },
+    hair: { style: "long", ...BROWN_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: DARK_HAIR.base,
-      glasses: "#7A1F3D",
+      brow: BROWN_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
     outfit: {
-      color: "#FF62AB",
-      shade: "#C62E7B",
+      color: "#7D7A86",
+      shade: "#55525E",
       hem: 4,
-      draw: ({ top, center }) =>
-        flat(`M${center - 40} ${top + 34}h80v9h-80z M${center - 40} ${top + 50}h80v9h-80z`, "#7A1F3D"),
-      collar: neck("#7A1F3D"),
+      draw: ({ top, bottom, center }) =>
+        [
+          flat(`M${center - 30} ${bottom - 40}h60l6 30h-72z`, "#6A6773"),
+          stroke(`M${center - 8} ${top + 6}v30M${center + 8} ${top + 6}v30`, "#E6E3EE", 3),
+        ].join(""),
+      collar: neck("#6A6773"),
     },
-    arms: { color: "#FF62AB", width: 17, cuff: "#7A1F3D", cuffOffset: 104 },
-    legs: { color: "#7A1F3D", shade: "#4C1026", width: 30, flare: 2, shoe: "#FF62AB" },
+    arms: { color: "#7D7A86", width: 18, cuff: "#6A6773", cuffOffset: 104 },
+    legs: { color: "#2A2733", shade: "#16141C", width: 30, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
     accessory: "beer",
   },
@@ -154,23 +160,20 @@ export const CAST = [
     face: {
       eyes: { iris: CELESTE_EYES, relaxed: true },
       brow: "#C4932A",
+      glasses: "#1E1033",
       nose: "small",
       mouth: "smirk",
     },
     outfit: {
-      color: "#FFF0A8",
-      shade: "#D9BE5E",
+      color: "#FFFFFF",
+      shade: "#B9B4D0",
       hem: 4,
       draw: ({ top, bottom, center }) =>
-        [
-          flat(`M${center - 30} ${top + 34}h60v${bottom - top}h-60z`, "#31D4C5"),
-          stroke(`M${center - 24} ${top + 38}L${center - 26} ${top - 4}M${center + 24} ${top + 38}L${center + 26} ${top - 4}`, "#31D4C5", 9),
-          flat(`M${center - 13} ${top + 48}h26v20h-26z`, "#1FA899"),
-        ].join(""),
-      collar: neck("#FFF0A8"),
+        stroke(`M${center - 22} ${top - 2}L${center + 30} ${bottom + 6}`, BLACK_TEE, 7),
+      collar: pearls,
     },
-    arms: { color: "#FFF0A8", width: 17 },
-    legs: { color: "#31D4C5", shade: "#1A9488", width: 30, flare: 2, shoe: "#FFF0A8" },
+    arms: { color: "#FFFFFF", width: 17 },
+    legs: { color: "#2F3A55", shade: "#1C2438", width: 30, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "hip" },
     accessory: "cigarette",
   },
@@ -179,22 +182,24 @@ export const CAST = [
     name: "Chino",
     stature: toStature(180),
     build: standardBuild,
-    hair: { style: "tousled", ...BROWN_HAIR },
+    hair: { style: "tousled", ...DARK_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: BROWN_HAIR.base,
+      brow: DARK_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
     outfit: {
-      color: "#FFFFFF",
-      shade: "#A9A6C4",
+      color: "#E9D5B3",
+      shade: "#B89C72",
       hem: 2,
-      draw: ({ top, bottom, center }) =>
-        `<path d="M${center - 60} ${top + 2}L${center + 56} ${bottom + 4}" stroke="#E5243B" stroke-width="26"/>`,
-      collar: neck("#E5243B"),
+      draw: ({ top, center }) =>
+        [-30, -10, 10, 30]
+          .map((offset, index) => flat(`M${center + offset - 8} ${top + 58 + (index % 2) * 4}h16v22h-16z`, "#D8262F"))
+          .join(""),
+      collar: neck("#B89C72"),
     },
-    arms: { color: "#FFFFFF", width: 19, cuff: "#E5243B", cuffOffset: 62 },
+    arms: { color: "#E9D5B3", width: 19, cuff: "#B89C72", cuffOffset: 62 },
     legs: { color: "#3C3560", shade: "#262043", width: 34, flare: 3, hem: 330, sock: "#FFFFFF", shoe: "#E5243B" },
     pose: { left: "down" },
     accessory: "ball",
@@ -204,23 +209,21 @@ export const CAST = [
     name: "Agusmaxi",
     stature: toStature(185),
     build: standardBuild,
-    hair: { style: "waves", ...LIGHT_BROWN_HAIR },
+    hair: { style: "crop", ...BLACK_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: "#7D5426",
+      brow: BLACK_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
     outfit: {
-      color: "#FFFFFF",
-      shade: "#9FB0D8",
+      color: BLACK_TEE,
+      shade: "#0B0A10",
       hem: 4,
-      draw: ({ top, center }) =>
-        `<path d="M${center - 46} ${top + 2}L${center} ${top + 88}L${center + 46} ${top + 2}" fill="none" stroke="#2B5FD9" stroke-width="20"/>`,
-      collar: neck("#2B5FD9"),
+      collar: chain(SILVER),
     },
-    arms: { color: "#FFFFFF", width: 19, cuff: "#2B5FD9", cuffOffset: 62 },
-    legs: { color: "#2B5FD9", shade: "#183A90", width: 32, flare: 2, shoe: "#FFFFFF" },
+    arms: { color: BLACK_TEE, width: 19, cuff: "#2E2B38", cuffOffset: 62 },
+    legs: { color: "#2F3A55", shade: "#1C2438", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
     accessory: "burger",
   },
