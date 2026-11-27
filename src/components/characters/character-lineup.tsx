@@ -2,7 +2,7 @@
 
 import { Check } from "lucide-react";
 import Image from "next/image";
-import { useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 import { CHARACTERS, getCharacterArt } from "@/content/characters";
 import { useParticipants } from "@/hooks/use-participants";
@@ -30,9 +30,16 @@ export function CharacterLineup() {
   // The server renders the fixed order; the browser swaps in its shuffle after hydration.
   const characters = useSyncExternalStore(subscribe, getShuffledOrder, () => CHARACTERS);
   const { roster } = useParticipants();
+  const listRef = useRef<HTMLUListElement>(null);
+
+  // Swapping in the shuffled order makes mandatory scroll snapping follow the card it was
+  // on, which opened the phone rail mid-list with a card cut off. Start at the beginning.
+  useEffect(() => {
+    listRef.current?.scrollTo({ left: 0 });
+  }, [characters]);
 
   return (
-    <ul className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-2 overflow-x-auto px-5 pt-3 pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-7 lg:gap-1 lg:overflow-visible lg:px-0">
+    <ul ref={listRef} className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-2 overflow-x-auto px-5 pt-3 pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-7 lg:gap-1 lg:overflow-visible lg:px-0">
       {characters.map((character) => {
         const isPresent = roster.includes(character.id);
 
@@ -43,7 +50,7 @@ export function CharacterLineup() {
               aria-pressed={isPresent}
               onClick={() => barra.toggleCharacter(character.id)}
               className={cn(
-                "group arcade-edge arcade-press block w-full cursor-pointer overflow-hidden rounded-arcade-card bg-card outline-none focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-ring",
+                "group arcade-edge arcade-press block w-full cursor-pointer overflow-hidden rounded-arcade-card bg-card outline-none focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-ring",
                 isPresent && "border-arcade-yellow",
               )}
             >
