@@ -1,10 +1,13 @@
+"use client";
+
 import { X } from "lucide-react";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import { Logo } from "@/components/brand/logo";
 import { ConfirmDialog } from "@/components/game/confirm-dialog";
 import { Button } from "@/components/ui/button";
+import { useFocusRecovery } from "@/hooks/use-focus-recovery";
 
 type GameFrameProps = {
   children: ReactNode;
@@ -18,10 +21,15 @@ type GameFrameProps = {
 
 /** Full-height layout for playing: one top bar, then content, then bottom-aligned controls. */
 export function GameFrame({ children, status, onEnd, endDescription = "" }: GameFrameProps) {
+  const rootRef = useRef<HTMLElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  useFocusRecovery(rootRef, statusRef, contentRef, status ? "playing" : "static");
+
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-4 p-4">
+    <main ref={rootRef} className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-4 p-4">
       <div className="flex min-h-11 items-center justify-between gap-3">
-        <div className="min-w-0 flex-1">
+        <div ref={statusRef} className="min-w-0 flex-1 rounded-full">
           {status ?? (
             <Link
               href="/"
@@ -53,7 +61,10 @@ export function GameFrame({ children, status, onEnd, endDescription = "" }: Game
           </Button>
         )}
       </div>
-      {children}
+      {/* Layout-neutral, so the frame's flex gaps still apply to each child. */}
+      <div ref={contentRef} className="contents">
+        {children}
+      </div>
     </main>
   );
 }
