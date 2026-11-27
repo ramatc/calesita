@@ -8,6 +8,10 @@ import { RULES as PALABRAS_PROHIBIDAS_RULES } from "@/content/palabras-prohibida
 import { RULES as DEFENDE_LO_INDEFENDIBLE_RULES } from "@/content/defende-lo-indefendible";
 import { RULES as MENTIRA_O_VERDAD_RULES } from "@/content/mentira-o-verdad";
 import { RULES as DIBUJALO_COMO_PUEDAS_RULES } from "@/content/dibujalo-como-puedas";
+import { RULES as BUSQUEDA_DESESPERADA_RULES } from "@/content/busqueda-desesperada";
+import { RULES as CONFESIONES_ANONIMAS_RULES } from "@/content/confesiones-anonimas";
+import { RULES as OLIMPIADAS_CALESITA_RULES } from "@/content/olimpiadas-calesita";
+import { RULES as PREGUNTADOS_CALESITA_RULES } from "@/content/preguntados-calesita";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -44,7 +48,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 15, max: 30 },
     materials: [],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: PREGUNTADOS_CALESITA_RULES,
   },
   {
     slug: "dibujalo-como-puedas",
@@ -133,7 +138,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 15, max: 30 },
     materials: ["paper"],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: CONFESIONES_ANONIMAS_RULES,
   },
   {
     slug: "desafio-relampago",
@@ -156,7 +162,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 20 },
     materials: ["household-objects"],
     difficulty: "easy",
-    status: "coming-soon",
+    status: "available",
+    rules: BUSQUEDA_DESESPERADA_RULES,
   },
   {
     slug: "estatuas-imposibles",
@@ -191,7 +198,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 30, max: 45 },
     materials: ["household-objects"],
     difficulty: "hard",
-    status: "coming-soon",
+    status: "available",
+    rules: OLIMPIADAS_CALESITA_RULES,
   },
 ];
 

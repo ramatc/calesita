@@ -21,4 +21,8 @@ export const GAME_SCREENS: Partial<Record<GameSlug, ComponentType>> = {
   "defende-lo-indefendible": dynamic(() => import("@/games/defende-lo-indefendible/screen")),
   "mentira-o-verdad": dynamic(() => import("@/games/mentira-o-verdad/screen")),
   "dibujalo-como-puedas": dynamic(() => import("@/games/dibujalo-como-puedas/screen")),
+  "busqueda-desesperada": dynamic(() => import("@/games/busqueda-desesperada/screen")),
+  "confesiones-anonimas": dynamic(() => import("@/games/confesiones-anonimas/screen")),
+  "olimpiadas-calesita": dynamic(() => import("@/games/olimpiadas-calesita/screen")),
+  "preguntados-calesita": dynamic(() => import("@/games/preguntados-calesita/screen")),
 };
