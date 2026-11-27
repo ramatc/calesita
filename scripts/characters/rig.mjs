@@ -328,6 +328,22 @@ const HAIR = {
 /* Accessories, drawn around the hand that holds them. */
 
 const ACCESSORIES = {
+  clapper({ x, y }) {
+    const left = x - 26;
+    const top = y - 30;
+    const stripes = (y0) =>
+      [6, 20, 34].map((dx) => `<path d="M${left + dx} ${y0}h8l-6 8h-8z" fill="#FFFFFF"/>`).join("");
+    const clap = `<animateTransform attributeName="transform" type="rotate" values="0 ${left} ${top};-22 ${left} ${top};0 ${left} ${top};0 ${left} ${top}" keyTimes="0;0.15;0.3;1" dur="2.2s" repeatCount="indefinite"/>`;
+    return [
+      shape(roundedBox(left, top + 2, 52, 30, 4), "#221C2E"),
+      `<g>${stripes(top + 2)}</g>`,
+      stroke(`M${left + 6} ${top + 18}h40M${left + 6} ${top + 25}h28`, "#C9C3DB", 2),
+      `<g>${clap}`,
+      shape(roundedBox(left, top - 8, 52, 9, 2), "#221C2E"),
+      `<g transform="translate(0 -10)">${stripes(top)}</g>`,
+      `</g>`,
+    ].join("");
+  },
   dumbbell({ x, y }) {
     const bar = `<rect x="${x - 32}" y="${y - 5}" width="64" height="10" rx="4" fill="#C9CFDA" ${thin}/>`;
     const plate = (px, height) =>
@@ -615,6 +631,9 @@ export function drawCharacter(character) {
   const armLeft = drawArm(layout, "left", { ...armColor, pose: pose.left, length: armColor.length ?? 104 });
   const armRight = drawArm(layout, "right", { ...armColor, pose: pose.right, length: armColor.length ?? 104 });
   const accessory = character.accessory ? ACCESSORIES[character.accessory](armRight.hand) : "";
+  const leftAccessory = character.leftAccessory
+    ? ACCESSORIES[character.leftAccessory](armLeft.hand)
+    : "";
 
   return [
     hair.back,
@@ -625,6 +644,7 @@ export function drawCharacter(character) {
     character.outfit.collar?.({ y: layout.shoulderY, center: CENTER }) ?? "",
     armRight.art,
     accessory,
+    leftAccessory,
     drawHead(layout, character),
     hair.front,
     character.companion ? COMPANIONS[character.companion](companionAnchor(character, layout)) : "",

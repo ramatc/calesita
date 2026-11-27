@@ -138,15 +138,17 @@ export const CAST = [
       mouth: "smile",
     },
     outfit: {
-      color: "#221C2E",
-      shade: "#0F0B16",
+      color: "#F4C7A1",
+      shade: "#E0A67F",
       hem: 22,
       draw: ({ top, bottom, center }) =>
         [
+          flat(`M${center - 70} ${top + 16}H${center + 70}V${top + 62}H${center - 70}Z`, "#221C2E"),
+          stroke(`M${center - 26} ${top + 18}L${center - 30} ${top - 4}M${center + 26} ${top + 18}L${center + 30} ${top - 4}`, "#221C2E", 5),
+          stroke(`M${center - 16} ${top + 36}l4 4m0 -4l-4 4M${center + 12} ${top + 44}l4 4m0 -4l-4 4`, "#FFD12F", 2.5),
           flat(`M${center - 70} ${bottom - 26}H${center + 70}V${bottom + 12}H${center - 70}Z`, "#FF62AB"),
           stroke(`M${center - 22} ${bottom - 24}l-3 34M${center} ${bottom - 24}v34M${center + 22} ${bottom - 24}l3 34`, "#C62E7B", 3),
           flat(`M${center - 70} ${bottom - 28}H${center + 70}v5H${center - 70}Z`, "#FFD12F"),
-          stroke(`M${center - 16} ${top + 34}l4 4m0 -4l-4 4M${center + 12} ${top + 46}l4 4m0 -4l-4 4M${center - 4} ${top + 58}l4 4m0 -4l-4 4`, "#FFD12F", 2.5),
         ].join(""),
       collar: ({ y, center }) =>
         `<path d="M${center - 18} ${y + 4}q18 16 36 0" fill="none" stroke="#FFD12F" stroke-width="3"/><circle cx="${center}" cy="${y + 13}" r="3.5" fill="#FFD12F"/>`,
@@ -164,6 +166,7 @@ export const CAST = [
     pose: { left: "wave" },
     companion: "guineaPig",
     companionSpot: "ground",
+    leftAccessory: "clapper",
     accessory: "beer",
   },
   {
