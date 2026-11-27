@@ -3,6 +3,7 @@ import { Check, Play, SkipForward, X } from "lucide-react";
 import { GameTimer } from "@/components/game/game-timer";
 import { Button } from "@/components/ui/button";
 import type { Action, Game } from "@/games/challenge-turns/logic";
+import type { ChallengeWording } from "@/games/challenge-turns/wording";
 import { formatClock } from "@/lib/timer";
 
 type ControlsProps = {
@@ -42,7 +43,11 @@ function TimerArea({ game, dispatch }: ControlsProps) {
   );
 }
 
-export function ChallengeControls({ game, dispatch }: ControlsProps) {
+export function ChallengeControls({
+  game,
+  dispatch,
+  wording,
+}: ControlsProps & { wording: ChallengeWording }) {
   const needsTimerStart = game.timer !== null && game.phase === "idle";
 
   return (
@@ -68,7 +73,7 @@ export function ChallengeControls({ game, dispatch }: ControlsProps) {
             onClick={() => dispatch({ type: "resolve", outcome: "completed" })}
           >
             <Check />
-            Completado
+            {wording.completed}
           </Button>
           <Button
             variant="secondary"
@@ -77,7 +82,7 @@ export function ChallengeControls({ game, dispatch }: ControlsProps) {
             onClick={() => dispatch({ type: "resolve", outcome: "failed" })}
           >
             <X />
-            Fallido
+            {wording.failed}
           </Button>
         </div>
       )}

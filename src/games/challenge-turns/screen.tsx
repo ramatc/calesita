@@ -22,6 +22,7 @@ import {
   type Session,
 } from "@/games/challenge-turns/logic";
 import { TallyBoard } from "@/games/challenge-turns/tally-board";
+import { DEFAULT_WORDING, type ChallengeWording } from "@/games/challenge-turns/wording";
 import { createPlayers, type Player } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
@@ -38,6 +39,9 @@ type ChallengeTurnsScreenProps = {
   /** Shown on the results screen. */
   resultsTitle: string;
   endDescription: string;
+  wording?: ChallengeWording;
+  /** Hidden for games where every card is the same kind, such as an untimed question. */
+  showDifficulty?: boolean;
 };
 
 /** The shared screen of every turn-based challenge game. */
@@ -48,6 +52,8 @@ export function ChallengeTurnsScreen({
   getChallenge,
   resultsTitle,
   endDescription,
+  wording = DEFAULT_WORDING,
+  showDifficulty = true,
 }: ChallengeTurnsScreenProps) {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [difficulty, setDifficulty] = useState<DifficultyOption>("mixed");
@@ -70,7 +76,7 @@ export function ChallengeTurnsScreen({
 
     return (
       <GameFrame
-        status={<RoundIndicator label="Desafío" current={game.played} />}
+        status={<RoundIndicator label={wording.turn} current={game.played} />}
         endDescription={endDescription}
         onEnd={() => {
           setLastGame(game);
@@ -89,9 +95,9 @@ export function ChallengeTurnsScreen({
           category={definition.category}
         />
         <p className="text-center text-lg text-balance">{challenge?.instructions}</p>
-        <ChallengeControls game={game} dispatch={dispatch} />
+        <ChallengeControls game={game} dispatch={dispatch} wording={wording} />
         <Disclosure summary="Ver cómo va cada uno">
-          <TallyBoard slug={SLUG} players={game.players} tallies={game.tallies} turn={game.turn} />
+          <TallyBoard slug={SLUG} wording={wording} players={game.players} tallies={game.tallies} turn={game.turn} />
         </Disclosure>
       </GameFrame>
     );
@@ -107,10 +113,11 @@ export function ChallengeTurnsScreen({
           onPlayAgain={() => start(lastGame.players, lastGame.difficulty)}
         >
           <p>
-            Completados: {totals.completed} · Fallidos: {totals.failed} · Saltados: {totals.skipped}
+            {wording.completedPlural}: {totals.completed} · {wording.failedPlural}: {totals.failed} · Saltados:{" "}
+            {totals.skipped}
           </p>
           <div className="mt-4 w-80 max-w-[calc(100vw-2rem)] text-left">
-            <TallyBoard slug={SLUG} players={lastGame.players} tallies={lastGame.tallies} />
+            <TallyBoard slug={SLUG} wording={wording} players={lastGame.players} tallies={lastGame.tallies} />
           </div>
         </GameResults>
       </GameFrame>
@@ -130,7 +137,7 @@ export function ChallengeTurnsScreen({
       >
         {(players) => (
           <>
-            <DifficultyPicker value={difficulty} onChange={setDifficulty} />
+            {showDifficulty && <DifficultyPicker value={difficulty} onChange={setDifficulty} />}
             <CharacterSelector count={players} />
             <PlayerNamesFields count={players} />
           </>
