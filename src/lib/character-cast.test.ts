@@ -2,8 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { CHARACTERS } from "@/content/characters";
 import { createPlayers, createTeams } from "@/games/players";
+import { addGuest, guestsStore } from "@/lib/guests";
 import {
   buildCast,
+  buildGuestCast,
+  gameGuestCastStore,
+  getGameSeatIdentities,
+  getSeatIdentity,
   getCastCharacters,
   getCastNames,
   characterRosterStore,
@@ -149,6 +154,75 @@ describe("lockGameCast", () => {
     lockGameCast("second", 2);
 
     expect(gameCastStore.get().first).toEqual({ "player-1": "rama" });
+  });
+});
+
+describe("guests in a game", () => {
+  it("seats guests right after the characters, while seats last", () => {
+    const guests = addGuest(addGuest(addGuest([], "Lu"), ""), "Sol");
+    expect(buildGuestCast(["rama"], guests, 3)).toEqual({
+      "player-2": { id: "guest-1", name: "Lu" },
+      "player-3": { id: "guest-2", name: "Invitado 2" },
+    });
+  });
+
+  it("uses guest names over typed names, then typed names, then defaults", () => {
+    const guestCast = buildGuestCast([], addGuest([], "Lu"), 3);
+    const players = createPlayers(3, getCastNames({}, ["", "Beto"], 3, guestCast));
+    expect(players.map((player) => player.name)).toEqual(["Lu", "Beto", "Jugador 3"]);
+  });
+
+  it("locks guests with the cast, so later edits do not rename a running game", () => {
+    characterRosterStore.set(["rama"]);
+    guestsStore.set(addGuest([], "Lu"));
+    lockGameCast("guest-game", 3);
+    guestsStore.set(addGuest([], "Otro"));
+
+    expect(gameGuestCastStore.get()["guest-game"]).toEqual({
+      "player-2": { id: "guest-1", name: "Lu" },
+    });
+    expect(getGameNames("guest-game", [], 3)).toEqual(["Rama", "Lu", ""]);
+  });
+});
+
+describe("seat identity", () => {
+  it("tells characters, guests and generic players apart", () => {
+    const cast = buildCast(["piku"], 3);
+    const guestCast = buildGuestCast(["piku"], addGuest([], "Lu"), 3);
+    expect(
+      ["player-1", "player-2", "player-3"].map((seatId) =>
+        getSeatIdentity(cast, guestCast, seatId, "Jugador"),
+      ),
+    ).toEqual([
+      { seatId: "player-1", name: "Piku", kind: "character", refId: "piku" },
+      { seatId: "player-2", name: "Lu", kind: "guest", refId: "guest-1" },
+      { seatId: "player-3", name: "Jugador", kind: "generic" },
+    ]);
+  });
+
+  it("fills extra seats with generic players when the count exceeds those present", () => {
+    characterRosterStore.set(["rama"]);
+    guestsStore.set(addGuest([], "Lu"));
+    lockGameCast("crowd", 4);
+
+    const seats = getGameSeatIdentities("crowd", createPlayers(4, getGameNames("crowd", [], 4)));
+    expect(seats.map((seat) => [seat.kind, seat.name])).toEqual([
+      ["character", "Rama"],
+      ["guest", "Lu"],
+      ["generic", "Jugador 3"],
+      ["generic", "Jugador 4"],
+    ]);
+    expect(new Set(seats.map((seat) => seat.seatId)).size).toBe(4);
+  });
+
+  it("plays fine with nobody chosen", () => {
+    characterRosterStore.set([]);
+    guestsStore.set([]);
+    lockGameCast("empty", 2);
+    expect(getGameSeatIdentities("empty", createPlayers(2)).map((seat) => seat.kind)).toEqual([
+      "generic",
+      "generic",
+    ]);
   });
 });
 

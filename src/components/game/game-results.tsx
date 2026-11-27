@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 
 import { SortijaIcon } from "@/components/brand/sortija-icon";
 import {
-  CharacterAvatar,
-  CharacterAvatarStack,
-} from "@/components/characters/character-avatar";
+  CharacterReaction,
+  CharacterReactionGroup,
+} from "@/components/characters/character-reaction";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Character } from "@/types/character";
@@ -14,8 +14,12 @@ type GameResultsProps = {
   title: string;
   children: ReactNode;
   onPlayAgain: () => void;
-  /** Who won, when they chose a character. */
+  /** Who won, when they chose a character. Several winners celebrate together. */
   winners?: readonly Character[];
+  /** Everyone tied at the top, for a draw. */
+  tied?: readonly Character[];
+  /** Who lost, shown small and calm under the winners. */
+  losers?: readonly Character[];
 };
 
 /** A fanned hand with the sortija on top, or the winner holding it. */
@@ -31,7 +35,7 @@ function ResultsFan({ winner }: { winner?: Character }) {
         )}
       >
         {winner ? (
-          <CharacterAvatar character={winner} size="lg" expression="celebrating" />
+          <CharacterReaction character={winner} reaction="victory" size="lg" />
         ) : (
           <SortijaIcon className="size-12" />
         )}
@@ -40,14 +44,44 @@ function ResultsFan({ winner }: { winner?: Character }) {
   );
 }
 
-export function GameResults({ title, children, onPlayAgain, winners = [] }: GameResultsProps) {
+export function GameResults({
+  title,
+  children,
+  onPlayAgain,
+  winners = [],
+  tied = [],
+  losers = [],
+}: GameResultsProps) {
   const [soleWinner] = winners.length === 1 ? winners : [];
 
   return (
     <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-6 pb-4 text-center">
       <ResultsFan winner={soleWinner} />
-      {winners.length > 1 && <CharacterAvatarStack characters={winners} size="sm" />}
+      {winners.length > 1 && (
+        <CharacterReactionGroup
+          characters={winners}
+          reaction="celebration"
+          size="md"
+          label={`Ganaron ${winners.map((character) => character.name).join(", ")}`}
+        />
+      )}
+      {winners.length === 0 && tied.length > 0 && (
+        <CharacterReactionGroup
+          characters={tied}
+          reaction="tie"
+          size="md"
+          label={`Empataron ${tied.map((character) => character.name).join(", ")}`}
+        />
+      )}
       <h1 className="font-display text-5xl leading-none text-brand-yellow md:text-6xl">{title}</h1>
+      {losers.length > 0 && (
+        <CharacterReactionGroup
+          characters={losers}
+          reaction="defeat"
+          size="xs"
+          label={`Perdieron ${losers.map((character) => character.name).join(", ")}`}
+        />
+      )}
       <div className="w-full text-xl">{children}</div>
       <div className="flex w-full flex-col gap-3">
         <Button variant="marquee" size="xl" onClick={onPlayAgain}>

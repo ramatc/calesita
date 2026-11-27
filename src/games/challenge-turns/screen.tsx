@@ -26,7 +26,10 @@ import { DEFAULT_WORDING, type ChallengeWording } from "@/games/challenge-turns/
 import { createPlayers, type Player } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
-import { getGameNames } from "@/lib/character-cast";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameNames, getGameSeatIdentities } from "@/lib/character-cast";
+import { matchTracker } from "@/lib/match-history";
+import { socialResult } from "@/lib/match-result";
 import { playerNamesStore } from "@/lib/player-names";
 import type { PersistentStore } from "@/lib/storage";
 import type { GameSlug } from "@/types/game";
@@ -62,6 +65,8 @@ export function ChallengeTurnsScreen({
   const { forSeat } = useGameCast(SLUG);
   const { game } = session;
 
+  useMatchRecording(SLUG, game ? "playing" : "idle", () => null);
+
   function start(players: readonly Player[], chosen: DifficultyOption) {
     setLastGame(null);
     dispatch({ type: "start", players, difficulty: chosen });
@@ -79,6 +84,11 @@ export function ChallengeTurnsScreen({
         status={<RoundIndicator label={wording.turn} current={game.played} />}
         endDescription={endDescription}
         onEnd={() => {
+          // These games have no natural end: ending after playing is how a session finishes.
+          const { completed, failed, skipped } = getTotals(game.tallies);
+          if (completed + failed + skipped > 0) {
+            matchTracker.finish(SLUG, socialResult(SLUG, getGameSeatIdentities(SLUG, game.players)));
+          }
           setLastGame(game);
           dispatch({ type: "end" });
         }}

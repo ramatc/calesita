@@ -23,9 +23,12 @@ import {
   SummaryView,
 } from "@/games/team-turns/play-views";
 import { SetupOptions, type SetupValues } from "@/games/team-turns/setup-options";
-import { getLeaders } from "@/games/players";
+import { createPlayers, getLeaders } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameSeatIdentities } from "@/lib/character-cast";
+import { scoredTeamsResult } from "@/lib/match-result";
 import type { PersistentStore } from "@/lib/storage";
 import type { GameSlug } from "@/types/game";
 
@@ -51,6 +54,19 @@ function getResultTitle(game: Game) {
   return leaders.length > 1 ? "¡Empate!" : `¡Ganó ${leaders[0].name}!`;
 }
 
+export function toMatchDraft(slug: string, game: Game) {
+  return scoredTeamsResult(
+    slug,
+    game.teams.map((team) => ({
+      id: team.id,
+      name: team.name,
+      seatIds: [...team.playerIds],
+      score: team.score,
+    })),
+    getGameSeatIdentities(slug, createPlayers(game.players)),
+  );
+}
+
 /** The shared screen of every two-team, timed-turn game. */
 export function TeamTurnsScreen({
   slug: SLUG,
@@ -67,6 +83,12 @@ export function TeamTurnsScreen({
   const { forSeats } = useGameCast(SLUG);
   const { game } = session;
 
+  useMatchRecording(
+    SLUG,
+    game?.phase === "finished" ? "finished" : game ? "playing" : "idle",
+    () => game && toMatchDraft(SLUG, game),
+  );
+
   function start(players: number, values: SetupValues) {
     setEndedGame(null);
     dispatch({ type: "start", players, ...values });
@@ -75,6 +97,17 @@ export function TeamTurnsScreen({
   function getWinners({ teams }: Game) {
     const leaders = getLeaders(teams);
     return leaders.length === 1 ? forSeats(leaders[0].playerIds) : [];
+  }
+
+  function getLosers({ teams }: Game) {
+    const leaders = getLeaders(teams);
+    if (leaders.length !== 1) return [];
+    return forSeats(teams.filter((team) => team.id !== leaders[0].id).flatMap((team) => team.playerIds));
+  }
+
+  function getTied({ teams }: Game) {
+    const leaders = getLeaders(teams);
+    return leaders.length > 1 ? forSeats(leaders.flatMap((team) => team.playerIds)) : [];
   }
 
   function playAgain({ players, teams, turnSeconds, totalRounds }: Game) {
@@ -93,10 +126,16 @@ export function TeamTurnsScreen({
         <GameResults
           title={getResultTitle(game)}
           winners={getWinners(game)}
+          tied={getTied(game)}
+          losers={getLosers(game)}
           onPlayAgain={() => playAgain(game)}
         >
           <div className="flex flex-col gap-3">
-            <Scores slug={SLUG} teams={game.teams} />
+            <Scores
+              slug={SLUG}
+              teams={game.teams}
+              highlightedId={getLeaders(game.teams).length === 1 ? getLeaders(game.teams)[0].id : undefined}
+            />
             <Button
               variant="ghost"
               size="xl"

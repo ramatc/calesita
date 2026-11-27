@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getCharacterById } from "@/content/characters";
 import { usePersistentStore } from "@/hooks/use-persistent-store";
-import { characterRosterStore, getEffectiveRoster } from "@/lib/character-cast";
+import {
+  buildGuestCast,
+  characterRosterStore,
+  getEffectiveRoster,
+} from "@/lib/character-cast";
+import { getSeatId } from "@/games/players";
+import { guestsStore } from "@/lib/guests";
 import { playerNamesStore } from "@/lib/player-names";
 
 const MAX_NAME_LENGTH = 20;
@@ -19,7 +25,9 @@ type PlayerNamesFieldsProps = {
 /** Optional names. Pass them to createPlayers with playerNamesStore.get() on start. */
 export function PlayerNamesFields({ count }: PlayerNamesFieldsProps) {
   const names = usePersistentStore(playerNamesStore);
-  const roster = getEffectiveRoster(usePersistentStore(characterRosterStore), count);
+  const fullRoster = usePersistentStore(characterRosterStore);
+  const roster = getEffectiveRoster(fullRoster, count);
+  const guestCast = buildGuestCast(fullRoster, usePersistentStore(guestsStore), count);
 
   function setName(index: number, name: string) {
     const next = Array.from({ length: Math.max(names.length, count) }, (_, position) =>
@@ -40,6 +48,16 @@ export function PlayerNamesFields({ count }: PlayerNamesFieldsProps) {
       <div className="mt-2 mb-2.5 grid gap-3 sm:grid-cols-2">
         {Array.from({ length: count }, (_, index) => {
           const character = getCharacterById(roster[index] ?? "");
+          const guest = guestCast[getSeatId(index)];
+
+          if (guest) {
+            return (
+              <div key={index} className="flex flex-col gap-1">
+                <span className="text-sm font-medium">Jugador {index + 1}</span>
+                <span className="flex h-11 items-center font-semibold">{guest.name}</span>
+              </div>
+            );
+          }
 
           return character ? (
             <div key={index} className="flex flex-col gap-1">

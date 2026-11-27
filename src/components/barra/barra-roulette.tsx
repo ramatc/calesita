@@ -26,7 +26,7 @@ function ParticipantBadge({ participant, size }: { participant: Participant; siz
     <span
       aria-hidden="true"
       className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-full bg-card font-display text-brand-ink ring-2 ring-brand-ink/20",
+        "inline-flex shrink-0 items-center justify-center rounded-full bg-foreground font-display text-brand-ink ring-2 ring-brand-ink/20",
         size === "sm" ? "size-11 text-xl" : "size-24 text-5xl",
       )}
     >

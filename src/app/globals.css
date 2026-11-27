@@ -57,6 +57,9 @@
   --animate-fan-open: fan-open 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
   --animate-marquee: marquee 48s linear infinite;
   --animate-slow-spin: slow-spin 90s linear infinite;
+  --animate-cheer: cheer 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s 2 backwards;
+  --animate-droop: droop 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  --animate-sway: sway 1.2s ease-in-out 0.2s 2;
 
   @keyframes bob {
     0%,
@@ -108,6 +111,40 @@
   @keyframes slow-spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  /* Reactions play a couple of times and settle, so a results screen stays calm. */
+  @keyframes cheer {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    40% {
+      transform: translateY(-14px) scale(1.06);
+    }
+    70% {
+      transform: translateY(0) scale(0.98);
+    }
+  }
+
+  @keyframes droop {
+    to {
+      transform: translateY(4px) rotate(-6deg);
+      filter: saturate(0.6);
+    }
+  }
+
+  @keyframes sway {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-6deg);
+    }
+    75% {
+      transform: rotate(6deg);
     }
   }
 

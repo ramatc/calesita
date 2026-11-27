@@ -36,7 +36,9 @@ import {
 import { createPlayers } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
-import { getGameNames } from "@/lib/character-cast";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameNames, getGameSeatIdentities } from "@/lib/character-cast";
+import { decidedResult } from "@/lib/match-result";
 import { playerNamesStore } from "@/lib/player-names";
 
 const LOSS_MESSAGES: Record<LossReason, string> = {
@@ -147,6 +149,17 @@ function getLossHeadline({ players, currentIndex }: Game) {
   return lives === 0 ? `${name} quedó afuera` : `${name} perdió una vida`;
 }
 
+/** The last one with lives wins; lives left are the score. */
+export function toMatchDraft(game: Game) {
+  const seats = getGameSeatIdentities(SLUG, game.players);
+  const winner = getWinner(game);
+  return decidedResult(
+    SLUG,
+    seats.map((seat, index) => ({ ...seat, score: game.players[index].lives })),
+    winner ? [winner.id] : [],
+  );
+}
+
 function FinalResults({ game, dispatch }: PhaseProps) {
   const winner = getWinner(game);
   const { forSeats } = useGameCast(SLUG);
@@ -155,6 +168,9 @@ function FinalResults({ game, dispatch }: PhaseProps) {
     <GameResults
       title={winner ? `¡Ganó ${winner.name}!` : "¡Se terminó!"}
       winners={winner ? forSeats([winner.id]) : []}
+      losers={forSeats(
+        game.players.filter((player) => player.id !== winner?.id).map((player) => player.id),
+      )}
       onPlayAgain={() => dispatch({ type: "end" })}
     >
       {winner && (
@@ -177,6 +193,12 @@ export default function CategoriasExplosivasScreen() {
   const [lives, setLives] = useState<LivesOption>(DEFAULT_LIVES);
   const definition = getGameBySlug(SLUG);
   const { game } = session;
+
+  useMatchRecording(
+    SLUG,
+    game?.phase === "finished" ? "finished" : game ? "playing" : "idle",
+    () => game && toMatchDraft(game),
+  );
 
   function start(count: number) {
     dispatch({

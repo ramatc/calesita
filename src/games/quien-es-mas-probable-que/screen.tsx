@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { getGameBySlug } from "@/content/catalog";
 import { getQuestionText, QUESTION_IDS } from "@/content/quien-es-mas-probable-que";
 import { getDeckProgress } from "@/games/deck";
+import { createPlayers } from "@/games/players";
 import {
   reduceSession,
   sessionStore,
@@ -20,6 +21,10 @@ import {
 } from "@/games/quien-es-mas-probable-que/logic";
 import { useCountdown } from "@/hooks/use-countdown";
 import { useGameSession } from "@/hooks/use-game-session";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameSeatIdentities } from "@/lib/character-cast";
+import { matchTracker } from "@/lib/match-history";
+import { socialResult } from "@/lib/match-result";
 
 const COUNTDOWN_SECONDS = 3;
 
@@ -79,11 +84,15 @@ function PlayControls({ phase, onCallVote, onReveal, onNext }: PlayControlsProps
   );
 }
 
+const SLUG = "quien-es-mas-probable-que";
+
 export default function QuienEsMasProbableScreen() {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [lastGame, setLastGame] = useState<Pick<Game, "players" | "asked"> | null>(null);
-  const definition = getGameBySlug("quien-es-mas-probable-que");
+  const definition = getGameBySlug(SLUG);
   const { game } = session;
+
+  useMatchRecording(SLUG, game ? "playing" : "idle", () => null);
 
   function start(players: number) {
     setLastGame(null);
@@ -100,6 +109,13 @@ export default function QuienEsMasProbableScreen() {
         status={<RoundIndicator label="Pregunta" current={game.asked} />}
         endDescription="Se termina esta partida. Las preguntas que ya salieron no se repiten en la próxima."
         onEnd={() => {
+          // A social game with no natural end: ending after a question finishes the session.
+          if (game.asked > 1 || game.phase !== "reading") {
+            matchTracker.finish(
+              SLUG,
+              socialResult(SLUG, getGameSeatIdentities(SLUG, createPlayers(game.players))),
+            );
+          }
           setLastGame(game);
           dispatch({ type: "end" });
         }}

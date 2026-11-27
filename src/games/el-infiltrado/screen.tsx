@@ -22,8 +22,28 @@ import { CluesView, RevealView, VoteView } from "@/games/el-infiltrado/play-view
 import { createPlayers } from "@/games/players";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
-import { getGameNames } from "@/lib/character-cast";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameNames, getGameSeatIdentities } from "@/lib/character-cast";
+import { decidedResult } from "@/lib/match-result";
 import { playerNamesStore } from "@/lib/player-names";
+
+/** Two sides: the group, and the infiltrator alone. The vote decides which one won. */
+export function toMatchDraft(game: Game) {
+  const infiltrator = getInfiltrator(game);
+  const groupIds = game.players.filter((player) => player.id !== infiltrator.id).map((player) => player.id);
+  const teams = [
+    { id: "group", name: "Grupo", seatIds: groupIds },
+    { id: "infiltrator", name: "Infiltrado", seatIds: [infiltrator.id] },
+  ];
+  const groupWon = didGroupWin(game);
+  return decidedResult(
+    SLUG,
+    getGameSeatIdentities(SLUG, game.players),
+    groupWon ? groupIds : [infiltrator.id],
+    teams,
+    [groupWon ? "group" : "infiltrator"],
+  );
+}
 
 function FinalResults({ game, dispatch }: { game: Game; dispatch: (action: Action) => void }) {
   const { forSeats } = useGameCast(SLUG);
@@ -37,6 +57,7 @@ function FinalResults({ game, dispatch }: { game: Game; dispatch: (action: Actio
     <GameResults
       title={groupWon ? "¡Lo encontraron!" : "¡Ganó el infiltrado!"}
       winners={forSeats(groupWon ? groupIds : [infiltrator.id])}
+      losers={forSeats(groupWon ? [infiltrator.id] : groupIds)}
       onPlayAgain={() => dispatch({ type: "play-again" })}
     >
       <div className="flex flex-col gap-3">
@@ -65,6 +86,12 @@ export default function ElInfiltradoScreen() {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const definition = getGameBySlug(SLUG);
   const { game } = session;
+
+  useMatchRecording(
+    SLUG,
+    game?.phase === "result" ? "finished" : game ? "playing" : "idle",
+    () => game && toMatchDraft(game),
+  );
 
   function start(count: number) {
     dispatch({

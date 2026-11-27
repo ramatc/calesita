@@ -25,7 +25,9 @@ import {
 } from "@/games/rounds/logic";
 import { useGameCast } from "@/hooks/use-game-cast";
 import { useGameSession } from "@/hooks/use-game-session";
-import { getGameNames } from "@/lib/character-cast";
+import { useMatchRecording } from "@/hooks/use-match-recording";
+import { getGameNames, getGameSeatIdentities } from "@/lib/character-cast";
+import { scoredPlayersResult, scoredTeamsResult } from "@/lib/match-result";
 import { playerNamesStore } from "@/lib/player-names";
 import type { PersistentStore } from "@/lib/storage";
 import { cn } from "@/lib/utils";
@@ -73,10 +75,40 @@ function toParticipants(
   }));
 }
 
-function Scores({ slug, participants, highlightedId }: {
+/** The result of a game that reached its last round, from its own scores. */
+export function toMatchDraft(slug: GameSlug, mode: RoundsScreenProps["mode"], game: Game) {
+  if (mode === "players") {
+    const seats = getGameSeatIdentities(
+      slug,
+      game.participants.map((participant) => ({ id: participant.id, name: participant.name })),
+    );
+    return scoredPlayersResult(
+      slug,
+      seats.map((seat, index) => ({ ...seat, score: game.participants[index].score })),
+    );
+  }
+  const seatIds = game.participants.flatMap((participant) => participant.seatIds);
+  const names = createPlayers(seatIds.length, getGameNames(slug, playerNamesStore.get(), seatIds.length));
+  const seats = getGameSeatIdentities(
+    slug,
+    seatIds.map((id) => ({ id, name: names.find((player) => player.id === id)?.name ?? id })),
+  );
+  return scoredTeamsResult(
+    slug,
+    game.participants.map((team) => ({
+      id: team.id,
+      name: team.name,
+      seatIds: [...team.seatIds],
+      score: team.score,
+    })),
+    seats,
+  );
+}
+
+function Scores({ slug, participants, highlightedIds = [] }: {
   slug: GameSlug;
   participants: readonly Participant[];
-  highlightedId?: string;
+  highlightedIds?: readonly string[];
 }) {
   const { forSeats } = useGameCast(slug);
   return (
@@ -87,7 +119,7 @@ function Scores({ slug, participants, highlightedId }: {
         name: participant.name,
         characters: forSeats(participant.seatIds),
         value: participant.score,
-        highlighted: participant.id === highlightedId,
+        highlighted: highlightedIds.includes(participant.id),
       }))}
     />
   );
@@ -157,6 +189,12 @@ export function RoundsScreen(props: RoundsScreenProps) {
   const { forSeats } = useGameCast(slug);
   const { game } = session;
 
+  useMatchRecording(
+    slug,
+    game?.phase === "finished" ? "finished" : game ? "playing" : "idle",
+    () => game && toMatchDraft(slug, mode, game),
+  );
+
   function start(count: number, option: number) {
     setLastGame(null);
     const participants = toParticipants(mode, slug, count, teamNames);
@@ -174,10 +212,15 @@ export function RoundsScreen(props: RoundsScreenProps) {
         <GameResults
           title={leaders.length > 1 ? "¡Empate!" : `¡Ganó ${leaders[0].name}!`}
           winners={leaders.length === 1 ? forSeats(leaders[0].seatIds) : []}
+          tied={leaders.length > 1 ? forSeats(leaders.flatMap((leader) => leader.seatIds)) : []}
           onPlayAgain={() => start(count, roundsOption)}
         >
           <div className="flex flex-col gap-3">
-            <Scores slug={slug} participants={game.participants} />
+            <Scores
+              slug={slug}
+              participants={game.participants}
+              highlightedIds={leaders.length === 1 ? [leaders[0].id] : []}
+            />
             <Button variant="ghost" size="xl" className="w-full" onClick={() => dispatch({ type: "end" })}>
               Cambiar opciones
             </Button>
