@@ -1,3 +1,4 @@
+import { PixelLabel } from "@/components/arcade/pixel-type";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -26,11 +27,11 @@ type GameResultsProps = {
 function ResultsFan({ winner }: { winner?: Character }) {
   return (
     <div aria-hidden="true" className="relative h-32 w-52">
-      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 -translate-x-12 -rotate-12 animate-fan-open rounded-2xl bg-brand-pink shadow-raised" />
-      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 translate-x-12 rotate-12 animate-fan-open rounded-2xl bg-brand-teal shadow-raised" />
+      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 -translate-x-12 -rotate-12 animate-fan-open rounded-arcade-card bg-brand-pink arcade-edge" />
+      <span className="absolute inset-y-0 left-1/2 -ml-11 w-22 translate-x-12 rotate-12 animate-fan-open rounded-arcade-card bg-brand-teal arcade-edge" />
       <span
         className={cn(
-          "absolute inset-y-0 left-1/2 flex items-center justify-center rounded-2xl bg-brand-yellow text-brand-ink shadow-raised",
+          "absolute inset-y-0 left-1/2 flex items-center justify-center rounded-arcade-card bg-brand-yellow text-brand-ink arcade-edge",
           winner ? "-ml-14 w-28" : "-ml-11 w-22",
         )}
       >
@@ -73,7 +74,10 @@ export function GameResults({
           label={`Empataron ${tied.map((character) => character.name).join(", ")}`}
         />
       )}
-      <h1 className="font-display text-5xl leading-none text-brand-yellow md:text-6xl">{title}</h1>
+      <div className="flex flex-col items-center gap-2">
+        <PixelLabel className="text-muted-foreground">Game over</PixelLabel>
+        <h1 className="font-display text-6xl leading-[0.85] text-arcade-yellow md:text-7xl">{title}</h1>
+      </div>
       {losers.length > 0 && (
         <CharacterReactionGroup
           characters={losers}

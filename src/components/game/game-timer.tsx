@@ -23,12 +23,12 @@ export function GameTimer({ timer, onPause, onResume, onExpire }: GameTimerProps
   const isLow = remainingMs <= LOW_TIME_MS;
 
   return (
-    <div className="flex flex-col gap-3 rounded-3xl bg-card p-4 shadow-card">
+    <div className="flex flex-col gap-3 rounded-arcade-panel bg-card p-4 arcade-edge">
       <div className="flex items-center justify-between gap-3">
         <time
           role="timer"
           className={cn(
-            "origin-left font-display text-6xl leading-none text-brand-yellow md:text-7xl",
+            "origin-left font-display text-7xl leading-[0.8] text-arcade-yellow md:text-8xl",
             isLow && "text-brand-pink",
             isLow && isRunning && "animate-throb",
           )}

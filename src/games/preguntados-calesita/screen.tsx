@@ -26,7 +26,7 @@ function QuestionCard({ game }: { game: Game }) {
     <>
       <div className="flex items-center justify-center gap-3">
         {character && <CharacterAvatar character={character} size="sm" />}
-        <h1 className="min-w-0 text-center font-display text-3xl">
+        <h1 className="min-w-0 text-center font-display text-4xl leading-none">
           Le toca a <span className="text-brand-yellow">{player.name}</span>
         </h1>
       </div>

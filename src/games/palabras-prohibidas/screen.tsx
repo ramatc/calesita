@@ -12,14 +12,14 @@ export function renderWordCard(promptId: string) {
   return (
     <>
       <PromptCard promptId={promptId} text={card?.word ?? ""} category="classic" />
-      <div className="rounded-3xl bg-card p-4 shadow-card">
+      <div className="rounded-arcade-panel bg-card p-4 arcade-edge">
         <p className="mb-2 flex items-center justify-center gap-2 font-semibold text-brand-pink">
           <Ban aria-hidden="true" className="size-5" />
           No se puede decir
         </p>
         <ul className="grid grid-cols-2 gap-2 text-center text-xl font-semibold">
           {card?.forbidden.map((word) => (
-            <li key={word} className="rounded-2xl bg-secondary px-2 py-2">
+            <li key={word} className="rounded-arcade-card bg-secondary px-2 py-2">
               {word}
             </li>
           ))}

@@ -37,7 +37,7 @@ export function PlayerNamesFields({ count }: PlayerNamesFieldsProps) {
   }
 
   return (
-    <details className="group rounded-2xl bg-secondary px-4 py-1.5">
+    <details className="group rounded-arcade-card bg-secondary px-4 py-1.5">
       <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 py-1 font-semibold [&::-webkit-details-marker]:hidden">
         Ponerles nombre (opcional)
         <ChevronDown

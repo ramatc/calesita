@@ -28,7 +28,7 @@ type ViewProps = {
 /** One message between secrets, with nothing else on screen. */
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-4xl bg-card p-6 text-center shadow-card">
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-arcade-panel bg-card p-6 text-center arcade-edge">
       {children}
     </div>
   );
@@ -190,7 +190,7 @@ export function VoteView({ game, dispatch }: ViewProps) {
                 aria-pressed={isChosen}
                 onClick={() => dispatch({ type: "vote", playerId: player.id })}
                 className={cn(
-                  "flex min-h-14 w-full items-center gap-3 rounded-2xl bg-card px-4 py-3 text-left text-lg font-semibold shadow-card transition-transform outline-none focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.98]",
+                  "flex min-h-14 w-full items-center gap-3 rounded-arcade-card bg-card px-4 py-3 text-left text-lg font-semibold arcade-edge transition-transform outline-none focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.98]",
                   isChosen && "bg-brand-yellow text-brand-ink",
                 )}
               >

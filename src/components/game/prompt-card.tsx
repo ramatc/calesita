@@ -13,22 +13,22 @@ type PromptCardProps = {
 export function PromptCard({ promptId, text, category }: PromptCardProps) {
   return (
     <div key={promptId} className="relative flex min-h-72 flex-1 animate-deal">
-      <div aria-hidden="true" className="absolute inset-0 -rotate-2 rounded-4xl bg-secondary" />
-      <div aria-hidden="true" className="absolute inset-0 rotate-1 rounded-4xl bg-accent" />
+      <div aria-hidden="true" className="absolute inset-0 -rotate-2 rounded-arcade-panel bg-secondary" />
+      <div aria-hidden="true" className="absolute inset-0 rotate-1 rounded-arcade-panel bg-accent" />
       <div
         className={cn(
-          "relative flex flex-1 items-center justify-center overflow-hidden rounded-4xl p-8 text-center shadow-raised",
+          "relative flex flex-1 items-center justify-center overflow-hidden rounded-arcade-panel p-8 text-center arcade-edge",
           CATEGORY_SURFACE[category],
         )}
       >
         <span aria-hidden="true" className={cn("edge-fade absolute inset-0", CATEGORY_MOTIF[category])} />
         <span
           aria-hidden="true"
-          className="absolute inset-3 rounded-3xl border-2 border-brand-ink/15"
+          className="absolute inset-3 rounded-arcade-panel border-2 border-brand-ink/15"
         />
         <p
           aria-live="polite"
-          className="relative font-display text-[clamp(2rem,8vw,3.5rem)] leading-[1.05] text-balance"
+          className="relative font-sans text-[clamp(1.75rem,7vw,3rem)] leading-[1.1] font-extrabold tracking-tight text-balance"
         >
           {text}
         </p>

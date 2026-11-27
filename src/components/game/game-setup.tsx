@@ -36,7 +36,7 @@ export function GameSetup({ game, onStart, children }: GameSetupProps) {
     <div className="flex flex-1 flex-col gap-6">
       <div className="grid items-start gap-6 md:grid-cols-2">
         <div className="flex flex-col gap-5">
-          <GameStub game={game} className="h-36 rounded-3xl shadow-raised">
+          <GameStub game={game} className="h-36 rounded-arcade-panel arcade-edge">
             <GameIllustration slug={game.slug} />
           </GameStub>
           <h1 className="font-display text-4xl leading-none text-brand-yellow md:text-5xl">
@@ -47,7 +47,7 @@ export function GameSetup({ game, onStart, children }: GameSetupProps) {
 
         <section
           aria-label="Configuración de la partida"
-          className="flex flex-col gap-5 rounded-3xl bg-card p-5 shadow-card"
+          className="flex flex-col gap-5 rounded-arcade-panel bg-card p-5 arcade-edge"
         >
           <div className="flex items-center justify-between gap-4">
             <span id="setup-players" className="font-semibold text-muted-foreground">

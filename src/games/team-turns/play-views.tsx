@@ -40,7 +40,7 @@ export function Scores({ slug, teams, highlightedId }: ScoresProps) {
 /** The middle of a turn change: one message, away from any prompt. */
 function TurnPanel({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-4xl bg-card p-6 text-center shadow-card">
+    <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-arcade-panel bg-card p-6 text-center arcade-edge">
       {children}
     </div>
   );
