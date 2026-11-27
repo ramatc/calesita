@@ -204,11 +204,9 @@ export const CAST = [
       collar: neck("#B89C72"),
     },
     arms: { color: "#E9D5B3", width: 19, cuff: "#B89C72", cuffOffset: 62 },
-    legs: { color: "#3C3560", shade: "#262043", width: 34, flare: 3, hem: 330, sock: "#FFFFFF", shoe: "#E5243B" },
+    legs: { color: "#3C3560", shade: "#262043", width: 34, flare: 3, hem: 330, sock: "#FFFFFF", shoe: "#E5243B", step: true },
     pose: { left: "down" },
     accessory: null,
-    companion: "ball",
-    companionSpot: "ground",
   },
   {
     id: "agusmaxi",
