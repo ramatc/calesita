@@ -5,6 +5,9 @@ import { RULES as EL_INFILTRADO_RULES } from "@/content/el-infiltrado";
 import { RULES as UN_MINUTO_PARA_GANAR_RULES } from "@/content/un-minuto-para-ganar";
 import { RULES as ESTATUAS_IMPOSIBLES_RULES } from "@/content/estatuas-imposibles";
 import { RULES as PALABRAS_PROHIBIDAS_RULES } from "@/content/palabras-prohibidas";
+import { RULES as DEFENDE_LO_INDEFENDIBLE_RULES } from "@/content/defende-lo-indefendible";
+import { RULES as MENTIRA_O_VERDAD_RULES } from "@/content/mentira-o-verdad";
+import { RULES as DIBUJALO_COMO_PUEDAS_RULES } from "@/content/dibujalo-como-puedas";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -52,7 +55,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 20, max: 30 },
     materials: ["paper"],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: DIBUJALO_COMO_PUEDAS_RULES,
   },
   {
     slug: "categorias-explosivas",
@@ -105,7 +109,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 15, max: 25 },
     materials: [],
     difficulty: "easy",
-    status: "coming-soon",
+    status: "available",
+    rules: MENTIRA_O_VERDAD_RULES,
   },
   {
     slug: "defende-lo-indefendible",
@@ -116,7 +121,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 15, max: 30 },
     materials: [],
     difficulty: "hard",
-    status: "coming-soon",
+    status: "available",
+    rules: DEFENDE_LO_INDEFENDIBLE_RULES,
   },
   {
     slug: "confesiones-anonimas",

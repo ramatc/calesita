@@ -18,4 +18,7 @@ export const GAME_SCREENS: Partial<Record<GameSlug, ComponentType>> = {
     () => import("@/games/quien-es-mas-probable-que/screen"),
   ),
   "un-minuto-para-ganar": dynamic(() => import("@/games/un-minuto-para-ganar/screen")),
+  "defende-lo-indefendible": dynamic(() => import("@/games/defende-lo-indefendible/screen")),
+  "mentira-o-verdad": dynamic(() => import("@/games/mentira-o-verdad/screen")),
+  "dibujalo-como-puedas": dynamic(() => import("@/games/dibujalo-como-puedas/screen")),
 };
