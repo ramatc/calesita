@@ -19,37 +19,53 @@ const shortBuild = { shoulders: 72, hips: 62 };
 const neck = (fill) => ({ y, center }) =>
   `<path d="M${center - 20} ${y + 1}q20 16 40 0" fill="none" stroke="${fill}" stroke-width="7" stroke-linecap="round"/>`;
 
+function star(cx, cy, radius) {
+  const points = Array.from({ length: 10 }, (_, index) => {
+    const angle = (Math.PI / 5) * index - Math.PI / 2;
+    const length = index % 2 === 0 ? radius : radius * 0.45;
+    return `${(cx + Math.cos(angle) * length).toFixed(1)} ${(cy + Math.sin(angle) * length).toFixed(1)}`;
+  });
+  return `<path d="M${points.join("L")}Z" fill="#F4F4F8" stroke="#1E1033" stroke-width="1.5" stroke-linejoin="round"/>`;
+}
+
 export const CAST = [
   {
     id: "rama",
     name: "Rama",
     stature: toStature(176),
-    build: { shoulders: 100, hips: 84 },
-    hair: { style: "crop", ...BLACK_HAIR },
+    build: { shoulders: 108, hips: 84 },
+    hair: { style: "fade", ...BLACK_HAIR },
     face: {
       eyes: { iris: DARK_EYES, relaxed: true },
       brow: BLACK_HAIR.base,
-      browCut: "left",
-      browRing: "#FFD12F",
+      browBar: "#D9DCE3",
+      beard: "#2B2233",
       nose: "small",
       mouth: "smirk",
     },
     outfit: {
-      color: "#7B4DFF",
-      shade: "#3B1FA8",
-      hem: 26,
+      color: "#2A2533",
+      shade: "#0F0B16",
+      hem: 10,
       draw: ({ top, bottom, center }) =>
         [
-          flat(`M${center - 70} ${bottom - 14}H${center + 70}V${bottom + 8}H${center - 70}Z`, "#FFD12F"),
-          flat(`M${center - 26} ${top + 72}h52l8 34h-68z`, "#5B2FE0"),
-          stroke(`M${center - 9} ${top + 8}v30M${center + 9} ${top + 8}v22`, "#FFD12F", 4),
+          flat(`M${center - 70} ${bottom - 12}H${center + 70}V${bottom + 8}H${center - 70}Z`, "#1C1824"),
+          flat(`M${center - 28} ${top + 82}h56l8 30h-72z`, "#1C1824"),
+          ...[-30, -10, 10, 30].map((offset, index) =>
+            star(center + offset, top + 62 - (index === 1 || index === 2 ? 6 : 0), 8),
+          ),
         ].join(""),
-      collar: neck("#FFD12F"),
+      collar: ({ y, center }) =>
+        [
+          `<path d="M${center - 34} ${y + 2}q34 30 68 0" fill="none" stroke="#1E1033" stroke-width="22" stroke-linecap="round"/>`,
+          `<path d="M${center - 34} ${y + 2}q34 30 68 0" fill="none" stroke="#2A2533" stroke-width="14" stroke-linecap="round"/>`,
+          `<path d="M${center - 16} ${y + 6}q16 22 32 0" fill="none" stroke="#D9DCE3" stroke-width="3.5" stroke-dasharray="4 2"/>`,
+        ].join(""),
     },
-    arms: { color: "#7B4DFF", width: 25, cuff: "#FFD12F", cuffOffset: 118 },
-    legs: { color: "#4D4378", shade: "#2F2752", width: 42, flare: 7, shoe: "#FFD12F" },
-    pose: { left: "hip", right: "wave" },
-    accessory: null,
+    arms: { color: "#2A2533", width: 27, cuff: "#D9DCE3", cuffOffset: 116 },
+    legs: { color: "#A9A9B6", shade: "#7C7C8C", width: 42, flare: 6, hem: 330, shoe: "#F4F4F8" },
+    pose: { left: "hip", right: "hold" },
+    accessory: "phone",
   },
   {
     id: "aguysan",

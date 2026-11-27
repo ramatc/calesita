@@ -182,6 +182,15 @@ function drawGlasses(y, color) {
   ].join("");
 }
 
+/* A short, full beard that follows the jaw, with the mustache over the mouth. */
+function drawBeard(x, y, mouthY, color) {
+  return [
+    flat(`M${x - 52} ${y + 4}Q${x - 52} ${y + 58} ${x} ${y + 60}Q${x + 52} ${y + 58} ${x + 52} ${y + 4}L${x + 45} ${y + 10}Q${x + 42} ${y + 30} ${x + 22} ${y + 34}Q${x} ${y + 26} ${x - 22} ${y + 34}Q${x - 42} ${y + 30} ${x - 45} ${y + 10}Z`, color, 0.9),
+    `<path d="M${x - 52} ${y + 4}Q${x - 52} ${y + 58} ${x} ${y + 60}Q${x + 52} ${y + 58} ${x + 52} ${y + 4}" fill="none" ${line}/>`,
+    flat(`M${x - 19} ${mouthY + 6}Q${x} ${mouthY - 4} ${x + 19} ${mouthY + 6}Q${x} ${mouthY + 2} ${x - 19} ${mouthY + 6}Z`, color),
+  ].join("");
+}
+
 function drawHead(layout, character) {
   const { x, y } = layout.head;
   const left = x - HEAD.width / 2;
@@ -202,6 +211,7 @@ function drawHead(layout, character) {
     flat(`M${x + 38} ${top + 12}Q${x + 50} ${y} ${x + 44} ${y + 30}Q${x + 34} ${y + 48} ${x + 12} ${y + 51}Q${x + 40} ${y + 26} ${x + 38} ${top + 12}Z`, SKIN_SHADE, 0.7),
     `<ellipse cx="${x - 33}" cy="${y + 22}" rx="9" ry="5.5" fill="#FF8FA3" opacity="0.5"/>`,
     `<ellipse cx="${x + 33}" cy="${y + 22}" rx="9" ry="5.5" fill="#FF8FA3" opacity="0.5"/>`,
+    face.beard ? drawBeard(x, y, face.nose === "large" ? y + 36 : y + 28, face.beard) : "",
     drawEye(x - eyeX, eyeY, face.eyes),
     drawEye(x + eyeX, eyeY, face.eyes),
     drawBrow(x - eyeX, eyeY - 17, face.brow, "left", { gap: face.browCut === "left" }),
@@ -209,7 +219,9 @@ function drawHead(layout, character) {
     drawNose(face.nose, face.nose === "large" ? y + 13 : y + 16),
     mouth,
     face.glasses ? drawGlasses(eyeY, face.glasses) : "",
-    face.browRing
+    face.browBar
+      ? `<circle cx="${x + eyeX + 6}" cy="${eyeY - 24}" r="3.6" fill="${face.browBar}" ${thin}/><circle cx="${x + eyeX + 13}" cy="${eyeY - 11}" r="3.6" fill="${face.browBar}" ${thin}/>`
+      : face.browRing
       ? `<circle cx="${x + eyeX + 12}" cy="${eyeY - 14}" r="4.2" fill="none" stroke="${INK}" stroke-width="5.5"/><circle cx="${x + eyeX + 12}" cy="${eyeY - 14}" r="4.2" fill="none" stroke="${face.browRing}" stroke-width="3"/>`
       : "",
   ].join("");
@@ -224,6 +236,16 @@ const HAIR = {
       front: [
         shape(`M${x - 53} ${top + 44}Q${x - 58} ${top - 8} ${x} ${top - 8}Q${x + 58} ${top - 8} ${x + 53} ${top + 44}Q${x + 46} ${top + 24} ${x + 28} ${top + 22}Q${x} ${top + 28} ${x - 28} ${top + 22}Q${x - 46} ${top + 24} ${x - 53} ${top + 44}Z`, colors.base),
         flat(`M${x - 34} ${top + 4}Q${x - 6} ${top - 6} ${x + 18} ${top + 4}Q${x - 6} ${top + 3} ${x - 34} ${top + 12}Z`, colors.light, 0.8),
+      ].join(""),
+    };
+  },
+  fade(x, top, colors) {
+    return {
+      back: "",
+      front: [
+        flat(`M${x - 53} ${top + 40}Q${x - 56} ${top + 6} ${x - 40} ${top - 2}H${x + 40}Q${x + 56} ${top + 6} ${x + 53} ${top + 40}Q${x + 50} ${top + 22} ${x + 44} ${top + 18}H${x - 44}Q${x - 50} ${top + 22} ${x - 53} ${top + 40}Z`, colors.light, 0.75),
+        shape(`M${x - 44} ${top + 18}Q${x - 50} ${top - 14} ${x} ${top - 14}Q${x + 50} ${top - 14} ${x + 44} ${top + 18}Q${x + 22} ${top + 10} ${x} ${top + 14}Q${x - 22} ${top + 10} ${x - 44} ${top + 18}Z`, colors.base),
+        flat(`M${x - 26} ${top - 4}Q${x} ${top - 12} ${x + 22} ${top - 4}Q${x} ${top - 6} ${x - 26} ${top + 4}Z`, colors.light, 0.8),
       ].join(""),
     };
   },
@@ -312,6 +334,15 @@ const ACCESSORIES = {
       `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="#FFFFFF" ${line}/>`,
       `<path d="M${cx} ${cy - 11}l10.5 7.6l-4 12.4h-13l-4 -12.4z" fill="${INK}"/>`,
       stroke(`M${cx} ${cy - 11}V${cy - radius + 1}M${cx + 10.5} ${cy - 3.4}L${cx + radius - 3} ${cy - 10}M${cx + 6.5} ${cy + 9}L${cx + 17} ${cy + 24}M${cx - 6.5} ${cy + 9}L${cx - 17} ${cy + 24}M${cx - 10.5} ${cy - 3.4}L${cx - radius + 3} ${cy - 10}`, INK, 3),
+    ].join("");
+  },
+  phone({ x, y }) {
+    const left = x - 14;
+    const top = y - 62;
+    return [
+      shape(roundedBox(left, top, 32, 58, 7), "#EAD3C2"),
+      `<rect x="${left + 4}" y="${top + 4}" width="14" height="16" rx="5" fill="#CDB3A0"/>`,
+      `<circle cx="${left + 9}" cy="${top + 9}" r="3" fill="${INK}"/><circle cx="${left + 9}" cy="${top + 16}" r="3" fill="${INK}"/>`,
     ].join("");
   },
   cigarette({ x, y }) {

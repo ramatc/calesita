@@ -7,7 +7,7 @@ const SEEDS: readonly CharacterSeed[] = [
     id: "rama",
     name: "Rama",
     colors: { primary: "#7B4DFF", secondary: "#FFD12F" },
-    accessories: ["Arito en la ceja"],
+    accessories: ["Piercing en la ceja", "Barba", "Cadenita", "Celular"],
   },
   {
     id: "aguysan",
