@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import { CHARACTERS, getCharacterArt } from "@/content/characters";
+import { shuffle } from "@/lib/random";
 
 /** All full-body art shares one canvas and ground line, which keeps relative proportions. */
 const ART_WIDTH = 260;
@@ -8,9 +12,13 @@ const ART_HEIGHT = 420;
 
 /** The seven in their booths, as a decorative piece of the home. */
 export function CharacterLineup() {
+  // Shuffled after mount so the server render and hydration stay identical.
+  const [characters, setCharacters] = useState(CHARACTERS);
+  useEffect(() => setCharacters(shuffle(CHARACTERS)), []);
+
   return (
     <ul className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-2 overflow-x-auto px-5 pt-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-7 lg:gap-1 lg:overflow-visible lg:px-0">
-      {CHARACTERS.map((character) => (
+      {characters.map((character) => (
         <li key={character.id} className="group w-40 shrink-0 snap-start lg:w-auto">
           <div className="relative">
             <div
