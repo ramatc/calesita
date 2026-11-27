@@ -9,6 +9,7 @@ const NAMES_BY_CATEGORY = {
     "Preguntados Calesita",
     "Dibujalo como puedas",
     "Categorías explosivas",
+    "La Rosca",
   ],
   social: [
     "El infiltrado",
@@ -27,13 +28,13 @@ const NAMES_BY_CATEGORY = {
 };
 
 describe("game catalog", () => {
-  it("lists the 15 requested games in their categories", () => {
+  it("lists the 16 games in their categories", () => {
     for (const [category, names] of Object.entries(NAMES_BY_CATEGORY)) {
       expect(
         GAMES.filter((game) => game.category === category).map((game) => game.name),
       ).toEqual(names);
     }
-    expect(GAMES).toHaveLength(15);
+    expect(GAMES).toHaveLength(16);
   });
 
   it("has unique slugs", () => {

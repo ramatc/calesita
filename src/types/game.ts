@@ -21,7 +21,8 @@ export type GameSlug =
   | "busqueda-desesperada"
   | "estatuas-imposibles"
   | "un-minuto-para-ganar"
-  | "olimpiadas-calesita";
+  | "olimpiadas-calesita"
+  | "la-rosca";
 
 export type NumericRange = {
   min: number;

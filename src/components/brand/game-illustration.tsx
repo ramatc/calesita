@@ -44,6 +44,13 @@ const ILLUSTRATIONS: Record<GameSlug, ReactNode> = {
       <circle cx="60" cy="58" r="7" fill={LIGHT} />
     </>
   ),
+  "la-rosca": (
+    <>
+      <circle cx="80" cy="60" r="40" stroke={LIGHT} strokeWidth="14" fill="none" strokeDasharray="10 7" />
+      <circle cx="80" cy="20" r="10" fill={VIOLET} />
+      <path d="M72 70 80 46l8 24M75 62h10" stroke={INK} strokeWidth="5" strokeLinecap="round" fill="none" />
+    </>
+  ),
   "el-infiltrado": (
     <>
       <path d="M36 54h88v10H36Z" fill={INK} />

@@ -12,6 +12,7 @@ import { RULES as BUSQUEDA_DESESPERADA_RULES } from "@/content/busqueda-desesper
 import { RULES as CONFESIONES_ANONIMAS_RULES } from "@/content/confesiones-anonimas";
 import { RULES as OLIMPIADAS_CALESITA_RULES } from "@/content/olimpiadas-calesita";
 import { RULES as PREGUNTADOS_CALESITA_RULES } from "@/content/preguntados-calesita";
+import { RULES as LA_ROSCA_RULES } from "@/content/la-rosca";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -200,6 +201,18 @@ export const GAMES: readonly GameDefinition[] = [
     difficulty: "hard",
     status: "available",
     rules: OLIMPIADAS_CALESITA_RULES,
+  },
+  {
+    slug: "la-rosca",
+    name: "La Rosca",
+    description: "Dos equipos, dos roscas y 25 letras. Acertá, fallá o decí pasapalabra.",
+    category: "classic",
+    players: { min: 2, max: 16 },
+    durationMinutes: { min: 10, max: 15 },
+    materials: [],
+    difficulty: "medium",
+    status: "available",
+    rules: LA_ROSCA_RULES,
   },
 ];
 
