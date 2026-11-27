@@ -100,6 +100,8 @@ export const CAST = [
     legs: { color: "#3B4A63", shade: "#24304A", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "hip", right: "hip" },
     accessory: null,
+    companion: "poodle",
+    companionSpot: "ground",
   },
   {
     id: "nehue",
@@ -205,6 +207,7 @@ export const CAST = [
     pose: { left: "down" },
     accessory: null,
     companion: "ball",
+    companionSpot: "ground",
   },
   {
     id: "agusmaxi",
