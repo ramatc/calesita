@@ -9,7 +9,6 @@ import { CHARACTERS, getCharacterById } from "@/content/characters";
 import { planAppearance, recordAppearance, type Appearance } from "@/lib/alive/appearance-policy";
 import { aliveSessionStore } from "@/lib/alive/session-log";
 import { characterRosterStore } from "@/lib/character-cast";
-import { pendingMatchStore } from "@/lib/match-history";
 import { cn } from "@/lib/utils";
 import type { CharacterId } from "@/types/character";
 
@@ -51,7 +50,9 @@ export function AliveSlot({ slot, context, side, media, className }: AliveSlotPr
         context,
         log,
         now,
-        matchInProgress: Object.keys(pendingMatchStore.get()).length > 0,
+        // Slots only live on screens outside active play (home, catalog, setup, hall).
+        // The pending-match store is not a signal: abandoned matches stay listed there.
+        matchInProgress: false,
         present: characterRosterStore.get().filter((id): id is CharacterId => ALL_IDS.includes(id as CharacterId)),
         all: ALL_IDS,
         random: Math.random,
