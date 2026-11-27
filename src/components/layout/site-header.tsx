@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 const NAV_LINKS = [
   { href: "/juegos", label: "Juegos", section: "/juegos" },
   { href: "/#categorias", label: "Categorías", section: null },
+  { href: "/salon-de-la-fama", label: "Salón de la Fama", section: "/salon-de-la-fama" },
 ] as const;
 
 function isCurrent(pathname: string, section: string | null) {
