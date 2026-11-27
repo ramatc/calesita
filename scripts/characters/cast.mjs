@@ -7,6 +7,7 @@ const toStature = (cm) => Math.round(300 + (cm - 160) * CM_TO_UNITS);
 const BLACK_HAIR = { base: "#221A33", light: "#4A3D66" };
 const BLOND_HAIR = { base: "#F2C43D", light: "#FFE68A" };
 const BROWN_HAIR = { base: "#6B4226", light: "#96653F" };
+const DEEP_BROWN_HAIR = { base: "#3B2216", light: "#5C3A26" };
 const DARK_HAIR = { base: "#3A2340", light: "#62406B" };
 
 const DARK_EYES = "#4A2E22";
@@ -130,10 +131,10 @@ export const CAST = [
     name: "Pili",
     stature: toStature(160),
     build: shortBuild,
-    hair: { style: "long", ...BROWN_HAIR },
+    hair: { style: "long", ...DEEP_BROWN_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: BROWN_HAIR.base,
+      brow: DEEP_BROWN_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
@@ -214,10 +215,10 @@ export const CAST = [
     name: "Agusmaxi",
     stature: toStature(185),
     build: standardBuild,
-    hair: { style: "crop", ...BLACK_HAIR },
+    hair: { style: "crop", ...BROWN_HAIR },
     face: {
       eyes: { iris: DARK_EYES },
-      brow: BLACK_HAIR.base,
+      brow: BROWN_HAIR.base,
       nose: "small",
       mouth: "smile",
     },
