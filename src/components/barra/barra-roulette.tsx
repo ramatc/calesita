@@ -2,6 +2,7 @@
 
 import { RotateCw } from "lucide-react";
 
+import { PixelLabel } from "@/components/arcade/pixel-type";
 import { CharacterAvatar } from "@/components/characters/character-avatar";
 import { Button } from "@/components/ui/button";
 import { useParticipants } from "@/hooks/use-participants";
@@ -47,7 +48,7 @@ export function BarraRoulette() {
 
   if (count === 0) {
     return (
-      <p className="rounded-2xl bg-secondary px-4 py-3 text-muted-foreground">
+      <p className="rounded-arcade-card border-2 border-dashed border-border px-4 py-3 text-muted-foreground">
         Marcá quién está o sumá invitados para usar la ruleta. Para jugar no hace falta.
       </p>
     );
@@ -66,15 +67,24 @@ export function BarraRoulette() {
   const chosen = winner === null ? null : participants[winner];
 
   return (
-    <div className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-10">
+    <div className="arcade-edge overflow-hidden rounded-arcade-panel bg-card">
+      <div className="flex items-center justify-between gap-3 border-b-2 border-arcade-edge bg-arcade-yellow px-5 py-2 text-arcade-ink">
+        <PixelLabel>La ruleta</PixelLabel>
+        <span aria-hidden="true" className="flex gap-1.5">
+          <span className="size-2.5 rounded-full bg-arcade-pink" />
+          <span className="size-2.5 rounded-full bg-arcade-orange" />
+          <span className="size-2.5 rounded-full bg-arcade-turquoise" />
+        </span>
+      </div>
+    <div className="flex flex-col items-center gap-5 p-5 md:flex-row md:items-center md:gap-10 md:p-8">
       <div className="relative w-full max-w-[min(20rem,100%)] shrink-0">
         <span
           aria-hidden="true"
-          className="absolute -top-1 left-1/2 z-10 size-0 -translate-x-1/2 border-x-[12px] border-t-[20px] border-x-transparent border-t-brand-ink drop-shadow"
+          className="absolute -top-1 left-1/2 z-10 size-0 -translate-x-1/2 border-x-[12px] border-t-[20px] border-x-transparent border-t-arcade-yellow drop-shadow-[2px_2px_0_var(--arcade-night)]"
         />
         <div
           aria-hidden="true"
-          className="relative aspect-square w-full rounded-full shadow-card ring-4 ring-card"
+          className="relative aspect-square w-full rounded-full border-4 border-arcade-night shadow-arcade"
           style={{
             background: gradient,
             transform: `rotate(${rotation}deg)`,
@@ -101,7 +111,7 @@ export function BarraRoulette() {
               )}
             </span>
           ))}
-          <span className="absolute inset-[38%] rounded-full bg-card shadow-card" />
+          <span className="absolute inset-[38%] rounded-full border-4 border-arcade-night bg-card" />
         </div>
       </div>
 
@@ -114,7 +124,7 @@ export function BarraRoulette() {
               </span>
               <p className="text-lg">
                 Le toca a
-                <strong className="block font-display text-4xl">{chosen.name}</strong>
+                <strong className="block font-display text-6xl leading-[0.9] text-arcade-yellow">{chosen.name}</strong>
               </p>
             </>
           ) : (
@@ -132,6 +142,7 @@ export function BarraRoulette() {
           {chosen ? "Girar de nuevo" : "Girar la ruleta"}
         </Button>
       </div>
+    </div>
     </div>
   );
 }

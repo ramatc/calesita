@@ -35,7 +35,7 @@ export function LaBarra() {
       </div>
 
       <section aria-labelledby="roulette-heading" className="flex flex-col gap-4">
-        <h3 id="roulette-heading" className="font-display text-2xl">
+        <h3 id="roulette-heading" className="sr-only">
           La ruleta de la barra
         </h3>
         <BarraRoulette />

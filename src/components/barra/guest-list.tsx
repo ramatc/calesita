@@ -28,11 +28,11 @@ export function GuestList() {
             return (
               <li
                 key={guest.id}
-                className="flex items-center gap-2 rounded-2xl bg-card p-1.5 pl-2 shadow-card"
+                className="arcade-edge flex items-center gap-2 rounded-arcade-card bg-card p-1.5 pl-2"
               >
                 <span
                   aria-hidden="true"
-                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary font-display text-lg"
+                  className="flex size-9 shrink-0 items-center justify-center rounded-arcade-control border-2 border-arcade-edge bg-secondary font-display text-2xl leading-none"
                 >
                   {label.charAt(0).toUpperCase()}
                 </span>

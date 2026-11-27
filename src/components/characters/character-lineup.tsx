@@ -42,14 +42,17 @@ export function CharacterLineup() {
               type="button"
               aria-pressed={isPresent}
               onClick={() => barra.toggleCharacter(character.id)}
-              className="group block w-full cursor-pointer rounded-2xl outline-none transition-transform duration-150 ease-out-expo focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.97]"
+              className={cn(
+                "group arcade-edge arcade-press block w-full cursor-pointer overflow-hidden rounded-arcade-card bg-card outline-none focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-ring",
+                isPresent && "border-arcade-yellow",
+              )}
             >
               <span className="relative block">
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "absolute inset-x-1 top-[14%] bottom-0 rounded-t-full transition-opacity duration-300",
-                    !isPresent && "opacity-35",
+                    "absolute inset-0 transition-opacity duration-300",
+                    !isPresent && "opacity-40",
                   )}
                   style={{ backgroundColor: character.colors.primary }}
                 />
@@ -60,14 +63,14 @@ export function CharacterLineup() {
                   height={ART_HEIGHT}
                   unoptimized
                   className={cn(
-                    "relative h-auto w-full transition-[translate,opacity,filter] duration-300 ease-out-expo group-hover:-translate-y-1.5 group-focus-visible:-translate-y-1.5",
+                    "relative h-auto w-full px-2 pt-2 transition-[translate,opacity,filter] duration-300 ease-out-expo group-hover:-translate-y-1 group-focus-visible:-translate-y-1",
                     !isPresent && "opacity-60 grayscale-[0.6]",
                   )}
                 />
                 {isPresent && (
                   <span
                     aria-hidden="true"
-                    className="absolute top-1 right-2 flex size-8 items-center justify-center rounded-full bg-brand-yellow text-brand-ink shadow-card motion-safe:animate-in motion-safe:zoom-in-50"
+                    className="absolute top-2 right-2 flex size-8 items-center justify-center rounded-arcade-control border-2 border-arcade-ink bg-arcade-yellow text-arcade-ink"
                   >
                     <Check className="size-5" strokeWidth={3} />
                   </span>
@@ -75,12 +78,12 @@ export function CharacterLineup() {
               </span>
               <span
                 className={cn(
-                  "mx-1 flex flex-col rounded-b-2xl py-2 text-center shadow-card transition-colors duration-200",
-                  isPresent ? "bg-brand-yellow text-brand-ink" : "bg-card",
+                  "flex flex-col border-t-2 border-arcade-edge py-2 text-center transition-colors duration-200",
+                  isPresent ? "bg-arcade-yellow text-arcade-ink" : "bg-card",
                 )}
               >
-                <span className="font-display text-lg">{character.name}</span>
-                <span className="text-xs font-semibold opacity-75">
+                <span className="font-display text-2xl leading-none">{character.name}</span>
+                <span className="pixel-label text-base opacity-80">
                   {isPresent ? "Presente" : "Tocá si está"}
                 </span>
               </span>
