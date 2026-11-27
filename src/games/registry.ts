@@ -11,8 +11,11 @@ export const GAME_SCREENS: Partial<Record<GameSlug, ComponentType>> = {
   "actua-o-perdes": dynamic(() => import("@/games/actua-o-perdes/screen")),
   "categorias-explosivas": dynamic(() => import("@/games/categorias-explosivas/screen")),
   "desafio-relampago": dynamic(() => import("@/games/desafio-relampago/screen")),
+  "estatuas-imposibles": dynamic(() => import("@/games/estatuas-imposibles/screen")),
   "el-infiltrado": dynamic(() => import("@/games/el-infiltrado/screen")),
+  "palabras-prohibidas": dynamic(() => import("@/games/palabras-prohibidas/screen")),
   "quien-es-mas-probable-que": dynamic(
     () => import("@/games/quien-es-mas-probable-que/screen"),
   ),
+  "un-minuto-para-ganar": dynamic(() => import("@/games/un-minuto-para-ganar/screen")),
 };

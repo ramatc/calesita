@@ -2,6 +2,9 @@ import { RULES as ACTUA_O_PERDES_RULES } from "@/content/actua-o-perdes";
 import { RULES as CATEGORIAS_EXPLOSIVAS_RULES } from "@/content/categorias-explosivas";
 import { RULES as DESAFIO_RELAMPAGO_RULES } from "@/content/desafio-relampago";
 import { RULES as EL_INFILTRADO_RULES } from "@/content/el-infiltrado";
+import { RULES as UN_MINUTO_PARA_GANAR_RULES } from "@/content/un-minuto-para-ganar";
+import { RULES as ESTATUAS_IMPOSIBLES_RULES } from "@/content/estatuas-imposibles";
+import { RULES as PALABRAS_PROHIBIDAS_RULES } from "@/content/palabras-prohibidas";
 import type { GameDefinition, GameSlug } from "@/types/game";
 
 export const GAMES: readonly GameDefinition[] = [
@@ -26,7 +29,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 20, max: 30 },
     materials: [],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: PALABRAS_PROHIBIDAS_RULES,
   },
   {
     slug: "preguntados-calesita",
@@ -157,7 +161,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 10, max: 15 },
     materials: [],
     difficulty: "medium",
-    status: "coming-soon",
+    status: "available",
+    rules: ESTATUAS_IMPOSIBLES_RULES,
   },
   {
     slug: "un-minuto-para-ganar",
@@ -168,7 +173,8 @@ export const GAMES: readonly GameDefinition[] = [
     durationMinutes: { min: 15, max: 30 },
     materials: ["household-objects"],
     difficulty: "hard",
-    status: "coming-soon",
+    status: "available",
+    rules: UN_MINUTO_PARA_GANAR_RULES,
   },
   {
     slug: "olimpiadas-calesita",
