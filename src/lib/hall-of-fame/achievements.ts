@@ -83,7 +83,7 @@ export const ACHIEVEMENTS: readonly AchievementDefinition[] = [
   },
   {
     id: "legend",
-    name: "Leyenda de la Barra",
+    name: "Leyenda de la Ronda",
     description: "Acumular 25 victorias competitivas.",
     icon: "crown",
     goal: 25,

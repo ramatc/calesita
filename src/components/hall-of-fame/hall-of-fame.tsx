@@ -178,13 +178,13 @@ export function HallOfFame() {
       <ArcadePanel as="header" tone="dark" className="relative overflow-hidden px-5 pt-8 sm:px-8">
         <div className="flex items-center gap-3 text-arcade-yellow">
           <Trophy aria-hidden className="size-7" />
-          <PixelLabel>High scores · La barra</PixelLabel>
+          <PixelLabel>High scores · La ronda</PixelLabel>
         </div>
         <h1 className="mt-2 font-display text-[clamp(3.5rem,15vw,6rem)] leading-[0.82] text-arcade-yellow">
           Salón de la Fama
         </h1>
         <p className="mt-3 max-w-xl text-lg text-muted-foreground">
-          Victorias, rachas y logros de la barra, sacados de las partidas que terminaron de verdad.
+          Victorias, rachas y logros de la ronda, sacados de las partidas que terminaron de verdad.
         </p>
         <div className="mt-6 grid grid-cols-3 gap-2 sm:max-w-md">
           <SummaryTile value={history.length} label="Partidas" />
@@ -226,7 +226,7 @@ export function HallOfFame() {
         <GameFilter games={games} value={rankingGame} onChange={setRankingGame} label="Juego" />
         {history.length === 0 && (
           <p className="rounded-arcade-card border-2 border-dashed border-border p-4 text-muted-foreground">
-            Todavía no hay partidas registradas. Terminen un juego y la barra empieza a sumar.
+            Todavía no hay partidas registradas. Terminen un juego y la ronda empieza a sumar.
           </p>
         )}
         <ol className="flex flex-col gap-2">

@@ -27,7 +27,7 @@ export function LaBarra() {
           </p>
           {count > 0 && (
             <Button variant="ghost" size="chip" onClick={barra.clear}>
-              Vaciar la barra
+              Vaciar la ronda
             </Button>
           )}
         </div>
@@ -36,7 +36,7 @@ export function LaBarra() {
 
       <section aria-labelledby="roulette-heading" className="flex flex-col gap-4">
         <h3 id="roulette-heading" className="sr-only">
-          La ruleta de la barra
+          La ruleta de la ronda
         </h3>
         <BarraRoulette />
       </section>

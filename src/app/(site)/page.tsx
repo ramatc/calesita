@@ -96,7 +96,7 @@ export default function HomePage() {
         <SectionHeading
           id="cast-heading"
           eyebrow="Player select"
-          title="La barra"
+          title="La ronda"
           description="Marcá quién está esta noche y sumá invitados. Si no, entran igual."
         />
         <div className="reveal mt-8">

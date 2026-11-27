@@ -269,7 +269,7 @@ describe("achievements", () => {
     expect(unlocked(Array.from({ length: 5 }, win))).toContain("specialist");
   });
 
-  it("unlocks Leyenda de la Barra at 25 wins and reports capped progress", () => {
+  it("unlocks Leyenda de la Ronda at 25 wins and reports capped progress", () => {
     const history = Array.from({ length: 24 }, win);
     const legend = () => getAchievements(stats(history, "rama")).find((entry) => entry.id === "legend")!;
     expect(legend()).toMatchObject({ unlocked: false, progress: 24, goal: 25 });

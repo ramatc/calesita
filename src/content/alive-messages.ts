@@ -24,7 +24,7 @@ export type AliveMessage = {
 
 const LINES: Record<AliveContext, readonly string[]> = {
   welcome: [
-    "¡Llegó la barra! Arranquemos que se enfría el fernet.",
+    "¡Llegó la ronda! Arranquemos que se enfría el fernet.",
     "¿Otra vez acá? Me encanta. Elegí un juego.",
     "Celulares en la mesa, que la juntada sigue girando.",
     "Insert coin y que empiece el quilombo.",
