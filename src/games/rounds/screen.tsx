@@ -10,6 +10,7 @@ import { GameResults } from "@/components/game/game-results";
 import { GameSetup } from "@/components/game/game-setup";
 import { GameTimer } from "@/components/game/game-timer";
 import { PlayerNamesFields } from "@/components/game/player-names-fields";
+import { TeamNamesFields } from "@/components/game/team-names-fields";
 import { RoundIndicator } from "@/components/game/round-indicator";
 import { Scoreboard } from "@/components/game/scoreboard";
 import { Button } from "@/components/ui/button";
@@ -55,12 +56,17 @@ export type RoundsScreenProps = {
   endDescription: string;
 };
 
-function toParticipants(mode: RoundsScreenProps["mode"], slug: GameSlug, count: number) {
+function toParticipants(
+  mode: RoundsScreenProps["mode"],
+  slug: GameSlug,
+  count: number,
+  teamNames: readonly string[],
+) {
   const players = createPlayers(count, getGameNames(slug, playerNamesStore.get(), count));
   if (mode === "players") {
     return players.map((player) => ({ id: player.id, name: player.name, seatIds: [player.id] }));
   }
-  return createTeams(players).map((team) => ({
+  return createTeams(players, teamNames).map((team) => ({
     id: team.id,
     name: team.name,
     seatIds: team.playerIds,
@@ -146,13 +152,14 @@ export function RoundsScreen(props: RoundsScreenProps) {
   const [session, dispatch] = useGameSession(sessionStore, reduceSession);
   const [roundsOption, setRoundsOption] = useState(props.defaultRounds);
   const [lastGame, setLastGame] = useState<Game | null>(null);
+  const [teamNames, setTeamNames] = useState<string[]>([]);
   const definition = getGameBySlug(slug);
   const { forSeats } = useGameCast(slug);
   const { game } = session;
 
   function start(count: number, option: number) {
     setLastGame(null);
-    const participants = toParticipants(mode, slug, count);
+    const participants = toParticipants(mode, slug, count, teamNames);
     const rounds = props.toRounds?.(option, participants.length) ?? option;
     dispatch({ type: "start", participants, rounds });
   }
@@ -253,7 +260,11 @@ export function RoundsScreen(props: RoundsScreenProps) {
               onChange={setRoundsOption}
             />
             <CharacterSelector count={count} hint={mode === "teams" ? TEAMS_HINT : undefined} />
-            {mode === "players" && <PlayerNamesFields count={count} />}
+            {mode === "players" ? (
+              <PlayerNamesFields count={count} />
+            ) : (
+              <TeamNamesFields names={teamNames} onChange={setTeamNames} />
+            )}
           </>
         )}
       </GameSetup>
