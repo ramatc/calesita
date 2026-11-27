@@ -378,6 +378,20 @@ const hover = (lift, dur) =>
 const sway = (degrees, cx, cy, dur) =>
   `<animateTransform attributeName="transform" type="rotate" values="-${degrees} ${cx} ${cy};${degrees} ${cx} ${cy};-${degrees} ${cx} ${cy}" dur="${dur}s" repeatCount="indefinite" ${spline}/>`;
 
+/** A scalloped circle that reads as curly fur. */
+function fluff(cx, cy, radius, lobes) {
+  const points = Array.from({ length: lobes }, (_, index) => {
+    const angle = (Math.PI * 2 * index) / lobes - Math.PI / 2;
+    return [cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius];
+  });
+  const bump = (radius * Math.PI) / lobes;
+  const arcs = points.map((_, index) => {
+    const [px, py] = points[(index + 1) % lobes];
+    return `A${bump.toFixed(1)} ${bump.toFixed(1)} 0 0 1 ${px.toFixed(1)} ${py.toFixed(1)}`;
+  });
+  return `M${points[0][0].toFixed(1)} ${points[0][1].toFixed(1)}${arcs.join("")}Z`;
+}
+
 /** Round blinking eyes plus an open smile, shared by the cartoon companions. */
 function buddyFace(cx, cy, gap = 8) {
   const blink = `<animate attributeName="ry" values="3.6;3.6;0.5;3.6" keyTimes="0;0.9;0.95;1" dur="3.2s" repeatCount="indefinite"/>`;
@@ -438,6 +452,31 @@ const COMPANIONS = {
       `</g></g>`,
     ].join("");
   },
+  poodle({ x, y }) {
+    const fur = "#FBF8F3";
+    const shade = "#E8DFD4";
+    const wag = sway(18, x + 22, y - 14, 0.5);
+    const tilt = sway(5, x - 4, y - 34, 2.8);
+    const blink = `<animate attributeName="ry" values="3.4;3.4;0.5;3.4" keyTimes="0;0.9;0.95;1" dur="3.4s" repeatCount="indefinite"/>`;
+    return [
+      `<g>`,
+      `<g>${wag}${shape(fluff(x + 28, y - 20, 9, 7), fur)}</g>`,
+      shape(fluff(x + 4, y - 22, 22, 11), fur),
+      shape(fluff(x - 8, y - 6, 8, 6), fur),
+      shape(fluff(x + 12, y - 6, 8, 6), fur),
+      `<g>${tilt}`,
+      shape(fluff(x - 20, y - 36, 9, 7), shade),
+      shape(fluff(x + 12, y - 36, 9, 7), shade),
+      shape(fluff(x - 4, y - 42, 18, 10), fur),
+      shape(fluff(x - 4, y - 58, 10, 7), fur),
+      `<ellipse cx="${x - 10}" cy="${y - 42}" rx="2.8" ry="3.4" fill="${INK}">${blink}</ellipse>`,
+      `<ellipse cx="${x + 2}" cy="${y - 42}" rx="2.8" ry="3.4" fill="${INK}">${blink}</ellipse>`,
+      `<ellipse cx="${x - 4}" cy="${y - 35}" rx="3.6" ry="2.8" fill="${INK}"/>`,
+      stroke(`M${x - 8} ${y - 31}q4 4 8 0`, INK, 2),
+      `<circle cx="${x - 16}" cy="${y - 36}" r="2.6" fill="#FF8FA3" opacity="0.7"/><circle cx="${x + 8}" cy="${y - 36}" r="2.6" fill="#FF8FA3" opacity="0.7"/>`,
+      `</g></g>`,
+    ].join("");
+  },
   bud({ x, y }) {
     const bob = `<animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>`;
     const wave = `<animateTransform attributeName="transform" type="rotate" values="-8 ${x - 26} ${y - 30};10 ${x - 26} ${y - 30};-8 ${x - 26} ${y - 30}" dur="1.2s" repeatCount="indefinite"/>`;
@@ -485,6 +524,12 @@ function drawOutfit(layout, outfit) {
   ].join("");
 }
 
+/** Companions sit on the left shoulder unless the cast puts them on the ground by the feet. */
+function companionAnchor(character, layout) {
+  if (character.companionSpot === "ground") return { x: CENTER - 84, y: CANVAS.ground };
+  return { x: CENTER - Math.max(layout.shoulder + 10, 58), y: layout.shoulderY + 10 };
+}
+
 export function drawCharacter(character) {
   const layout = getLayout(character);
   const { x, y } = layout.head;
@@ -508,7 +553,7 @@ export function drawCharacter(character) {
     accessory,
     drawHead(layout, character),
     hair.front,
-    character.companion ? COMPANIONS[character.companion]({ x: CENTER - Math.max(layout.shoulder + 10, 58), y: layout.shoulderY + 10 }) : "",
+    character.companion ? COMPANIONS[character.companion](companionAnchor(character, layout)) : "",
   ].join("");
 }
 
