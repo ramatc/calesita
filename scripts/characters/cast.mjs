@@ -152,8 +152,7 @@ export const CAST = [
     arms: { color: "#7D7A86", width: 18, cuff: "#6A6773", cuffOffset: 104 },
     legs: { color: "#2A2733", shade: "#16141C", width: 30, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
-    accessory: null,
-    companion: "beer",
+    accessory: "beer",
   },
   {
     id: "piku",
@@ -229,7 +228,6 @@ export const CAST = [
     arms: { color: BLACK_TEE, width: 19, cuff: "#2E2B38", cuffOffset: 62 },
     legs: { color: "#2F3A55", shade: "#1C2438", width: 32, flare: 2, shoe: "#FFFFFF" },
     pose: { left: "wave" },
-    accessory: null,
-    companion: "burger",
+    accessory: "burger",
   },
 ];
