@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Dices, Play } from "lucide-react";
 
 import { ArcadeChip } from "@/components/arcade/arcade-chip";
@@ -95,6 +96,9 @@ function Specimen({ tone, name }: { tone: ArcadeTone; name: string }) {
 }
 
 export default function DesignSystemPage() {
+  // A development tool: production builds answer 404, not just noindex.
+  if (process.env.NODE_ENV === "production") notFound();
+
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-10 sm:px-6">
       <header className="flex flex-col gap-2">
