@@ -78,7 +78,7 @@ export function GameFilters({ filters, onChange }: GameFiltersProps) {
   return (
     <section
       aria-label="Filtros"
-      className="flex flex-col gap-5 rounded-3xl bg-card p-5 shadow-card md:p-6"
+      className="arcade-edge flex flex-col gap-5 rounded-arcade-panel bg-card p-5 md:p-6"
     >
       <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
         <FilterGroup label="Categoría">

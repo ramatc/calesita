@@ -4,8 +4,8 @@ type GameInstructionsProps = {
 
 export function GameInstructions({ rules }: GameInstructionsProps) {
   return (
-    <section aria-labelledby="rules-heading" className="rounded-3xl bg-card p-5 shadow-card">
-      <h2 id="rules-heading" className="font-display text-2xl">
+    <section aria-labelledby="rules-heading" className="arcade-edge rounded-arcade-card bg-card p-5">
+      <h2 id="rules-heading" className="font-display text-4xl leading-none">
         Cómo se juega
       </h2>
       <ol className="mt-4 flex flex-col gap-3">
@@ -13,7 +13,7 @@ export function GameInstructions({ rules }: GameInstructionsProps) {
           <li key={rule} className="flex gap-3">
             <span
               aria-hidden="true"
-              className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-yellow font-bold text-brand-ink"
+              className="flex size-7 shrink-0 items-center justify-center rounded-arcade-control border-2 border-arcade-ink bg-arcade-yellow font-display text-xl leading-none text-arcade-ink"
               data-tabular
             >
               {index + 1}

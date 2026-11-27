@@ -56,7 +56,8 @@ export default async function GamePage({ params }: GamePageProps) {
   if (!game) notFound();
 
   return (
-    <main className="mx-auto grid w-full max-w-5xl flex-1 grid-cols-1 gap-8 px-5 pt-4 pb-16 md:grid-cols-2 md:gap-12">
+    <main className="surface-light mt-6 flex-1 border-t-2 border-arcade-ink">
+      <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-8 px-5 pt-6 pb-16 md:grid-cols-2 md:gap-12">
       <div className="md:col-span-2">
         <Button asChild variant="ghost" size="chip">
           <Link href="/juegos">
@@ -66,7 +67,7 @@ export default async function GamePage({ params }: GamePageProps) {
         </Button>
       </div>
 
-      <GameStub game={game} className="h-64 rounded-3xl p-6 shadow-raised md:sticky md:top-24 md:h-96">
+      <GameStub game={game} className="arcade-edge h-64 rounded-arcade-panel p-6 md:sticky md:top-24 md:h-96">
         <GameIllustration slug={game.slug} className="max-w-full" />
       </GameStub>
 
@@ -75,12 +76,12 @@ export default async function GamePage({ params }: GamePageProps) {
           <span className="font-medium text-muted-foreground">{CATEGORY_LABELS[game.category]}</span>
           <StatusIndicator status={game.status} />
         </div>
-        <h1 className="font-display text-4xl leading-none text-brand-yellow sm:text-5xl md:text-6xl">
+        <h1 className="font-display text-6xl leading-[0.85] md:text-7xl">
           {game.name}
         </h1>
         <p className="text-xl">{game.description}</p>
 
-        <dl className="grid gap-px overflow-hidden rounded-2xl bg-border shadow-card sm:grid-cols-2">
+        <dl className="arcade-edge grid gap-0.5 overflow-hidden rounded-arcade-card bg-arcade-edge sm:grid-cols-2">
           <GameFact icon={Users} label="Jugadores" value={formatPlayers(game.players)} />
           <GameFact icon={Clock} label="Duración" value={formatDuration(game.durationMinutes)} />
           <GameFact icon={Backpack} label="Materiales" value={formatMaterials(game.materials)} />
@@ -95,12 +96,13 @@ export default async function GamePage({ params }: GamePageProps) {
             </Link>
           </Button>
         ) : (
-          <p className="rounded-2xl bg-secondary p-4 font-medium">
+          <p className="rounded-arcade-card border-2 border-dashed border-arcade-edge p-4 font-medium">
             Este juego todavía no se puede jugar. Lo estamos terminando.
           </p>
         )}
 
         {game.rules && <GameInstructions rules={game.rules} />}
+      </div>
       </div>
     </main>
   );

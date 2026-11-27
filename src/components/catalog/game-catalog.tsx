@@ -29,7 +29,7 @@ export function GameGrid({ games }: { games: readonly GameDefinition[] }) {
         <section aria-labelledby="available-games-heading" className="flex flex-col gap-5">
           <h2
             id="available-games-heading"
-            className={cn("font-display text-3xl", comingSoon.length === 0 && "sr-only")}
+            className={cn("font-display text-4xl leading-none", comingSoon.length === 0 && "sr-only")}
           >
             Para jugar ahora
           </h2>
@@ -46,8 +46,12 @@ export function GameGrid({ games }: { games: readonly GameDefinition[] }) {
 
       {comingSoon.length > 0 && (
         <section aria-labelledby="upcoming-games-heading" className="flex flex-col gap-5">
-          <h2 id="upcoming-games-heading" className="font-display text-3xl">
+          <h2
+            id="upcoming-games-heading"
+            className="flex items-center gap-4 font-display text-4xl leading-none text-muted-foreground"
+          >
             Próximamente
+            <span aria-hidden="true" className="pixel-rule flex-1" />
           </h2>
           <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {comingSoon.map((game) => (
@@ -92,8 +96,8 @@ export function GameCatalog() {
       {games.length > 0 ? (
         <GameGrid games={games} />
       ) : (
-        <div className="flex flex-col items-center gap-4 rounded-3xl bg-card px-6 py-12 text-center">
-          <h2 className="font-display text-3xl text-brand-yellow">No hay ningún juego así</h2>
+        <div className="arcade-edge flex flex-col items-center gap-4 rounded-arcade-panel bg-card px-6 py-12 text-center">
+          <h2 className="font-display text-5xl leading-[0.9]">No hay ningún juego así</h2>
           <p className="text-muted-foreground">
             Probá con menos filtros o con otra cantidad de jugadores.
           </p>
