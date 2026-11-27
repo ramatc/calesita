@@ -64,8 +64,9 @@ export const CAST = [
     },
     arms: { color: "#2A2533", width: 27, cuff: "#D9DCE3", cuffOffset: 116 },
     legs: { color: "#A9A9B6", shade: "#7C7C8C", width: 42, flare: 6, hem: 330, shoe: "#F4F4F8" },
-    pose: { left: "hip", right: "hold" },
-    accessory: "phone",
+    pose: { left: "hip", right: "down" },
+    accessory: null,
+    companion: "bud",
   },
   {
     id: "aguysan",
