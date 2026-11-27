@@ -43,6 +43,16 @@ function getLayout({ stature, build }) {
 
 /* Body */
 
+function drawBall(cx, cy, radius) {
+  const patch = (angle) =>
+    `<path d="M${cx} ${cy - radius + 1}l6 4l-2 6h-8l-2 -6z" fill="${INK}" transform="rotate(${angle} ${cx} ${cy})"/>`;
+  return [
+    `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="#FFFFFF" ${line}/>`,
+    [20, 140, 260].map(patch).join(""),
+    `<path d="M${cx - 6} ${cy - 3}l6 -4l6 4l-2 7h-8z" fill="${INK}"/>`,
+  ].join("");
+}
+
 function drawLegs({ hipY, hip }, { legs }) {
   const ground = CANVAS.ground;
   const gap = 5;
@@ -53,21 +63,29 @@ function drawLegs({ hipY, hip }, { legs }) {
   const legLeft = CENTER - hip + 2;
   const legRight = CENTER + hip - 2 - width + 8;
 
+  // A stepping leg plants its foot on top of a ball, out to the side.
+  const ballRadius = 22;
+  const leftFootX = legLeft + (width - 8) / 2 - 2 - (legs.step ? 20 : 0);
+  const leftFootY = legs.step ? ground - ballRadius * 2 + 2 : ground;
+
   let skin = "";
   if (legs.hem) {
     const calfWidth = width - 8;
     const sock = legs.sock;
+    const leftCalf = legs.step
+      ? `M${legLeft} ${knee - 4}h${calfWidth}L${leftFootX + calfWidth / 2 + 2} ${leftFootY - 2}h-${calfWidth}z`
+      : `M${legLeft} ${knee - 4}h${calfWidth}v${ground - knee - 2}h-${calfWidth}z`;
     skin = [
-      shape(`M${legLeft} ${knee - 4}h${calfWidth}v${ground - knee - 2}h-${calfWidth}z`, sock ?? SKIN),
+      shape(leftCalf, sock ?? SKIN),
       shape(`M${legRight} ${knee - 4}h${calfWidth}v${ground - knee - 2}h-${calfWidth}z`, sock ?? SKIN),
     ].join("");
   }
 
-  const shoe = (x, direction) => {
+  const shoe = (x, direction, base = ground) => {
     const heel = x - direction * 13;
     const toe = direction * 30;
     return shape(
-      `M${heel} ${ground}v-13q0 -7 ${direction * 7} -7h${direction * 12}q${toe * 0.62} 3 ${toe - direction * 2} 14q${direction * 2} 3 0 6z`,
+      `M${heel} ${base}v-13q0 -7 ${direction * 7} -7h${direction * 12}q${toe * 0.62} 3 ${toe - direction * 2} 14q${direction * 2} 3 0 6z`,
       legs.shoe,
     );
   };
@@ -78,7 +96,8 @@ function drawLegs({ hipY, hip }, { legs }) {
     shape(left, legs.color),
     shape(right, legs.color),
     flat(`M${CENTER + gap + 2} ${hipY + 22}L${CENTER + hip + legs.flare - width + 8} ${knee - 2}H${CENTER + hip + legs.flare - 2}L${CENTER + hip - 4} ${hipY}Z`, legs.shade, 0.55),
-    shoe(legLeft + (width - 8) / 2 - 2, -1),
+    legs.step ? drawBall(leftFootX - 4, ground - ballRadius, ballRadius) : "",
+    shoe(leftFootX, -1, leftFootY),
     shoe(legRight + (width - 8) / 2 + 2, 1),
   ].join("");
 }
